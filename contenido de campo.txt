@@ -1,0 +1,345 @@
+1. Identidad del negocio
+
+Nombre: Valeria del Faro Suite & Spa
+Ubicación: Valeria del Mar, Provincia de Buenos Aires, Argentina.
+Dirección: Corbeta Cefiro 42, Valeria del Mar.
+Teléfono: +54 2254 51 3191
+Email: valeriadelfarohotel@gmail.com
+
+Concepto del establecimiento: hotel familiar orientado al descanso, relax, playa y experiencia de spa.
+
+La empresa se presenta como familiar. El proyecto comenzó en 2013 y, según su propia historia, se completó en 2024. Buscan generar una atención cercana y que los huéspedes quieran regresar.
+
+2. Principal propuesta de valor
+
+Este debería ser uno de los puntos centrales de la nueva página:
+
+🌊 A solo 30 pasos de la playa
+
+El hotel cuenta con acceso por rampa a la playa y destaca específicamente la distancia de 30 pasos.
+
+Además:
+
+Servicio de playa durante temporada alta.
+Servicio para dos personas en balneario exclusivo.
+Estacionamiento propio.
+Estacionamiento cubierto y descubierto.
+Cercanía con Cariló y Pinamar.
+Distancias indicadas por el hotel
+Cariló: 3 km.
+Valeria del Mar: 10 cuadras.
+Pinamar: 5 km.
+3. Habitaciones
+
+El hotel informa 17 habitaciones en total.
+
+Matrimoniales
+
+Hay 10 habitaciones matrimoniales.
+
+Características:
+
+Cama sommier Queen.
+36 m².
+Vista al frente.
+8 habitaciones son cuádruples.
+Las cuádruples cuentan con sofá cama con carrito.
+Aire acondicionado.
+TV Smart de 50".
+Wi-Fi independiente.
+Frigobar.
+Caja de seguridad.
+Secador de pelo.
+
+La información de la web también muestra habitaciones con espacio de cocina/frigobar y microondas en algunas imágenes, pero yo no pondría “cocina equipada” como característica general sin confirmarlo con el hotel.
+
+Habitaciones dobles
+
+Hay 6 habitaciones de dos camas individuales.
+
+Características:
+
+Dos sommieres individuales.
+Se pueden unir para formar una cama matrimonial Queen.
+Ubicadas en el contrafrente.
+36 m².
+Aire acondicionado.
+Smart TV de 50".
+Wi-Fi independiente.
+Frigobar.
+Caja de seguridad.
+Secador de pelo.
+
+Una de estas habitaciones, ubicada en el primer piso, está adaptada para personas con movilidad reducida.
+
+Suite Presidencial
+
+Esta es probablemente la habitación que más explotaría visualmente.
+
+Características:
+
+Ubicada en el 4.º piso.
+Acceso privado mediante ascensor.
+Vista directa al mar.
+Cama sommier Queen.
+Sofá cama con carrito.
+Capacidad para hasta 4 personas.
+Área de estar con dos sillones.
+Mesa ratona.
+Wi-Fi independiente.
+Aire acondicionado.
+Frigobar.
+Caja de seguridad.
+Vestidor.
+Ducha escocesa.
+Secador de pelo.
+
+Esta debería tener una tarjeta visual del estilo:
+
+SUITE PRESIDENCIAL
+Vista directa al mar · 4.º piso · Hasta 4 huéspedes
+
+4. Spa
+
+El circuito de spa incluye:
+
+Piscina de hidromasajes.
+Piscina de agua fría.
+Dos saunas secos.
+Un sauna húmedo.
+Vestuarios.
+Servicio de masajes con reserva previa.
+Piscina exterior climatizada durante temporada alta.
+
+Esto merece una sección visual propia, no un párrafo perdido.
+
+Yo lo presentaría como:
+
+EL ARTE DE DESCANSAR
+Un espacio pensado para desconectar, relajarte y disfrutar.
+
+Y debajo:
+
+Hidromasaje · Saunas · Piscina · Masajes
+
+5. Desayuno
+
+El desayuno se sirve en Planta Baja de 08:30 a 10:30 hs.
+
+Incluye:
+
+Café con leche o té.
+Tostadas.
+Medialunas.
+Tostados de arroz.
+Mermelada.
+Queso crema.
+Manteca.
+Galletitas caseras.
+Cereales.
+Jugo de naranja.
+Yogur de frutilla y vainilla.
+Huevos revueltos.
+
+Acá también hay potencial visual enorme: una foto grande del desayuno con una frase corta.
+
+6. Servicios y comodidades
+
+El hotel informa:
+
+Wi-Fi en cada habitación.
+Wi-Fi en lobby y áreas comunes.
+Frigobar.
+Caja de seguridad codificada.
+Pava eléctrica.
+TV Android de 50" en habitaciones.
+TV Android de 70" en lobby.
+Estacionamiento propio.
+Estacionamiento cubierto y descubierto.
+Acceso a playa por rampa.
+Servicio de playa en temporada alta.
+Espacio cardio protegido.
+Red de incendio en todo el edificio.
+7. Política de huéspedes
+
+Esto hay que mostrarlo claramente para evitar consultas innecesarias:
+
+Solo mayores de 12 años
+
+El establecimiento indica que hospeda únicamente huéspedes mayores de 12 años.
+
+No acepta mascotas
+
+La web también indica expresamente que no aceptan mascotas.
+
+Yo pondría esto elegantemente en una sección de información importante, no como protagonista del Home.
+
+8. Actividades de la zona
+
+El hotel informa que los huéspedes pueden consultar por actividades como:
+
+Cabalgatas al amanecer en la playa.
+Excursión al Faro Querandí.
+Alquiler de cuatriciclos por la playa.
+Bicicletas.
+Paseos y caminatas por Pinamar y Ostende.
+Tirolesa.
+Paintball.
+Arco y flecha.
+Mini cuatriciclos.
+Cine.
+Teatro.
+Actividades culturales.
+
+Esto podría transformarse en una sección:
+
+EXPLORÁ LA COSTA
+
+con tarjetas visuales para:
+
+Playa · Cariló · Pinamar · Naturaleza · Aventura · Cultura
+
+9. Promoción
+
+La página actualmente muestra una promoción:
+
+PROMOCIÓN ESPECIAL
+
+Al reservar un mínimo de 3 noches: pagás solo 2.
+
+Y:
+
+Si te quedás 5 noches: pagás solo 4.
+
+⚠️ Importante: la página dice “Hasta Noviembre”, pero como esto es una promoción temporal, no le pediría a OpenCode que la deje fija. Conviene hacerla como un componente editable desde una configuración/CMS para que el hotel pueda cambiarla.
+
+10. Estilo que yo le pediría a OpenCode
+
+Acá viene lo importante.
+
+No le diría simplemente:
+
+"hacé una web moderna".
+
+Le daría una dirección estética concreta:
+
+Concepto
+
+Hotel boutique costero + lujo relajado + naturaleza + spa.
+
+No queremos:
+
+diseño corporativo;
+colores chillones;
+demasiadas animaciones;
+estética de agencia de viajes;
+exceso de texto;
+apariencia genérica de plantilla.
+
+Queremos:
+
+fotografía protagonista;
+mucho espacio negativo;
+tipografía elegante;
+microanimaciones;
+transiciones suaves;
+navegación limpia;
+sensación premium;
+colores inspirados en arena, mar, madera y naturaleza;
+diseño responsive;
+mobile-first.
+11. Estructura que le daría a la nueva Home
+
+Yo la ordenaría así:
+
+01 — HERO
+
+Foto/video espectacular.
+
+VALERIA DEL FARO
+Suite & Spa
+
+A 30 pasos del mar.
+
+RESERVAR AHORA
+
+02 — EXPERIENCIA
+
+Un lugar para bajar el ritmo.
+
+Hotel familiar orientado al descanso, relax y bienestar.
+
+03 — 30 PASOS DEL MAR
+
+Una sección visual enorme.
+
+Del hotel al mar.
+Solo 30 pasos.
+
+Botón:
+
+DESCUBRIR UBICACIÓN
+
+04 — HABITACIONES
+
+Tres tarjetas:
+
+Matrimonial
+36 m² · Queen · Vista al frente
+
+Doble
+36 m² · 2 sommieres · Convertible a Queen
+
+Suite Presidencial
+Vista directa al mar · 4.º piso · Hasta 4 personas
+
+05 — SPA
+
+Imagen grande.
+
+TU MOMENTO DE DESCONEXIÓN
+
+Hidromasaje · Piscina · Saunas · Masajes
+
+06 — DESAYUNO
+
+Empezá el día sin apuro.
+
+08:30 — 10:30
+
+Fotos + productos.
+
+07 — LA COSTA
+
+Cariló — 3 km
+Valeria del Mar — 10 cuadras
+Pinamar — 5 km
+
+08 — SERVICIOS
+
+Iconos minimalistas:
+
+Wi-Fi
+Estacionamiento
+Servicio de playa
+Spa
+Piscina
+Desayuno
+Acceso por rampa
+Caja de seguridad
+
+09 — PROMOCIÓN
+
+Una tarjeta/hero promocional editable.
+
+10 — CONTACTO / RESERVA
+
+¿Nos vemos en la costa?
+
+Teléfono
+WhatsApp
+Email
+Dirección
+Mapa
+
+CONSULTAR DISPONIBILIDAD

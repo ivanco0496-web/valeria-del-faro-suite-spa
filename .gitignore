@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.chrome-baseline-desktop-2/
+.chrome-baseline-desktop/
+.chrome-baseline-inprocess/
+.chrome-baseline-old/
+.chrome-final-shot/
+.edge-baseline-desktop/
+.env

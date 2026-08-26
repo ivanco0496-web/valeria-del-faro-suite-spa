@@ -1,0 +1,40 @@
+# instrucciones
+
+## directorio principal
+
+todo el material de este proyecto se encuentra dentro de esta carpeta.
+
+ruta principal:
+
+c:\users\bretyjackson\desktop\nueva carpeta\
+
+## archivos de referencia
+
+las imágenes llamadas:
+
+ej1
+ej2
+ej3
+ej4
+ej5
+
+son referencias visuales para el nuevo diseño.
+
+los archivos .txt contienen información e instrucciones relacionadas con el proyecto.
+
+## regla de trabajo
+
+antes de realizar cualquier modificación, analizá todos los archivos disponibles dentro de la carpeta principal.
+
+respetá los nombres de los archivos para identificar cada recurso.
+
+no mezcles información entre archivos.
+
+no inventes información que no esté presente en los archivos de referencia.
+
+no elimines ni sobrescribas archivos existentes sin autorización.
+
+por ahora, solamente analizá el contenido de la carpeta y preparate para trabajar con los recursos disponibles.
+
+no realices cambios todavía.
+
