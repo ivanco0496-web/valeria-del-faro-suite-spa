@@ -15,6 +15,25 @@ import breakfastDetail from "./assets/hotel/breakfast-detail.avif";
 import activitiesBeach from "./assets/hotel/activities-beach.avif";
 import poolCovered from "./assets/hotel/pool-covered-wide.avif";
 import hotelEntryWide from "./assets/hotel/hotel-entry-wide.avif";
+import activityCabalgatas from "./assets/activities/cabalgatas.webp";
+import activityFaroQuerandi from "./assets/activities/faro-querandi.webp";
+import activityCuatriciclos from "./assets/activities/cuatriciclos.webp";
+import activityBicicletas from "./assets/activities/bicicletas.webp";
+import activityTirolesa from "./assets/activities/tirolesa.webp";
+import activityCineTeatro from "./assets/activities/cine-teatro.webp";
+
+// Illustrative photos for the generic-area activities listed by the hotel
+// (not hotel-owned experiences), sourced from Wikimedia Commons (Faro
+// Querandí, CC BY-SA 4.0) and Pexels (free license), matched 1:1 to
+// hotel.activities by index.
+const activityImages = [
+  activityCabalgatas,
+  activityFaroQuerandi,
+  activityCuatriciclos,
+  activityBicicletas,
+  activityTirolesa,
+  activityCineTeatro,
+];
 
 // Note: room-matrimonial-wide.avif, hotel-exterior-wide.avif, contact-wide.avif
 // and activities-coast.avif are real Valeria del Faro photos (verified against
@@ -835,9 +854,17 @@ function ActivitiesPage({ Link }) {
           copy="La disponibilidad puede consultarse directamente con el establecimiento."
         />
         <div className="activity-grid">
-          {hotel.activities.map((activity) => (
-            <article className="activity-item" key={activity} data-reveal>
-              {activity}
+          {hotel.activities.map((activity, index) => (
+            <article className="activity-card" key={activity} data-reveal>
+              <div className="activity-card__media">
+                <img
+                  src={activityImages[index]}
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <p className="activity-card__body">{activity}</p>
             </article>
           ))}
         </div>

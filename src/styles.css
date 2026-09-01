@@ -456,7 +456,7 @@ button {
 .section {
   width: min(calc(100% - 40px), 1180px);
   margin: 0 auto;
-  padding: 82px 0;
+  padding: 68px 0;
 }
 
 .split-layout,
@@ -480,9 +480,9 @@ button {
 .final-cta h2 {
   margin: 0;
   font-family: var(--serif);
-  font-size: 2.5rem;
+  font-size: 2.2rem;
   font-weight: 400;
-  line-height: 1;
+  line-height: 1.05;
 }
 
 .editorial-copy,
@@ -549,8 +549,7 @@ button {
 .policy-grid article,
 .contact-grid a,
 .contact-grid div,
-.amenity-item,
-.activity-item {
+.amenity-item {
   background: rgba(255, 253, 248, 0.78);
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -588,7 +587,7 @@ button {
 .image-feature {
   width: min(calc(100% - 40px), 1240px);
   margin: 0 auto;
-  padding: 82px 0;
+  padding: 68px 0;
   display: grid;
   gap: 30px;
   align-items: center;
@@ -877,8 +876,8 @@ button {
 }
 
 .page-hero h1 {
-  max-width: 920px;
-  font-size: 3.25rem;
+  max-width: 860px;
+  font-size: 2.9rem;
 }
 
 .breadcrumbs {
@@ -1101,15 +1100,52 @@ button {
 
 .activity-grid {
   grid-template-columns: 1fr;
+  gap: 16px;
 }
 
-.activity-item {
-  min-height: 74px;
+.activity-card {
+  overflow: hidden;
   display: flex;
-  align-items: center;
-  padding: 18px 20px;
+  flex-direction: column;
+  background: var(--paper-soft);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: 0 12px 36px rgba(8, 35, 38, 0.06);
+  transition:
+    transform 220ms ease,
+    box-shadow 220ms ease,
+    border-color 220ms ease;
+}
+
+.activity-card:hover {
+  border-color: rgba(15, 105, 112, 0.3);
+  box-shadow: 0 24px 70px rgba(8, 35, 38, 0.14);
+  transform: translateY(-4px);
+}
+
+.activity-card__media {
+  aspect-ratio: 1.18;
+  overflow: hidden;
+  background: var(--mist);
+}
+
+.activity-card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 620ms ease;
+}
+
+.activity-card:hover .activity-card__media img {
+  transform: scale(1.045);
+}
+
+.activity-card__body {
+  margin: 0;
+  padding: 20px;
   color: var(--ink-soft);
-  font-weight: 760;
+  font-weight: 700;
+  line-height: 1.5;
 }
 
 .promotion-band {
@@ -1296,33 +1332,33 @@ button:focus-visible {
   }
 
   .home-hero h1 {
-    font-size: 5.4rem;
+    font-size: 4.9rem;
   }
 
   .home-hero h1 span {
-    font-size: 2.72rem;
+    font-size: 2.5rem;
   }
 
   .hero-promise {
-    font-size: 2.78rem;
+    font-size: 2.5rem;
   }
 }
 
 @media (min-width: 720px) {
   .section {
-    padding: 96px 0;
+    padding: 80px 0;
   }
 
   .home-hero h1 {
-    font-size: 6.65rem;
+    font-size: 5.9rem;
   }
 
   .home-hero h1 span {
-    font-size: 3.35rem;
+    font-size: 3rem;
   }
 
   .page-hero h1 {
-    font-size: 4.45rem;
+    font-size: 3.85rem;
   }
 
   .split-layout h2,
@@ -1332,7 +1368,7 @@ button:focus-visible {
   .location-card h2,
   .breakfast-panel h2,
   .final-cta h2 {
-    font-size: 3.45rem;
+    font-size: 3rem;
   }
 
   .room-grid,
@@ -1388,15 +1424,15 @@ button:focus-visible {
   }
 
   .home-hero h1 {
-    font-size: 8.15rem;
+    font-size: 7rem;
   }
 
   .home-hero h1 span {
-    font-size: 4.1rem;
+    font-size: 3.6rem;
   }
 
   .hero-promise {
-    font-size: 3.28rem;
+    font-size: 2.9rem;
   }
 
   .hero-reserve-panel {
@@ -1472,7 +1508,8 @@ button:focus-visible {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-  .amenity-grid {
+  .amenity-grid,
+  .activity-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
@@ -1500,7 +1537,7 @@ button:focus-visible {
   }
 
   .page-hero h1 {
-    font-size: 5.45rem;
+    font-size: 4.6rem;
   }
 
   .contact-grid a:last-child {
@@ -1515,15 +1552,15 @@ button:focus-visible {
 
 @media (min-width: 1180px) {
   .section {
-    padding: 112px 0;
+    padding: 92px 0;
   }
 
   .home-hero h1 {
-    font-size: 8.85rem;
+    font-size: 7.6rem;
   }
 
   .home-hero h1 span {
-    font-size: 4.46rem;
+    font-size: 3.9rem;
   }
 
   .split-layout h2,
@@ -1533,7 +1570,7 @@ button:focus-visible {
   .location-card h2,
   .breakfast-panel h2,
   .final-cta h2 {
-    font-size: 4.05rem;
+    font-size: 3.4rem;
   }
 
   .site-nav a {
