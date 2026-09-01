@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { hotel } from "./data/hotel.js";
 import logo from "./assets/hotel/valeria-del-faro-logo.webp";
-import shoreline from "./assets/shoreline.jpg";
-import coastStrip from "./assets/coast-strip.jpg";
 import heroPoolGlass from "./assets/hotel/hero-pool-glass.avif";
+import oceanView from "./assets/hotel/ocean-view.avif";
 import roomMatrimonial from "./assets/hotel/room-matrimonial.avif";
 import roomDoble from "./assets/hotel/room-doble.avif";
 import suitePresidencial from "./assets/hotel/suite-presidencial.avif";
@@ -25,8 +24,8 @@ import hotelEntryWide from "./assets/hotel/hotel-entry-wide.avif";
 const images = {
   hero: poolExterior,
   heroPoolGlass,
-  coast: shoreline,
-  strip: coastStrip,
+  coast: oceanView,
+  strip: activitiesBeach,
   spa: spaHydromassage,
   spaSauna,
   suite: suitePresidencial,
