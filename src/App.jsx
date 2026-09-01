@@ -1,17 +1,44 @@
 import { useEffect, useState } from "react";
 import { hotel } from "./data/hotel.js";
+import logo from "./assets/hotel/valeria-del-faro-logo.webp";
 import coastPool from "./assets/coast-pool.jpg";
-import spaDetail from "./assets/spa-detail.jpg";
-import suiteView from "./assets/suite-view.jpg";
 import shoreline from "./assets/shoreline.jpg";
 import coastStrip from "./assets/coast-strip.jpg";
+import roomMatrimonial from "./assets/hotel/room-matrimonial.avif";
+import roomDoble from "./assets/hotel/room-doble.avif";
+import suitePresidencial from "./assets/hotel/suite-presidencial.avif";
+import suiteDetail from "./assets/hotel/suite-detail.avif";
+import spaHydromassage from "./assets/hotel/spa-hydromassage.avif";
+import spaSauna from "./assets/hotel/spa-sauna.avif";
+import poolExterior from "./assets/hotel/spa-detail.avif";
+import breakfast from "./assets/hotel/breakfast.avif";
+import breakfastDetail from "./assets/hotel/breakfast-detail.avif";
+import activitiesBeach from "./assets/hotel/activities-beach.avif";
+import poolCovered from "./assets/hotel/pool-covered-wide.avif";
+import hotelEntryWide from "./assets/hotel/hotel-entry-wide.avif";
+
+// Note: room-matrimonial-wide.avif, hotel-exterior-wide.avif, contact-wide.avif
+// and activities-coast.avif were verified to be mismatched/generic stock photos
+// (not real Valeria del Faro photography) and are intentionally not used.
 
 const images = {
   hero: coastPool,
   coast: shoreline,
   strip: coastStrip,
-  spa: spaDetail,
-  suite: suiteView,
+  spa: spaHydromassage,
+  spaSauna,
+  suite: suitePresidencial,
+  suiteDetail,
+  roomMatrimonial,
+  roomDoble,
+  breakfast,
+  breakfastDetail,
+  activitiesBeach,
+  pool: poolCovered,
+  poolExterior,
+  contact: hotelEntryWide,
+  hotelEntry: hotelEntryWide,
+  hotelExterior: poolExterior,
 };
 
 const navItems = [
@@ -29,7 +56,7 @@ const serviceRoutes = [
     title: "Habitaciones",
     meta: "17 habitaciones",
     to: "/servicios/habitaciones",
-    image: images.suite,
+    image: images.roomMatrimonial,
     description:
       "Matrimoniales, dobles y Suite Presidencial con equipamiento pensado para descansar.",
   },
@@ -45,7 +72,7 @@ const serviceRoutes = [
     title: "Desayuno",
     meta: "08:30 a 10:30 hs",
     to: "/servicios/desayuno",
-    image: images.coast,
+    image: images.breakfast,
     description:
       "Desayuno servido en Planta Baja con productos clásicos para empezar el día sin apuro.",
   },
@@ -53,7 +80,7 @@ const serviceRoutes = [
     title: "Piscina",
     meta: "Hidromasaje · agua fría · temporada",
     to: "/servicios/piscina",
-    image: images.hero,
+    image: images.pool,
     description:
       "Piscina de hidromasajes, piscina de agua fría y piscina exterior climatizada en temporada alta.",
   },
@@ -97,8 +124,8 @@ function isExternalPath(to) {
 
 function roomImage(room) {
   if (room.slug === "presidencial") return images.suite;
-  if (room.slug === "doble") return images.coast;
-  return images.hero;
+  if (room.slug === "doble") return images.roomDoble;
+  return images.roomMatrimonial;
 }
 
 function App() {
@@ -145,11 +172,21 @@ function App() {
           }
         });
       },
-      { threshold: 0.14, rootMargin: "0px 0px -48px" },
+      { threshold: 0, rootMargin: "0px 0px -10px 0px" },
     );
 
     revealElements.forEach((element) => observer.observe(element));
-    return () => observer.disconnect();
+
+    const revealAll = () => {
+      revealElements.forEach((element) => element.classList.add("is-visible"));
+      observer.disconnect();
+    };
+    const safetyTimer = window.setTimeout(revealAll, 2500);
+
+    return () => {
+      window.clearTimeout(safetyTimer);
+      observer.disconnect();
+    };
   }, [path]);
 
   const navigate = (event, to) => {
@@ -205,7 +242,27 @@ function App() {
         {renderPage(path, SiteLink)}
       </main>
       <Footer Link={SiteLink} />
+      <WhatsAppButton />
     </div>
+  );
+}
+
+function WhatsAppButton() {
+  return (
+    <a
+      className="whatsapp-float"
+      href={hotel.whatsappHref}
+      target="_blank"
+      rel="noreferrer"
+      aria-label="Escribir por WhatsApp"
+    >
+      <svg viewBox="0 0 32 32" aria-hidden="true">
+        <path
+          fill="currentColor"
+          d="M16.01 3C9.38 3 4 8.38 4 15.01c0 2.35.65 4.55 1.78 6.44L4 29l7.73-1.75a11.94 11.94 0 0 0 4.28.79h.01c6.63 0 12-5.38 12-12.01C28.02 8.38 22.64 3 16.01 3Zm0 21.85h-.01a9.86 9.86 0 0 1-5.02-1.37l-.36-.21-4.58 1.04 1.06-4.47-.24-.37a9.84 9.84 0 0 1-1.51-5.26c0-5.44 4.44-9.87 9.87-9.87 2.64 0 5.11 1.03 6.98 2.9a9.8 9.8 0 0 1 2.89 6.98c0 5.44-4.43 9.63-9.08 9.63Zm5.41-7.39c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.66.15-.2.3-.76.96-.93 1.16-.17.2-.34.22-.64.07-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.75-1.65-2.05-.17-.3-.02-.46.13-.61.13-.13.3-.34.45-.51.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.66-1.6-.91-2.19-.24-.58-.48-.5-.66-.5h-.56c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.06 2.87 1.21 3.07c.15.2 2.09 3.2 5.07 4.48.71.31 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.08 1.75-.71 2-1.4.25-.69.25-1.28.17-1.4-.07-.12-.27-.2-.57-.35Z"
+        />
+      </svg>
+    </a>
   );
 }
 
@@ -233,13 +290,7 @@ function Header({ Link, activePath, menuOpen, setMenuOpen }) {
   return (
     <header className="site-header" aria-label="Navegación principal">
       <Link className="brand-mark" to="/" onClick={() => setMenuOpen(false)}>
-        <span className="brand-symbol" aria-hidden="true">
-          VdF
-        </span>
-        <span className="brand-copy">
-          <strong>{hotel.name}</strong>
-          <small>{hotel.descriptor}</small>
-        </span>
+        <img className="brand-logo" src={logo} alt={hotel.fullName} />
       </Link>
 
       <nav
@@ -287,7 +338,7 @@ function HomePage({ Link }) {
     <>
       <section className="home-hero">
         <div className="hero-media" aria-hidden="true">
-          <img src={images.hero} alt="" />
+          <img src={images.hero} alt="" fetchPriority="high" decoding="async" />
         </div>
         <div className="hero-shade" aria-hidden="true" />
         <div className="home-hero__inner">
@@ -422,7 +473,7 @@ function HotelPage({ Link }) {
     <>
       <PageHero
         Link={Link}
-        image={images.suite}
+        image={images.hotelExterior}
         eyebrow="Hotel"
         title="Hospitalidad familiar con espíritu costero."
         copy={hotel.concept}
@@ -481,7 +532,7 @@ function RoomsPage({ Link }) {
     <>
       <PageHero
         Link={Link}
-        image={images.hero}
+        image={images.roomMatrimonial}
         eyebrow="Habitaciones"
         title="17 habitaciones y una suite con vista directa al mar."
         copy="Matrimoniales, dobles y Suite Presidencial, con superficies amplias y equipamiento real informado por el hotel."
@@ -495,7 +546,7 @@ function RoomsPage({ Link }) {
         <RoomGrid Link={Link} />
       </section>
       <ImageFeature
-        image={images.suite}
+        image={images.suiteDetail}
         eyebrow="Suite Presidencial"
         title="Vista directa al mar desde el 4.º piso."
         copy="Acceso privado mediante ascensor, cama sommier Queen, sofá cama con carrito, área de estar con dos sillones, vestidor y ducha escocesa."
@@ -549,7 +600,7 @@ function SpaPage({ Link }) {
     <>
       <PageHero
         Link={Link}
-        image={images.spa}
+        image={images.spaSauna}
         eyebrow="Spa & bienestar"
         title="Tu momento de desconexión."
         copy="Hidromasaje, piscinas, saunas y masajes con reserva previa en una sección pensada para relajarse."
@@ -582,7 +633,7 @@ function BreakfastPage({ Link }) {
     <>
       <PageHero
         Link={Link}
-        image={images.coast}
+        image={images.breakfastDetail}
         eyebrow="Desayuno"
         title="Empezá el día sin apuro."
         copy={`Se sirve en ${hotel.breakfast.place} de ${hotel.breakfast.time}.`}
@@ -615,7 +666,7 @@ function PoolPage({ Link }) {
     <>
       <PageHero
         Link={Link}
-        image={images.hero}
+        image={images.pool}
         eyebrow="Piscina"
         title="Agua, descanso y temporada de playa."
         copy="El hotel informa piscina de hidromasajes, piscina de agua fría y piscina exterior climatizada durante temporada alta."
@@ -712,7 +763,7 @@ function ActivitiesPage({ Link }) {
     <>
       <PageHero
         Link={Link}
-        image={images.strip}
+        image={images.activitiesBeach}
         eyebrow="Actividades"
         title="Explorá la costa."
         copy="Los huéspedes pueden consultar por actividades de playa, naturaleza, aventura y cultura en la zona."
@@ -742,7 +793,7 @@ function ContactPage({ Link }) {
     <>
       <PageHero
         Link={Link}
-        image={images.hero}
+        image={images.contact}
         eyebrow="Reserva y contacto"
         title="¿Nos vemos en la costa?"
         copy="Consultá disponibilidad directamente con Valeria del Faro Suite & Spa."
@@ -775,7 +826,7 @@ function PageHero({ Link, image, eyebrow, title, copy, crumbs }) {
   return (
     <section className="page-hero">
       <div className="page-hero__media" aria-hidden="true">
-        <img src={image} alt="" />
+        <img src={image} alt="" fetchPriority="high" decoding="async" />
       </div>
       <div className="page-hero__shade" aria-hidden="true" />
       <div className="page-hero__inner">
@@ -851,7 +902,7 @@ function ImageFeature({
   return (
     <section className={className}>
       <div className="image-feature__media" data-reveal>
-        <img src={image} alt="" />
+        <img src={image} alt="" loading="lazy" decoding="async" />
       </div>
       <div className="image-feature__content" data-reveal>
         <p className="overline">
@@ -878,7 +929,7 @@ function BreakfastFeature({ Link }) {
     <section className="section breakfast-section">
       <div className="breakfast-panel" data-reveal>
         <div className="breakfast-panel__media" aria-hidden="true">
-          <img src={images.coast} alt="" />
+          <img src={images.breakfast} alt="" loading="lazy" decoding="async" />
         </div>
         <div className="breakfast-panel__content">
           <p className="overline">
@@ -923,7 +974,7 @@ function RoomCard({ room, Link }) {
       data-reveal
     >
       <Link className="room-card__media" to={room.path} aria-label={`Ver ${room.name}`}>
-        <img src={roomImage(room)} alt="" />
+        <img src={roomImage(room)} alt="" loading="lazy" decoding="async" />
       </Link>
       <div className="room-card__body">
         <span>{room.count}</span>
@@ -946,7 +997,7 @@ function ServiceRouteGrid({ Link, limit }) {
       {visibleServices.map((service) => (
         <article className="service-card" key={service.to} data-reveal>
           <Link className="service-card__media" to={service.to} aria-label={`Ver ${service.title}`}>
-            <img src={service.image} alt="" />
+            <img src={service.image} alt="" loading="lazy" decoding="async" />
           </Link>
           <div className="service-card__body">
             <span>{service.meta}</span>
@@ -1044,6 +1095,10 @@ function PolicyGrid() {
 function ContactGrid() {
   return (
     <div className="contact-grid" data-reveal>
+      <a className="contact-grid__whatsapp" href={hotel.whatsappHref} target="_blank" rel="noreferrer">
+        <span>WhatsApp</span>
+        <strong>Escribinos directo</strong>
+      </a>
       <a href={hotel.phoneHref}>
         <span>Teléfono</span>
         <strong>{hotel.phone}</strong>
@@ -1088,7 +1143,7 @@ function FinalCta({ Link, compact = false }) {
   return (
     <section className={compact ? "final-cta final-cta--compact" : "final-cta"}>
       <div className="final-cta__media" aria-hidden="true">
-        <img src={images.strip} alt="" />
+        <img src={images.strip} alt="" loading="lazy" decoding="async" />
       </div>
       <div className="final-cta__content" data-reveal>
         <p className="overline">Reserva y contacto</p>
@@ -1101,7 +1156,10 @@ function FinalCta({ Link, compact = false }) {
           <Link className="button button-primary" to="/contacto">
             Consultar disponibilidad
           </Link>
-          <a className="button button-ghost" href={hotel.emailHref}>
+          <a className="button button-ghost" href={hotel.whatsappHref} target="_blank" rel="noreferrer">
+            WhatsApp
+          </a>
+          <a className="button button-quiet" href={hotel.emailHref}>
             Enviar email
           </a>
         </div>
@@ -1117,6 +1175,7 @@ function Footer({ Link }) {
         <Link className="footer-brand" to="/">
           {hotel.fullName}
         </Link>
+        <p>{hotel.concept}</p>
         <p>{hotel.address}</p>
         <p>{hotel.phone}</p>
       </div>
@@ -1128,6 +1187,25 @@ function Footer({ Link }) {
         <Link to="/actividades">Actividades</Link>
         <Link to="/contacto">Contacto</Link>
       </nav>
+      <div className="footer-connect">
+        <Link className="button button-outline" to="/contacto">
+          Reservar
+        </Link>
+        <div className="footer-social" aria-label="Redes sociales">
+          <a href={hotel.whatsappHref} target="_blank" rel="noreferrer" aria-label="WhatsApp">
+            WhatsApp
+          </a>
+          <a href={hotel.instagram} target="_blank" rel="noreferrer" aria-label="Instagram">
+            Instagram
+          </a>
+          <a href={hotel.youtube} target="_blank" rel="noreferrer" aria-label="YouTube">
+            YouTube
+          </a>
+        </div>
+        <p className="footer-copyright">
+          © {new Date().getFullYear()} {hotel.fullName}. Todos los derechos reservados.
+        </p>
+      </div>
     </footer>
   );
 }

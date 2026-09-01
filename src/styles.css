@@ -17,7 +17,7 @@
   --white: #ffffff;
   --shadow: 0 26px 82px rgba(8, 35, 38, 0.16);
   --shadow-soft: 0 14px 44px rgba(8, 35, 38, 0.1);
-  --serif: "Bodoni 72", "Cormorant Garamond", "Iowan Old Style", Georgia,
+  --serif: "Cormorant Garamond", "Iowan Old Style", Georgia,
     "Times New Roman", serif;
   --sans: Inter, Avenir, "Segoe UI", system-ui, -apple-system,
     BlinkMacSystemFont, sans-serif;
@@ -89,72 +89,34 @@ button {
 
 .site-header {
   position: fixed;
-  top: 14px;
-  left: 50%;
+  top: 0;
+  left: 0;
+  right: 0;
   z-index: 60;
-  width: min(calc(100% - 24px), 1240px);
-  min-height: 68px;
+  width: 100%;
+  min-height: 76px;
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
   gap: 10px;
-  padding: 8px;
+  padding: 10px 18px;
   color: var(--ink);
-  background: rgba(255, 253, 248, 0.88);
-  border: 1px solid rgba(255, 255, 255, 0.78);
-  border-radius: 8px;
-  box-shadow: 0 18px 54px rgba(6, 47, 52, 0.14);
-  backdrop-filter: blur(22px);
-  transform: translateX(-50%);
+  background: rgba(255, 253, 248, 0.98);
+  border-bottom: 1px solid var(--line);
+  box-shadow: 0 2px 20px rgba(6, 47, 52, 0.05);
 }
 
 .brand-mark {
   min-width: 0;
   display: inline-flex;
   align-items: center;
-  gap: 11px;
 }
 
-.brand-symbol {
-  width: 43px;
-  height: 43px;
-  display: grid;
-  place-items: center;
+.brand-logo {
+  height: 48px;
+  width: auto;
   flex: 0 0 auto;
-  color: var(--paper-soft);
-  background: var(--sea-dark);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 50%;
-  font-family: var(--serif);
-  font-size: 0.96rem;
-  line-height: 1;
-}
-
-.brand-copy {
-  min-width: 0;
-}
-
-.brand-copy strong,
-.brand-copy small {
   display: block;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.brand-copy strong {
-  font-family: var(--serif);
-  font-size: 1.36rem;
-  font-weight: 500;
-  line-height: 1;
-}
-
-.brand-copy small {
-  margin-top: 4px;
-  color: var(--muted);
-  font-size: 0.7rem;
-  font-weight: 800;
-  text-transform: uppercase;
 }
 
 .site-nav {
@@ -166,7 +128,7 @@ button {
   gap: 5px;
   padding: 10px;
   color: var(--ink);
-  background: rgba(255, 253, 248, 0.98);
+  background: var(--paper-soft);
   border: 1px solid var(--line);
   border-radius: 8px;
   box-shadow: var(--shadow);
@@ -335,10 +297,11 @@ button {
 }
 
 .overline span {
-  color: var(--sea);
+  color: var(--champagne);
   font-family: var(--serif);
   font-size: 1.02rem;
   font-weight: 500;
+  font-style: italic;
 }
 
 .home-hero h1,
@@ -451,12 +414,17 @@ button {
 }
 
 .hero-reserve-panel article {
+  min-width: 0;
   min-height: 74px;
   padding: 12px;
   display: grid;
   align-content: center;
   gap: 5px;
   border-right: 1px solid rgba(16, 32, 31, 0.1);
+}
+
+.hero-reserve-panel strong {
+  overflow-wrap: break-word;
 }
 
 .hero-reserve-panel article:last-of-type {
@@ -1036,6 +1004,48 @@ button {
   font-weight: 760;
 }
 
+.contact-grid__whatsapp {
+  color: var(--paper-soft) !important;
+  background: #128c5f;
+  border-color: #128c5f;
+}
+
+.contact-grid__whatsapp span {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.contact-grid__whatsapp strong {
+  color: var(--paper-soft);
+}
+
+.whatsapp-float {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 70;
+  width: 56px;
+  height: 56px;
+  display: grid;
+  place-items: center;
+  color: var(--paper-soft);
+  background: #128c5f;
+  border-radius: 50%;
+  box-shadow: 0 16px 40px rgba(6, 47, 38, 0.36);
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.whatsapp-float:hover {
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 20px 50px rgba(6, 47, 38, 0.44);
+}
+
+.whatsapp-float svg {
+  width: 28px;
+  height: 28px;
+}
+
 .contact-note {
   display: grid;
   gap: 20px;
@@ -1142,6 +1152,39 @@ button {
 .site-footer nav a {
   color: var(--sea-dark);
   font-weight: 800;
+}
+
+.footer-connect {
+  display: grid;
+  gap: 14px;
+  align-content: start;
+}
+
+.footer-connect .button {
+  width: fit-content;
+  min-width: 0;
+  padding: 0 22px;
+}
+
+.footer-social {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+}
+
+.footer-social a {
+  color: var(--sea-dark);
+  font-size: 0.86rem;
+  font-weight: 800;
+}
+
+.footer-social a:hover {
+  color: var(--champagne);
+}
+
+.footer-copyright {
+  color: var(--muted);
+  font-size: 0.78rem;
 }
 
 .not-found {
@@ -1263,7 +1306,7 @@ button:focus-visible {
 
   .site-header {
     grid-template-columns: auto minmax(0, 1fr) auto;
-    padding: 9px 10px;
+    padding: 9px 28px;
   }
 
   .site-nav {
@@ -1417,8 +1460,8 @@ button:focus-visible {
   }
 
   .site-footer {
-    grid-template-columns: minmax(0, 1fr) auto;
-    align-items: center;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    align-items: start;
   }
 }
 
@@ -1456,6 +1499,24 @@ button:focus-visible {
     font-size: 1.08rem;
   }
 
+  .hero-reserve-panel {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .hero-reserve-panel article:nth-of-type(2) {
+    border-right: 0;
+  }
+
+  .hero-reserve-panel article:nth-of-type(3) {
+    grid-column: 1 / -1;
+    border-right: 0;
+    border-top: 1px solid rgba(16, 32, 31, 0.1);
+  }
+
+  .hero-reserve-panel strong {
+    font-size: 1.18rem;
+  }
+
   .brand-copy small {
     font-size: 0.64rem;
   }
@@ -1474,12 +1535,8 @@ button:focus-visible {
 }
 
 @media (max-width: 380px) {
-  .site-header {
-    width: calc(100% - 16px);
-  }
-
-  .brand-copy small {
-    display: none;
+  .brand-logo {
+    height: 38px;
   }
 
   .home-hero {

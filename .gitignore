@@ -1,5 +1,10 @@
 node_modules/
 dist/
+.vite/
+.DS_Store
+*.local
+node_modules/
+dist/
 .chrome-baseline-desktop-2/
 .chrome-baseline-desktop/
 .chrome-baseline-inprocess/
@@ -7,3 +12,5 @@ dist/
 .chrome-final-shot/
 .edge-baseline-desktop/
 .env
+.claude/
+_backup-before-redesign/
