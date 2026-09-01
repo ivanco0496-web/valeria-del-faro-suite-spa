@@ -12,6 +12,8 @@ export const hotel = {
   website: "https://www.valeriadelfarosuiteyspa.com/",
   mapsHref:
     "https://www.google.com/maps/search/?api=1&query=Corbeta%20Cefiro%2042%2C%20Valeria%20del%20Mar",
+  mapsEmbedSrc:
+    "https://www.google.com/maps?q=Corbeta%20Cefiro%2042%2C%20Valeria%20del%20Mar%2C%20Provincia%20de%20Buenos%20Aires&output=embed",
   whatsappHref:
     "https://api.whatsapp.com/send?phone=5491136422333&text=Hotel%20Valeria%20del%20Faro%3A%20Por%20favor%20ingrese%20Nombre%20y%20apellido%2C%20Email%2C%20cant%20de%20personas%2C%20fecha%20de%20reserva%2C%20y%20mensaje%3A%20Gracias",
   instagram: "https://www.instagram.com/hotelvaleriadelfaro/",
@@ -39,6 +41,7 @@ export const hotel = {
       name: "Matrimonial",
       meta: "36 m² · Queen · Vista al frente",
       count: "10 habitaciones matrimoniales",
+      youtubeId: "822ehOE3uj4",
       description:
         "Habitaciones con cama Queen y vista al frente. Ocho, ubicadas en el primer y segundo piso, son cuádruples e incluyen un sofá cama con carrito.",
       details: [
@@ -58,6 +61,7 @@ export const hotel = {
       name: "Doble",
       meta: "36 m² · Dos sommieres · Convertible a Queen",
       count: "6 habitaciones de dos camas individuales",
+      youtubeId: "ye1ZfmH5NIY",
       description:
         "Ubicadas en el contrafrente, con dos camas individuales sommier que pueden unirse para formar una cama matrimonial Queen.",
       details: [
@@ -79,6 +83,7 @@ export const hotel = {
       name: "Suite Presidencial",
       meta: "Vista directa al mar · 4.º piso · Hasta 4 huéspedes",
       count: "Acceso privado mediante ascensor",
+      youtubeId: "GkKurmulalE",
       description:
         "Una suite exclusiva con vista directa al mar, cama Queen, área de estar con dos sillones, mesa ratona y sofá cama con carrito.",
       details: [
@@ -95,6 +100,8 @@ export const hotel = {
       featured: true,
     },
   ],
+  spaYoutubeId: "qIvASln30qI",
+  accessibleRoomYoutubeId: "ajfkw0uQh3s",
   spa: [
     "Piscina de hidromasaje climatizada y cubierta",
     "Piscina de agua fría cubierta",

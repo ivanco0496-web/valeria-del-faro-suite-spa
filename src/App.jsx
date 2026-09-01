@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { hotel } from "./data/hotel.js";
 import logo from "./assets/hotel/valeria-del-faro-logo.webp";
-import coastPool from "./assets/coast-pool.jpg";
 import shoreline from "./assets/shoreline.jpg";
 import coastStrip from "./assets/coast-strip.jpg";
+import heroPoolGlass from "./assets/hotel/hero-pool-glass.avif";
 import roomMatrimonial from "./assets/hotel/room-matrimonial.avif";
 import roomDoble from "./assets/hotel/room-doble.avif";
 import suitePresidencial from "./assets/hotel/suite-presidencial.avif";
@@ -18,11 +18,13 @@ import poolCovered from "./assets/hotel/pool-covered-wide.avif";
 import hotelEntryWide from "./assets/hotel/hotel-entry-wide.avif";
 
 // Note: room-matrimonial-wide.avif, hotel-exterior-wide.avif, contact-wide.avif
-// and activities-coast.avif were verified to be mismatched/generic stock photos
-// (not real Valeria del Faro photography) and are intentionally not used.
+// and activities-coast.avif are real Valeria del Faro photos (verified against
+// the site backup by hash) but are lifestyle/stock-style shots used elsewhere
+// on the live site, not photos of this property, so they're kept but unused here.
 
 const images = {
-  hero: coastPool,
+  hero: poolExterior,
+  heroPoolGlass,
   coast: shoreline,
   strip: coastStrip,
   spa: spaHydromassage,
@@ -576,7 +578,24 @@ function RoomPage({ Link, room }) {
         <div className="detail-copy" data-reveal>
           <p className="overline">Detalle</p>
           <h2>{room.description}</h2>
-          {room.note && <p>{room.note}</p>}
+          {room.note && (
+            <p>
+              {room.note}
+              {room.slug === "doble" && hotel.accessibleRoomYoutubeId && (
+                <>
+                  {" "}
+                  <a
+                    className="text-link"
+                    href={`https://www.youtube.com/watch?v=${hotel.accessibleRoomYoutubeId}`}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Ver video
+                  </a>
+                </>
+              )}
+            </p>
+          )}
           <div className="action-row">
             <Link className="button button-primary" to="/contacto">
               Consultar disponibilidad
@@ -591,7 +610,27 @@ function RoomPage({ Link, room }) {
           <DetailList items={room.details} />
         </aside>
       </section>
+      {room.youtubeId && (
+        <section className="section video-section">
+          <SectionHeading eyebrow="Recorrido en video" title={`Conocé la habitación ${room.name}.`} />
+          <YouTubeEmbed videoId={room.youtubeId} title={`Video de la habitación ${room.name}`} />
+        </section>
+      )}
     </>
+  );
+}
+
+function YouTubeEmbed({ videoId, title }) {
+  return (
+    <div className="video-embed" data-reveal>
+      <iframe
+        src={`https://www.youtube-nocookie.com/embed/${videoId}`}
+        title={title}
+        loading="lazy"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+      />
+    </div>
   );
 }
 
@@ -600,7 +639,7 @@ function SpaPage({ Link }) {
     <>
       <PageHero
         Link={Link}
-        image={images.spaSauna}
+        image={images.heroPoolGlass}
         eyebrow="Spa & bienestar"
         title="Tu momento de desconexión."
         copy="Hidromasaje, piscinas, saunas y masajes con reserva previa en una sección pensada para relajarse."
@@ -622,6 +661,10 @@ function SpaPage({ Link }) {
           </p>
           <PillList items={hotel.spa} />
         </div>
+      </section>
+      <section className="section video-section">
+        <SectionHeading eyebrow="Recorrido en video" title="Conocé el circuito de spa." />
+        <YouTubeEmbed videoId={hotel.spaYoutubeId} title="Video del circuito de spa" />
       </section>
       <FinalCta Link={Link} compact />
     </>
@@ -754,7 +797,24 @@ function LocationPage({ Link }) {
         </div>
         <DistanceGrid />
       </section>
+      <section className="section map-section">
+        <MapEmbed />
+      </section>
     </>
+  );
+}
+
+function MapEmbed() {
+  return (
+    <div className="map-embed" data-reveal>
+      <iframe
+        title={`Mapa de ${hotel.fullName}`}
+        src={hotel.mapsEmbedSrc}
+        loading="lazy"
+        referrerPolicy="no-referrer-when-downgrade"
+        allowFullScreen
+      />
+    </div>
   );
 }
 
@@ -805,6 +865,9 @@ function ContactPage({ Link }) {
           <p className="overline">Información importante</p>
           <PolicyGrid />
         </div>
+      </section>
+      <section className="section map-section">
+        <MapEmbed />
       </section>
     </>
   );
