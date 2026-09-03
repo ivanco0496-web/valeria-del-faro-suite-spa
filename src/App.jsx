@@ -400,7 +400,7 @@ function HomePage({ Link }) {
       <section className="home-hero">
         <div className="hero-media hero-media--video" aria-hidden="true">
           <img src={images.hero} alt="" fetchPriority="high" decoding="async" />
-          <HeroVideoBackground videoId="GkKurmulalE" />
+          <HeroVideoBackground videoId={hotel.spaYoutubeId} />
         </div>
         <div className="hero-shade" aria-hidden="true" />
         <div className="home-hero__inner">
@@ -625,6 +625,7 @@ function RoomPage({ Link, room }) {
       <PageHero
         Link={Link}
         image={roomImage(room)}
+        videoId={room.youtubeId}
         eyebrow={room.count}
         title={room.name}
         copy={room.meta}
@@ -670,12 +671,6 @@ function RoomPage({ Link, room }) {
           <DetailList items={room.details} />
         </aside>
       </section>
-      {room.youtubeId && (
-        <section className="section video-section">
-          <SectionHeading eyebrow="Recorrido en video" title={`Conocé la habitación ${room.name}.`} />
-          <YouTubeEmbed videoId={room.youtubeId} title={`Video de la habitación ${room.name}`} />
-        </section>
-      )}
     </>
   );
 }
@@ -953,11 +948,15 @@ function NotFoundPage({ Link }) {
   );
 }
 
-function PageHero({ Link, image, eyebrow, title, copy, crumbs }) {
+function PageHero({ Link, image, videoId, eyebrow, title, copy, crumbs }) {
   return (
     <section className="page-hero">
-      <div className="page-hero__media" aria-hidden="true">
+      <div
+        className={videoId ? "page-hero__media hero-media--video" : "page-hero__media"}
+        aria-hidden="true"
+      >
         <img src={image} alt="" fetchPriority="high" decoding="async" />
+        {videoId && <HeroVideoBackground videoId={videoId} />}
       </div>
       <div className="page-hero__shade" aria-hidden="true" />
       <div className="page-hero__inner">
