@@ -337,7 +337,7 @@ function Header({ Link, activePath, menuOpen, setMenuOpen }) {
       </nav>
 
       <div className="header-actions">
-        <a className="header-phone" href={hotel.phoneHref}>
+        <a className="header-phone" href={hotel.whatsappHref} target="_blank" rel="noreferrer">
           Llamar
         </a>
         <Link className="header-cta" to="/contacto">
@@ -403,12 +403,21 @@ function HeroVideoBackground({ videoId, variant = "hero" }) {
 }
 
 function HomePage({ Link }) {
+  useEffect(() => {
+    document.body.classList.add("is-home");
+    document.body.style.setProperty("--home-bg-url", `url(${images.poolExterior})`);
+    return () => {
+      document.body.classList.remove("is-home");
+      document.body.style.removeProperty("--home-bg-url");
+    };
+  }, []);
+
   return (
     <>
       <section className="home-hero">
         <div className="hero-media hero-media--video" aria-hidden="true">
           <img src={images.hero} alt="" fetchPriority="high" decoding="async" />
-          <HeroVideoBackground videoId={hotel.accessibleRoomYoutubeId} />
+          <HeroVideoBackground videoId={hotel.spaYoutubeId} />
         </div>
         <div className="hero-shade" aria-hidden="true" />
         <div className="home-hero__inner">
@@ -423,10 +432,10 @@ function HomePage({ Link }) {
             experiencia de spa.
           </p>
           <div className="action-row">
-            <Link className="button button-primary" to="/contacto">
+            <a className="button button-primary" href={hotel.whatsappHref} target="_blank" rel="noreferrer">
               Consultar disponibilidad
-            </Link>
-            <a className="button button-ghost" href={hotel.phoneHref}>
+            </a>
+            <a className="button button-ghost" href={hotel.whatsappHref} target="_blank" rel="noreferrer">
               Llamar ahora
             </a>
             <Link className="button button-quiet" to="/servicios/habitaciones">
@@ -666,9 +675,9 @@ function RoomPage({ Link, room }) {
             </p>
           )}
           <div className="action-row">
-            <Link className="button button-primary" to="/contacto">
+            <a className="button button-primary" href={hotel.whatsappHref} target="_blank" rel="noreferrer">
               Consultar disponibilidad
-            </Link>
+            </a>
             <Link className="button button-outline" to="/servicios/habitaciones">
               Ver habitaciones
             </Link>
@@ -689,7 +698,6 @@ function SpaPage({ Link }) {
       <PageHero
         Link={Link}
         image={images.heroPoolGlass}
-        videoId={hotel.spaYoutubeId}
         eyebrow="Spa & bienestar"
         title="Tu momento de desconexión."
         copy="Hidromasaje, piscinas, saunas y masajes con reserva previa en una sección pensada para relajarse."
@@ -971,10 +979,10 @@ function PageHero({ Link, image, videoId, eyebrow, title, copy, crumbs }) {
         <h1>{title}</h1>
         <p>{copy}</p>
         <div className="action-row">
-          <Link className="button button-primary" to="/contacto">
+          <a className="button button-primary" href={hotel.whatsappHref} target="_blank" rel="noreferrer">
             Consultar disponibilidad
-          </Link>
-          <a className="button button-ghost" href={hotel.phoneHref}>
+          </a>
+          <a className="button button-ghost" href={hotel.whatsappHref} target="_blank" rel="noreferrer">
             Llamar
           </a>
         </div>

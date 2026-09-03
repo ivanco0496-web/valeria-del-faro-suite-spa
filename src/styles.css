@@ -49,6 +49,24 @@ body {
     var(--paper);
 }
 
+/* On the home page, a very soft, fixed hotel photo sits behind the
+   content so it's revealed while scrolling instead of flat cream. */
+body.is-home {
+  background-image:
+    linear-gradient(180deg, rgba(244, 237, 226, 0.8), rgba(244, 237, 226, 0.82)),
+    var(--home-bg-url);
+  background-attachment: scroll, fixed;
+  background-size: auto, cover;
+  background-position: center, center 30%;
+  background-repeat: repeat, no-repeat;
+}
+
+@media (max-width: 719px) {
+  body.is-home {
+    background-attachment: scroll, scroll;
+  }
+}
+
 body,
 button,
 input {
@@ -94,7 +112,7 @@ button {
   right: 0;
   z-index: 60;
   width: 100%;
-  min-height: 76px;
+  min-height: 84px;
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
@@ -108,12 +126,13 @@ button {
 
 .brand-mark {
   min-width: 0;
+  margin-left: clamp(4px, 2vw, 22px);
   display: inline-flex;
   align-items: center;
 }
 
 .brand-logo {
-  height: 48px;
+  height: 58px;
   width: auto;
   flex: 0 0 auto;
   display: block;
@@ -599,7 +618,7 @@ button {
 .policy-grid,
 .contact-grid {
   display: grid;
-  gap: 12px;
+  gap: 10px;
 }
 
 .fact-grid {
@@ -1082,20 +1101,22 @@ button {
 .contact-grid a,
 .contact-grid div {
   min-width: 0;
-  padding: 22px;
+  padding: 16px 18px;
   display: grid;
-  gap: 8px;
+  align-content: center;
+  gap: 5px;
 }
 
 .contact-grid strong {
   overflow-wrap: anywhere;
   color: var(--ink);
-  font-size: 1.02rem;
+  font-size: 0.98rem;
   font-weight: 760;
+  line-height: 1.35;
 }
 
-.contact-grid__whatsapp {
-  color: var(--paper-soft) !important;
+.contact-grid a.contact-grid__whatsapp {
+  color: var(--paper-soft);
   background: #128c5f;
   border-color: #128c5f;
 }
@@ -1682,7 +1703,11 @@ button:focus-visible {
 
 @media (max-width: 380px) {
   .brand-logo {
-    height: 38px;
+    height: 44px;
+  }
+
+  .brand-mark {
+    margin-left: 2px;
   }
 
   .home-hero {
