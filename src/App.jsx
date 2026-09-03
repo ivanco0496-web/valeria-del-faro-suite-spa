@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { hotel } from "./data/hotel.js";
 import logo from "./assets/hotel/valeria-del-faro-logo.webp";
 import heroPoolGlass from "./assets/hotel/hero-pool-glass.avif";
@@ -353,12 +353,54 @@ function Header({ Link, activePath, menuOpen, setMenuOpen }) {
   );
 }
 
+function HeroVideoBackground({ videoId }) {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const frameRef = useRef(null);
+
+  useEffect(() => {
+    const handleMessage = (event) => {
+      if (!/^https:\/\/www\.youtube(-nocookie)?\.com$/.test(event.origin)) return;
+      let data;
+      try {
+        data = JSON.parse(event.data);
+      } catch {
+        return;
+      }
+      if (data.event === "infoDelivery" && data.info?.playerState === 1) {
+        setIsPlaying(true);
+      }
+    };
+
+    window.addEventListener("message", handleMessage);
+    return () => window.removeEventListener("message", handleMessage);
+  }, []);
+
+  const handleLoad = () => {
+    frameRef.current?.contentWindow?.postMessage(
+      JSON.stringify({ event: "listening", id: videoId, channel: "widget" }),
+      "https://www.youtube-nocookie.com",
+    );
+  };
+
+  return (
+    <iframe
+      ref={frameRef}
+      className={isPlaying ? "hero-video-frame is-visible" : "hero-video-frame"}
+      src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&iv_load_policy=3&disablekb=1&enablejsapi=1`}
+      title=""
+      allow="autoplay; encrypted-media"
+      onLoad={handleLoad}
+    />
+  );
+}
+
 function HomePage({ Link }) {
   return (
     <>
       <section className="home-hero">
-        <div className="hero-media" aria-hidden="true">
+        <div className="hero-media hero-media--video" aria-hidden="true">
           <img src={images.hero} alt="" fetchPriority="high" decoding="async" />
+          <HeroVideoBackground videoId="GkKurmulalE" />
         </div>
         <div className="hero-shade" aria-hidden="true" />
         <div className="home-hero__inner">

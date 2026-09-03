@@ -14,3 +14,4 @@ dist/
 .env
 .claude/
 _backup-before-redesign/
+.vercel

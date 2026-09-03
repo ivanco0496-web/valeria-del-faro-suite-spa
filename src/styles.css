@@ -262,6 +262,37 @@ button {
   animation: slowZoom 14s ease-out forwards;
 }
 
+.hero-media--video {
+  overflow: hidden;
+  background: var(--sea-dark);
+}
+
+.hero-video-frame {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 1;
+  width: 100vw;
+  height: 56.25vw;
+  min-width: 177.78vh;
+  min-height: 100%;
+  border: 0;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  transition: opacity 900ms ease;
+}
+
+.hero-video-frame.is-visible {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-video-frame {
+    display: none;
+  }
+}
+
 .hero-shade,
 .page-hero__shade {
   z-index: -1;
