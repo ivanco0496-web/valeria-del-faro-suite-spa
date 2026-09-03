@@ -35,6 +35,13 @@ const activityImages = [
   activityCineTeatro,
 ];
 
+// Real Valeria del Mar walking-tour footage (geotagged, verified on-location)
+// for the one activity where authentic local video was findable; the rest
+// stay as photos since no genuine local footage of them was available.
+const activityVideoIds = {
+  3: "evIjHbiFzbo", // Bicicletas y caminatas — real Valeria del Mar 4K walking tour
+};
+
 // Note: room-matrimonial-wide.avif, hotel-exterior-wide.avif, contact-wide.avif
 // and activities-coast.avif are real Valeria del Faro photos (verified against
 // the site backup by hash) but are lifestyle/stock-style shots used elsewhere
@@ -353,9 +360,10 @@ function Header({ Link, activePath, menuOpen, setMenuOpen }) {
   );
 }
 
-function HeroVideoBackground({ videoId }) {
+function HeroVideoBackground({ videoId, variant = "hero" }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const frameRef = useRef(null);
+  const baseClass = variant === "card" ? "card-video-frame" : "hero-video-frame";
 
   useEffect(() => {
     const handleMessage = (event) => {
@@ -385,7 +393,7 @@ function HeroVideoBackground({ videoId }) {
   return (
     <iframe
       ref={frameRef}
-      className={isPlaying ? "hero-video-frame is-visible" : "hero-video-frame"}
+      className={isPlaying ? `${baseClass} is-visible` : baseClass}
       src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&iv_load_policy=3&disablekb=1&enablejsapi=1`}
       title=""
       allow="autoplay; encrypted-media"
@@ -400,7 +408,7 @@ function HomePage({ Link }) {
       <section className="home-hero">
         <div className="hero-media hero-media--video" aria-hidden="true">
           <img src={images.hero} alt="" fetchPriority="high" decoding="async" />
-          <HeroVideoBackground videoId={hotel.spaYoutubeId} />
+          <HeroVideoBackground videoId={hotel.accessibleRoomYoutubeId} />
         </div>
         <div className="hero-shade" aria-hidden="true" />
         <div className="home-hero__inner">
@@ -675,26 +683,13 @@ function RoomPage({ Link, room }) {
   );
 }
 
-function YouTubeEmbed({ videoId, title }) {
-  return (
-    <div className="video-embed" data-reveal>
-      <iframe
-        src={`https://www.youtube-nocookie.com/embed/${videoId}`}
-        title={title}
-        loading="lazy"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowFullScreen
-      />
-    </div>
-  );
-}
-
 function SpaPage({ Link }) {
   return (
     <>
       <PageHero
         Link={Link}
         image={images.heroPoolGlass}
+        videoId={hotel.spaYoutubeId}
         eyebrow="Spa & bienestar"
         title="Tu momento de desconexión."
         copy="Hidromasaje, piscinas, saunas y masajes con reserva previa en una sección pensada para relajarse."
@@ -716,10 +711,6 @@ function SpaPage({ Link }) {
           </p>
           <PillList items={hotel.spa} />
         </div>
-      </section>
-      <section className="section video-section">
-        <SectionHeading eyebrow="Recorrido en video" title="Conocé el circuito de spa." />
-        <YouTubeEmbed videoId={hotel.spaYoutubeId} title="Video del circuito de spa" />
       </section>
       <FinalCta Link={Link} compact />
     </>
@@ -900,6 +891,9 @@ function ActivitiesPage({ Link }) {
                   loading="lazy"
                   decoding="async"
                 />
+                {activityVideoIds[index] && (
+                  <HeroVideoBackground videoId={activityVideoIds[index]} variant="card" />
+                )}
               </div>
               <p className="activity-card__body">{activity}</p>
             </article>

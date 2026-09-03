@@ -6,8 +6,8 @@
   --ink: #2a1712;
   --ink-soft: #4d2e26;
   --muted: #7a685f;
-  --sea: #8c2f3f;
-  --sea-dark: #4a1420;
+  --sea: #a8233a;
+  --sea-dark: #5c1220;
   --cypress: #a15a3f;
   --clay: #94614f;
   --sand: #d8c39c;
@@ -103,7 +103,7 @@ button {
   color: var(--ink);
   background: rgba(255, 253, 248, 0.98);
   border-bottom: 1px solid var(--line);
-  box-shadow: 0 2px 20px rgba(74, 20, 32, 0.05);
+  box-shadow: 0 2px 20px rgba(92, 18, 32, 0.05);
 }
 
 .brand-mark {
@@ -175,7 +175,7 @@ button {
 .site-nav a:hover,
 .site-nav a.is-active {
   color: var(--sea-dark);
-  background: rgba(140, 47, 63, 0.08);
+  background: rgba(168, 35, 58, 0.08);
 }
 
 .header-actions {
@@ -189,7 +189,7 @@ button {
   display: none;
   padding: 0 13px;
   color: var(--sea-dark);
-  border: 1px solid rgba(140, 47, 63, 0.18);
+  border: 1px solid rgba(168, 35, 58, 0.18);
   font-size: 0.86rem;
   font-weight: 820;
 }
@@ -287,6 +287,30 @@ button {
   opacity: 1;
 }
 
+.card-video-frame {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 1;
+  width: 178%;
+  height: 100%;
+  border: 0;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  transition: opacity 900ms ease;
+}
+
+.card-video-frame.is-visible {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-video-frame {
+    display: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .hero-video-frame {
     display: none;
@@ -297,8 +321,17 @@ button {
 .page-hero__shade {
   z-index: -1;
   background:
-    linear-gradient(90deg, rgba(35, 14, 12, 0.92), rgba(35, 14, 12, 0.48) 58%, rgba(35, 14, 12, 0.16)),
-    linear-gradient(180deg, rgba(35, 14, 12, 0.08), rgba(35, 14, 12, 0.84));
+    linear-gradient(90deg, rgba(35, 14, 12, 0.95), rgba(35, 14, 12, 0.62) 58%, rgba(35, 14, 12, 0.32)),
+    linear-gradient(180deg, rgba(35, 14, 12, 0.22), rgba(35, 14, 12, 0.9));
+}
+
+/* Lighter overlay specifically over video heroes, so the footage reads
+   through clearly instead of being muted like a still photo. */
+.hero-media--video ~ .hero-shade,
+.hero-media--video ~ .page-hero__shade {
+  background:
+    linear-gradient(90deg, rgba(35, 14, 12, 0.58), rgba(35, 14, 12, 0.24) 58%, rgba(35, 14, 12, 0.06)),
+    linear-gradient(180deg, rgba(35, 14, 12, 0.02), rgba(35, 14, 12, 0.48));
 }
 
 .home-hero__inner {
@@ -399,7 +432,7 @@ button {
   color: var(--paper-soft);
   background: var(--sea);
   border-color: var(--sea);
-  box-shadow: 0 14px 34px rgba(140, 47, 63, 0.18);
+  box-shadow: 0 14px 34px rgba(168, 35, 58, 0.18);
 }
 
 .button-primary:hover {
@@ -422,11 +455,11 @@ button {
 .button-outline {
   color: var(--sea-dark);
   background: transparent;
-  border-color: rgba(140, 47, 63, 0.26);
+  border-color: rgba(168, 35, 58, 0.26);
 }
 
 .button-outline:hover {
-  background: rgba(140, 47, 63, 0.08);
+  background: rgba(168, 35, 58, 0.08);
 }
 
 .hero-reserve-panel {
@@ -630,7 +663,7 @@ button {
   padding: 86px 20px;
   color: var(--paper-soft);
   background:
-    linear-gradient(180deg, rgba(74, 20, 32, 0.98), rgba(90, 28, 40, 0.98)),
+    linear-gradient(180deg, rgba(92, 18, 32, 0.98), rgba(112, 22, 38, 0.98)),
     var(--sea-dark);
 }
 
@@ -722,7 +755,7 @@ button {
 
 .room-card:hover,
 .service-card:hover {
-  border-color: rgba(140, 47, 63, 0.3);
+  border-color: rgba(168, 35, 58, 0.3);
   box-shadow: 0 24px 70px rgba(58, 20, 16, 0.14);
   transform: translateY(-4px);
 }
@@ -959,7 +992,7 @@ button {
   padding: 10px 13px;
   color: var(--sea-dark);
   background: rgba(232, 240, 237, 0.9);
-  border: 1px solid rgba(140, 47, 63, 0.13);
+  border: 1px solid rgba(168, 35, 58, 0.13);
   border-radius: 999px;
   font-size: 0.88rem;
   font-weight: 760;
@@ -988,7 +1021,7 @@ button {
   width: 32px;
   height: 32px;
   display: block;
-  border: 1px solid rgba(140, 47, 63, 0.22);
+  border: 1px solid rgba(168, 35, 58, 0.22);
   border-radius: 50%;
   background:
     linear-gradient(90deg, transparent 45%, var(--sea) 45% 55%, transparent 55%),
@@ -1040,27 +1073,6 @@ button {
   .map-embed {
     aspect-ratio: 4 / 5;
   }
-}
-
-.video-section {
-  padding-top: 8px;
-}
-
-.video-embed {
-  width: min(100%, 860px);
-  margin: 0 auto;
-  aspect-ratio: 16 / 9;
-  overflow: hidden;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  box-shadow: var(--shadow-soft);
-}
-
-.video-embed iframe {
-  width: 100%;
-  height: 100%;
-  border: 0;
-  display: block;
 }
 
 .contact-grid {
@@ -1149,12 +1161,13 @@ button {
 }
 
 .activity-card:hover {
-  border-color: rgba(140, 47, 63, 0.3);
+  border-color: rgba(168, 35, 58, 0.3);
   box-shadow: 0 24px 70px rgba(58, 20, 16, 0.14);
   transform: translateY(-4px);
 }
 
 .activity-card__media {
+  position: relative;
   aspect-ratio: 1.18;
   overflow: hidden;
   background: var(--mist);
