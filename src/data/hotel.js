@@ -26,7 +26,6 @@ export const hotel = {
   valuePoints: [
     "A solo 30 pasos de la playa",
     "Acceso por rampa a la playa",
-    "Servicio de playa para dos personas durante temporada alta",
     "Estacionamiento propio, cubierto y descubierto",
   ],
   distances: [
@@ -133,7 +132,6 @@ export const hotel = {
     "TV Android de 70 pulgadas en lobby",
     "Estacionamiento propio, cubierto y descubierto",
     "Acceso por rampa a la playa",
-    "Servicio de playa para dos personas durante temporada alta",
     "Espacio cardio protegido",
     "Red de incendio en todo el edificio",
   ],

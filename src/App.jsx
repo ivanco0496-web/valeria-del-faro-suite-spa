@@ -111,14 +111,6 @@ const serviceRoutes = [
     description:
       "Piscina de hidromasajes, piscina de agua fría y piscina exterior climatizada en temporada alta.",
   },
-  {
-    title: "Playa",
-    meta: "A 30 pasos del mar",
-    to: "/servicios/playa",
-    image: images.strip,
-    description:
-      "Acceso por rampa, servicio de playa durante temporada alta y balneario exclusivo para dos personas.",
-  },
 ];
 
 const routeTitles = {
@@ -129,7 +121,6 @@ const routeTitles = {
   "/servicios/spa": "Spa",
   "/servicios/desayuno": "Desayuno",
   "/servicios/piscina": "Piscina",
-  "/servicios/playa": "Playa",
   "/ubicacion": "Ubicación",
   "/actividades": "Actividades",
   "/contacto": "Contacto",
@@ -302,7 +293,6 @@ function renderPage(path, Link) {
   if (path === "/servicios/spa") return <SpaPage Link={Link} />;
   if (path === "/servicios/desayuno") return <BreakfastPage Link={Link} />;
   if (path === "/servicios/piscina") return <PoolPage Link={Link} />;
-  if (path === "/servicios/playa") return <BeachPage Link={Link} />;
   if (path === "/ubicacion") return <LocationPage Link={Link} />;
   if (path === "/actividades") return <ActivitiesPage Link={Link} />;
   if (path === "/contacto") return <ContactPage Link={Link} />;
@@ -483,11 +473,11 @@ function HomePage({ Link }) {
         index="02"
         eyebrow="La propuesta central"
         title="Del hotel al mar. Solo 30 pasos."
-        copy="El hotel destaca su cercanía con la playa, el acceso por rampa y el servicio de playa durante temporada alta."
+        copy="El hotel destaca su cercanía con la playa y el acceso por rampa."
         Link={Link}
         cta={{ label: "Descubrir ubicación", to: "/ubicacion" }}
       >
-        <DetailList items={hotel.valuePoints.slice(1, 5)} />
+        <DetailList items={hotel.valuePoints.slice(1)} />
       </ImageFeature>
 
       <section className="section rooms-section">
@@ -589,7 +579,7 @@ function ServicesPage({ Link }) {
         image={images.coast}
         eyebrow="Servicios"
         title="Comodidades claras para una estadía simple."
-        copy="Wi-Fi, estacionamiento, servicio de playa, spa, desayuno y equipamiento de habitaciones según la información provista por el hotel."
+        copy="Wi-Fi, estacionamiento, spa, desayuno y equipamiento de habitaciones según la información provista por el hotel."
         crumbs={[{ label: "Inicio", to: "/" }, { label: "Servicios" }]}
       />
       <section className="section service-preview">
@@ -784,42 +774,6 @@ function PoolPage({ Link }) {
         </aside>
       </section>
       <FinalCta Link={Link} compact />
-    </>
-  );
-}
-
-function BeachPage({ Link }) {
-  return (
-    <>
-      <PageHero
-        Link={Link}
-        image={images.strip}
-        eyebrow="Playa"
-        title="A 30 pasos del mar."
-        copy="El hotel cuenta con acceso por rampa a la playa y servicio de playa durante temporada alta."
-        crumbs={[
-          { label: "Inicio", to: "/" },
-          { label: "Servicios", to: "/servicios" },
-          { label: "Playa" },
-        ]}
-      />
-      <section className="section split-layout">
-        <div data-reveal>
-          <p className="overline">Frente costero</p>
-          <h2>La playa es la protagonista de la estadía.</h2>
-        </div>
-        <div className="flow-copy" data-reveal>
-          <DetailList items={hotel.valuePoints.slice(0, 4)} />
-          <div className="action-row">
-            <Link className="button button-primary" to="/ubicacion">
-              Ver ubicación
-            </Link>
-            <Link className="button button-outline" to="/contacto">
-              Consultar
-            </Link>
-          </div>
-        </div>
-      </section>
     </>
   );
 }
