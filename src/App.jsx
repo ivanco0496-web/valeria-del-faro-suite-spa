@@ -531,6 +531,8 @@ function HomePage({ Link }) {
         <DistanceGrid />
       </section>
 
+      <TestimonialsSection />
+
       <PromotionBand />
       <FinalCta Link={Link} />
     </>
@@ -565,6 +567,19 @@ function HotelPage({ Link }) {
           copy="Información real informada por el hotel para evitar consultas innecesarias."
         />
         <PolicyGrid />
+      </section>
+      <section className="section split-layout">
+        <div data-reveal>
+          <p className="overline">Accesibilidad</p>
+          <h2>Pensado para que todos los huéspedes se muevan con comodidad.</h2>
+        </div>
+        <div className="flow-copy" data-reveal>
+          <p>
+            El hotel cuenta con instalaciones pensadas para huéspedes con
+            movilidad o accesibilidad reducida.
+          </p>
+          <DetailList items={hotel.accessibility} />
+        </div>
       </section>
       <FinalCta Link={Link} compact />
     </>
@@ -710,6 +725,24 @@ function SpaPage({ Link }) {
           <PillList items={hotel.spa} />
         </div>
       </section>
+      <section className="section amenity-section">
+        <SectionHeading
+          eyebrow="Ritual guiado"
+          title={`Un recorrido de ${hotel.spaRitual.duration} para desconectar.`}
+          copy="Circuito revitalizante pensado en rondas, para aprovechar cada instalación en el orden correcto."
+        />
+        <div className="ritual-grid">
+          {hotel.spaRitual.rounds.map((round) => (
+            <article className="ritual-round" key={round.title} data-reveal>
+              <h3>{round.title}</h3>
+              <DetailList items={round.steps} />
+            </article>
+          ))}
+        </div>
+        <p className="ritual-note" data-reveal>
+          {hotel.spaRitual.healthNote}
+        </p>
+      </section>
       <FinalCta Link={Link} compact />
     </>
   );
@@ -804,6 +837,34 @@ function LocationPage({ Link }) {
           </div>
         </div>
         <DistanceGrid />
+      </section>
+      <section className="section split-layout">
+        <div data-reveal>
+          <p className="overline">Alrededores</p>
+          <h2>Para comer y para ir a la playa, todo cerca.</h2>
+        </div>
+        <div className="nearby-columns" data-reveal>
+          <div>
+            <h3>Restaurantes</h3>
+            <ul className="detail-list">
+              {hotel.nearby.restaurants.map((place) => (
+                <li key={place.name}>
+                  {place.name} <span className="nearby-distance">· {place.distance}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h3>Playas</h3>
+            <ul className="detail-list">
+              {hotel.nearby.beaches.map((place) => (
+                <li key={place.name}>
+                  {place.name} <span className="nearby-distance">· {place.distance}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
       </section>
       <section className="section map-section">
         <MapEmbed />
@@ -1206,6 +1267,38 @@ function ContactGrid() {
         <strong>Abrir ubicación</strong>
       </a>
     </div>
+  );
+}
+
+function TestimonialsSection() {
+  return (
+    <section className="section testimonials-section">
+      <SectionHeading
+        eyebrow="Huéspedes"
+        title="Lo que dicen quienes ya se hospedaron."
+        copy="Reseñas reales, tal como quedaron publicadas en las plataformas de reserva."
+      />
+      <div className="rating-row" data-reveal>
+        {hotel.ratings.map((rating) => (
+          <div className="rating-badge" key={rating.source}>
+            <strong>{rating.score}</strong>
+            <span>
+              {rating.label} · {rating.source} · {rating.count} reseñas
+            </span>
+          </div>
+        ))}
+      </div>
+      <div className="testimonial-grid">
+        {hotel.testimonials.map((testimonial) => (
+          <article className="testimonial-card" key={testimonial.author} data-reveal>
+            <p>“{testimonial.quote}”</p>
+            <span>
+              {testimonial.author} · {testimonial.origin}
+            </span>
+          </article>
+        ))}
+      </div>
+    </section>
   );
 }
 

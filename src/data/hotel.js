@@ -134,17 +134,109 @@ export const hotel = {
     "Acceso por rampa a la playa",
     "Espacio cardio protegido",
     "Red de incendio en todo el edificio",
+    "Gimnasio",
+    "Bar junto a la piscina",
   ],
   policies: [
     {
       title: "Mayores de 12 años",
-      text: "Para una experiencia tranquila, el establecimiento hospeda únicamente a huéspedes mayores de 12 años.",
+      text: "Para una experiencia tranquila, el establecimiento hospeda únicamente a huéspedes mayores de 12 años. La reserva debe realizarla un huésped mayor de 18.",
     },
     {
       title: "Sin mascotas",
       text: "El hotel informa expresamente que no acepta mascotas.",
     },
+    {
+      title: "Check‑in / Check‑out",
+      text: "Entrada de 15:00 a 18:00 hs. Salida de 8:00 a 11:00 hs.",
+    },
+    {
+      title: "Acceso al spa",
+      text: "El circuito de spa está reservado a huéspedes mayores de 18 años.",
+    },
   ],
+  ratings: [
+    { source: "Booking.com", score: "9,3", label: "Fantástico", count: 14 },
+    { source: "Hoteles.com", score: "9,4", label: "Excepcional", count: 14 },
+    { source: "Google", score: "5,0", label: "Excelente", count: 132 },
+  ],
+  testimonials: [
+    {
+      quote:
+        "En general me gustó todo, comenzando con la atención: los dueños muy agradables, correctos y respetuosos. La habitación muy confortable y la buena atención de las trabajadoras del hotel. En fin, todo muy lindo.",
+      author: "Dahiana",
+      origin: "Paraguay",
+    },
+    {
+      quote:
+        "El hotel es nuevo, impecable, excelente ubicación y hermosas instalaciones. Incluida la pileta y el jacuzzi. A media cuadra de la playa. Las habitaciones luminosas y amplias. El cuidado de los dueños por cada detalle y muy atentos.",
+      author: "Graciela",
+      origin: "Argentina",
+    },
+    {
+      quote:
+        "La ubicación es excelente, a pasos de la playa. Las instalaciones son muy buenas: el spa, la pileta exterior, el mobiliario, la decoración. La atención del personal fue muy amable.",
+      author: "Andrea",
+      origin: "Argentina",
+    },
+    {
+      quote:
+        "Hermosas y muy cuidadas las instalaciones. Está atendida por los dueños y eso marca la diferencia. Excelente trato de ellos y de todo el personal.",
+      author: "Luis",
+      origin: "Argentina",
+    },
+  ],
+  accessibility: [
+    "Ascensor con puerta de 117 cm de ancho",
+    "Estacionamiento con lugar reservado para personas con discapacidad",
+    "Rampa en la entrada principal y en el acceso a la playa",
+    "Baño público y piscina con acceso para silla de ruedas",
+    "Alarmas visuales en los pasillos",
+    "Habitación del primer piso adaptada para movilidad reducida",
+  ],
+  nearby: {
+    restaurants: [
+      { name: "Tamarisco", distance: "20 m" },
+      { name: "Tío Enrique", distance: "450 m" },
+      { name: "Il Comendatore Benito Duante", distance: "700 m" },
+    ],
+    beaches: [
+      { name: "Playa Valeria del Mar", distance: "0,1 km · 1 min a pie" },
+      { name: "Playa Cariló", distance: "1 km · 11 min a pie" },
+      { name: "Playa Pinamar", distance: "5,3 km · 10 min en auto" },
+    ],
+  },
+  spaRitual: {
+    duration: "60 a 90 minutos",
+    rounds: [
+      {
+        title: "Ronda 1 — Preparación",
+        steps: [
+          "Ducha tibia (2 min)",
+          "Sauna seco finlandés (8 a 10 min)",
+          "Piscina de agua fría (30 seg a 1 min)",
+          "Descanso (5 min)",
+        ],
+      },
+      {
+        title: "Ronda 2 — Limpieza profunda",
+        steps: [
+          "Sauna húmedo / hammam (8 a 10 min)",
+          "Piscina de agua fría (30 seg a 1 min)",
+          "Piscina con hidromasaje (10 a 15 min)",
+          "Descanso (5 min)",
+        ],
+      },
+      {
+        title: "Ronda 3 — Opcional",
+        steps: [
+          "Repetir sauna seco o húmedo, solo recomendado sin afecciones cardíacas ni presión alta",
+        ],
+      },
+    ],
+    healthNote:
+      "Se recomienda a huéspedes con fiebre, presión arterial no controlada, embarazo o problemas cardíacos consultar a su médico antes de usar el spa. Se aconseja hidratarse antes, durante y después, y no ingresar con el estómago completamente lleno o vacío.",
+  },
   activities: [
     "Cabalgatas al amanecer en la playa",
     "Excursión al Faro Querandí",

@@ -1234,6 +1234,113 @@ button {
   color: rgba(255, 255, 255, 0.74);
 }
 
+.rating-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.rating-badge {
+  display: grid;
+  gap: 4px;
+  padding: 16px 20px;
+  background: rgba(255, 253, 248, 0.78);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: var(--shadow-soft);
+}
+
+.rating-badge strong {
+  font-family: var(--serif);
+  font-size: 2.2rem;
+  font-weight: 500;
+  color: var(--sea-dark);
+  line-height: 1;
+}
+
+.rating-badge span {
+  color: var(--muted);
+  font-size: 0.74rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.testimonial-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.testimonial-card {
+  display: grid;
+  align-content: space-between;
+  gap: 18px;
+  padding: 26px;
+  background: var(--paper-soft);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: var(--shadow-soft);
+}
+
+.testimonial-card p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-family: var(--serif);
+  font-size: 1.22rem;
+  line-height: 1.5;
+}
+
+.testimonial-card span {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.ritual-grid {
+  display: grid;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.ritual-round {
+  padding: 24px;
+  background: rgba(255, 253, 248, 0.78);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.ritual-round h3 {
+  margin: 0 0 10px;
+  font-family: var(--serif);
+  font-size: 1.68rem;
+  font-weight: 400;
+}
+
+.ritual-note {
+  max-width: 770px;
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.7;
+}
+
+.nearby-columns {
+  display: grid;
+  gap: 30px;
+}
+
+.nearby-columns h3 {
+  margin: 0 0 4px;
+  font-family: var(--serif);
+  font-size: 1.68rem;
+  font-weight: 400;
+}
+
+.nearby-distance {
+  color: var(--muted);
+  font-weight: 600;
+}
+
 .final-cta {
   min-height: 500px;
   display: grid;
@@ -1459,6 +1566,11 @@ button:focus-visible {
   .policy-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  .testimonial-grid,
+  .nearby-columns {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (min-width: 960px) {
@@ -1592,6 +1704,10 @@ button:focus-visible {
   }
 
   .distance-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .ritual-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
