@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { hotel } from "./data/hotel.js";
 import logo from "./assets/hotel/valeria-del-faro-logo.webp";
+import icon from "./assets/hotel/valeria-del-faro-icon.png";
 import heroPoolGlass from "./assets/hotel/hero-pool-glass.avif";
 import oceanView from "./assets/hotel/ocean-view.avif";
 import roomMatrimonial from "./assets/hotel/room-matrimonial.avif";
@@ -1218,7 +1219,7 @@ function AmenityGrid() {
     <div className="amenity-grid">
       {hotel.services.map((service) => (
         <article className="amenity-item" key={service} data-reveal>
-          <span aria-hidden="true" />
+          <img className="amenity-icon" src={icon} alt="" aria-hidden="true" />
           <p>{service}</p>
         </article>
       ))}
@@ -1280,12 +1281,18 @@ function TestimonialsSection() {
       />
       <div className="rating-row" data-reveal>
         {hotel.ratings.map((rating) => (
-          <div className="rating-badge" key={rating.source}>
+          <a
+            className="rating-badge"
+            key={rating.source}
+            href={rating.url}
+            target="_blank"
+            rel="noreferrer"
+          >
             <strong>{rating.score}</strong>
             <span>
               {rating.label} · {rating.source} · {rating.count} reseñas
             </span>
-          </div>
+          </a>
         ))}
       </div>
       <div className="testimonial-grid">

@@ -156,9 +156,27 @@ export const hotel = {
     },
   ],
   ratings: [
-    { source: "Booking.com", score: "9,3", label: "Fantástico", count: 14 },
-    { source: "Hoteles.com", score: "9,4", label: "Excepcional", count: 14 },
-    { source: "Google", score: "5,0", label: "Excelente", count: 132 },
+    {
+      source: "Booking.com",
+      score: "9,3",
+      label: "Fantástico",
+      count: 14,
+      url: "https://www.booking.com/hotel/ar/valeria-del-faro-suite-amp-spa.es.html",
+    },
+    {
+      source: "Hoteles.com",
+      score: "9,4",
+      label: "Excepcional",
+      count: 14,
+      url: "https://ar.hoteles.com/ho3422458848/",
+    },
+    {
+      source: "Google",
+      score: "5,0",
+      label: "Excelente",
+      count: 132,
+      url: "https://www.google.com/maps/search/?api=1&query=Corbeta%20Cefiro%2042%2C%20Valeria%20del%20Mar",
+    },
   ],
   testimonials: [
     {
