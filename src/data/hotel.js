@@ -100,6 +100,26 @@ export const hotel = {
     },
   ],
   spaYoutubeId: "qIvASln30qI",
+  pools: [
+    {
+      name: "Piscina de hidromasaje",
+      meta: "Climatizada · cubierta",
+      description:
+        "La pileta más grande del circuito, bajo una galería de vidrio con hidromasajes en las paredes. Disponible todo el año.",
+    },
+    {
+      name: "Piscina de agua fría",
+      meta: "Cubierta",
+      description:
+        "Un tramo de agua fría para completar el contraste después del sauna o el hidromasaje.",
+    },
+    {
+      name: "Piscina exterior",
+      meta: "Temporada de verano",
+      description:
+        "Pileta al aire libre de agua templada, abierta durante la temporada alta de verano.",
+    },
+  ],
   accessibleRoomYoutubeId: "ajfkw0uQh3s",
   spa: [
     "Piscina de hidromasaje climatizada y cubierta",
@@ -108,7 +128,7 @@ export const hotel = {
     "Sauna húmedo",
     "Vestuarios con duchas, batas y toallones",
     "Masajes con reserva previa",
-    "Piscina exterior climatizada en temporada de verano",
+    "Piscina exterior templada en temporada de verano",
   ],
   breakfast: {
     time: "08:30 a 10:30 hs",

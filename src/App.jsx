@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { hotel } from "./data/hotel.js";
-import logo from "./assets/hotel/valeria-del-faro-logo.webp";
+import logo from "./assets/hotel/valeria-del-faro-logo-transparent.webp";
 import icon from "./assets/hotel/valeria-del-faro-icon.png";
 import heroPoolGlass from "./assets/hotel/hero-pool-glass.avif";
 import oceanView from "./assets/hotel/ocean-view.avif";
@@ -15,6 +15,8 @@ import breakfast from "./assets/hotel/breakfast.avif";
 import breakfastDetail from "./assets/hotel/breakfast-detail.avif";
 import activitiesBeach from "./assets/hotel/activities-beach.avif";
 import poolCovered from "./assets/hotel/pool-covered-wide.avif";
+import poolHydromassage from "./assets/hotel/pool-hydromassage.avif";
+import poolCold from "./assets/hotel/pool-cold.avif";
 import hotelEntryWide from "./assets/hotel/hotel-entry-wide.avif";
 import activityCabalgatas from "./assets/activities/cabalgatas.webp";
 import activityFaroQuerandi from "./assets/activities/faro-querandi.webp";
@@ -64,10 +66,15 @@ const images = {
   activitiesBeach,
   pool: poolCovered,
   poolExterior,
+  poolHydromassage,
+  poolCold,
   contact: hotelEntryWide,
   hotelEntry: hotelEntryWide,
   hotelExterior: poolExterior,
 };
+
+// Matched 1:1 to hotel.pools by index.
+const poolImages = [poolHydromassage, poolCold, poolExterior];
 
 const navItems = [
   { label: "Hotel", to: "/hotel" },
@@ -110,7 +117,7 @@ const serviceRoutes = [
     to: "/servicios/piscina",
     image: images.pool,
     description:
-      "Piscina de hidromasajes, piscina de agua fría y piscina exterior climatizada en temporada alta.",
+      "Piscina de hidromasajes, piscina de agua fría y piscina exterior templada en temporada alta.",
   },
 ];
 
@@ -704,6 +711,7 @@ function SpaPage({ Link }) {
       <PageHero
         Link={Link}
         image={images.heroPoolGlass}
+        videoId={hotel.spaYoutubeId}
         eyebrow="Spa & bienestar"
         title="Tu momento de desconexión."
         copy="Hidromasaje, piscinas, saunas y masajes con reserva previa en una sección pensada para relajarse."
@@ -724,6 +732,11 @@ function SpaPage({ Link }) {
             saunas, vestuarios y masajes con reserva previa.
           </p>
           <PillList items={hotel.spa} />
+          <div className="action-row">
+            <Link className="text-link" to="/servicios/piscina">
+              Ver las piscinas en detalle
+            </Link>
+          </div>
         </div>
       </section>
       <section className="section amenity-section">
@@ -781,31 +794,39 @@ function BreakfastPage({ Link }) {
 }
 
 function PoolPage({ Link }) {
-  const poolItems = hotel.spa.filter((item) => item.includes("Piscina"));
-
   return (
     <>
       <PageHero
         Link={Link}
         image={images.pool}
         eyebrow="Piscina"
-        title="Agua, descanso y temporada de playa."
-        copy="El hotel informa piscina de hidromasajes, piscina de agua fría y piscina exterior climatizada durante temporada alta."
+        title="Tres piletas, tres momentos distintos."
+        copy="Piscina de hidromasaje climatizada, agua fría para el contraste y una pileta exterior templada en temporada de verano."
         crumbs={[
           { label: "Inicio", to: "/" },
           { label: "Servicios", to: "/servicios" },
           { label: "Piscina" },
         ]}
       />
-      <section className="section detail-layout">
-        <div className="detail-copy" data-reveal>
-          <p className="overline">Piscinas</p>
-          <h2>Opciones para relajarse dentro del circuito de bienestar.</h2>
+      <section className="section rooms-section">
+        <SectionHeading
+          eyebrow="Piscinas"
+          title="Cada pileta, con su propio lugar en el circuito."
+        />
+        <div className="room-grid">
+          {hotel.pools.map((pool, index) => (
+            <article className="room-card" key={pool.name} data-reveal>
+              <div className="room-card__media">
+                <img src={poolImages[index]} alt="" loading="lazy" decoding="async" />
+              </div>
+              <div className="room-card__body">
+                <span>{pool.meta}</span>
+                <h3>{pool.name}</h3>
+                <p>{pool.description}</p>
+              </div>
+            </article>
+          ))}
         </div>
-        <aside className="detail-panel" data-reveal>
-          <h3>Información disponible</h3>
-          <DetailList items={poolItems} />
-        </aside>
       </section>
       <FinalCta Link={Link} compact />
     </>
