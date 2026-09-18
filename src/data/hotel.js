@@ -41,6 +41,17 @@ export const hotel = {
       meta: "36 m² · Queen · Vista al frente",
       count: "10 habitaciones matrimoniales",
       youtubeId: "822ehOE3uj4",
+      // Seconds [start, end] of the best shots in the room video, picked by
+      // reviewing it frame by frame. The hero cycles through `videoReel`.
+      videoReel: [[3, 8], [16, 19], [57, 62], [69, 74]],
+      videoMoments: [
+        { label: "Ambiente", text: "Luz natural y ventanal al frente.", start: 3, end: 9 },
+        { label: "Dormitorio", text: "Cama Queen con blanquería del hotel.", start: 16, end: 20 },
+        { label: "Balcón", text: "Médanos y mar desde el balcón.", start: 57, end: 63 },
+        { label: "Vista al mar", text: "La costa desde la ventana.", start: 69, end: 75 },
+        { label: "Baño", text: "Baño completo con ducha.", start: 21, end: 26 },
+        { label: "Detalles", text: "Lámparas de lectura y toallas bordadas.", start: 50, end: 55 },
+      ],
       description:
         "Habitaciones con cama Queen y vista al frente. Ocho, ubicadas en el primer y segundo piso, son cuádruples e incluyen un sofá cama con carrito.",
       details: [
@@ -61,6 +72,15 @@ export const hotel = {
       meta: "36 m² · Dos sommieres · Convertible a Queen",
       count: "6 habitaciones de dos camas individuales",
       youtubeId: "ye1ZfmH5NIY",
+      videoReel: [[6, 11], [13, 18], [19, 22]],
+      videoMoments: [
+        { label: "Dormitorio", text: "Dos camas sommier individuales.", start: 6, end: 12 },
+        { label: "Vista desde la ventana", text: "La costa asomando entre los techos.", start: 13, end: 18 },
+        { label: "Dos camas", text: "Se pueden unir para formar una Queen.", start: 19, end: 22 },
+        { label: "Placard y caja de seguridad", text: "Guardado amplio y caja de seguridad.", start: 27, end: 31 },
+        { label: "Baño", text: "Baño completo con ducha.", start: 32, end: 36 },
+        { label: "Detalles", text: "Toallas bordadas con el sello del hotel.", start: 36, end: 40 },
+      ],
       description:
         "Ubicadas en el contrafrente, con dos camas individuales sommier que pueden unirse para formar una cama matrimonial Queen.",
       details: [
@@ -83,6 +103,15 @@ export const hotel = {
       meta: "Vista directa al mar · 4.º piso · Hasta 4 huéspedes",
       count: "Acceso privado mediante ascensor",
       youtubeId: "GkKurmulalE",
+      videoReel: [[9, 15], [17, 20], [50, 54], [59, 63]],
+      videoMoments: [
+        { label: "Dormitorio", text: "Cama Queen bajo las claraboyas.", start: 9, end: 15 },
+        { label: "Vista al mar", text: "El mar desde el 4.º piso.", start: 16, end: 20 },
+        { label: "Área de estar", text: "Dos sillones y mesa ratona.", start: 50, end: 55 },
+        { label: "Claraboyas", text: "Cielo abierto sobre la suite.", start: 59, end: 64 },
+        { label: "Ducha escocesa", text: "Baño con ducha escocesa.", start: 40, end: 46 },
+        { label: "Vestidor", text: "Vestidor con percheros.", start: 31, end: 34 },
+      ],
       description:
         "Una suite exclusiva con vista directa al mar, cama Queen, área de estar con dos sillones, mesa ratona y sofá cama con carrito.",
       details: [
@@ -100,6 +129,17 @@ export const hotel = {
     },
   ],
   spaYoutubeId: "qIvASln30qI",
+  // Pool and sauna shots inside the "Servicios" video (horizontal).
+  spaVideoReel: [[14, 17], [20, 24]],
+  // Vertical "Circuito Spa Pareja" short: one fragment per spa space.
+  spaCircuitYoutubeId: "qrTuEjDr19k",
+  spaMoments: [
+    { label: "Piscina de hidromasaje", text: "Climatizada y cubierta, bajo galería de vidrio.", start: 30, end: 36 },
+    { label: "Cascada", text: "Hidromasajes en las paredes de la piscina.", start: 39, end: 45 },
+    { label: "Sauna seco", text: "Dos saunas secos revestidos en madera.", start: 12, end: 18 },
+    { label: "Sauna húmedo", text: "Vapor para completar el circuito.", start: 21, end: 27 },
+    { label: "Batas y vestuarios", text: "Vestuarios con duchas, batas y toallones.", start: 6, end: 10 },
+  ],
   pools: [
     {
       name: "Piscina de hidromasaje",

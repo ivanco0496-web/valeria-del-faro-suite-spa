@@ -55,7 +55,7 @@ const images = {
   heroPoolGlass,
   coast: oceanView,
   strip: activitiesBeach,
-  spa: spaHydromassage,
+  spa: poolHydromassage,
   spaSauna,
   suite: suitePresidencial,
   suiteDetail,
@@ -75,6 +75,30 @@ const images = {
 
 // Matched 1:1 to hotel.pools by index.
 const poolImages = [poolHydromassage, poolCold, poolExterior];
+
+// Still photo shown behind each spa fragment until (or if) the video plays.
+// Note: despite the file names, spa-hydromassage.avif shows the dry sauna
+// and spa-sauna.avif the steam room.
+const spaMomentPosters = {
+  "Piscina de hidromasaje": poolHydromassage,
+  Cascada: heroPoolGlass,
+  "Sauna seco": spaHydromassage,
+  "Sauna húmedo": spaSauna,
+  "Batas y vestuarios": poolCold,
+};
+
+function spaMomentPoster(moment) {
+  return spaMomentPosters[moment.label] ?? poolHydromassage;
+}
+
+const spaPhotos = [
+  { src: poolHydromassage, alt: "Piscina de hidromasaje bajo galería de vidrio", caption: "Piscina de hidromasaje" },
+  { src: heroPoolGlass, alt: "Galería de vidrio sobre la piscina", caption: "Galería de vidrio" },
+  { src: poolCold, alt: "Piscina de agua fría", caption: "Piscina de agua fría" },
+  { src: spaHydromassage, alt: "Sauna seco revestido en madera", caption: "Sauna seco" },
+  { src: spaSauna, alt: "Sauna húmedo", caption: "Sauna húmedo" },
+  { src: poolExterior, alt: "Piscina exterior", caption: "Piscina exterior" },
+];
 
 const navItems = [
   { label: "Hotel", to: "/hotel" },
@@ -152,6 +176,21 @@ function roomImage(room) {
   if (room.slug === "presidencial") return images.suite;
   if (room.slug === "doble") return images.roomDoble;
   return images.roomMatrimonial;
+}
+
+function roomPhotos(room) {
+  if (room.slug === "presidencial") {
+    return [
+      { src: images.suite, alt: "Suite Presidencial", caption: "Suite Presidencial" },
+      { src: images.suiteDetail, alt: "Detalle de la Suite Presidencial", caption: "Detalle" },
+    ];
+  }
+  if (room.slug === "doble") {
+    return [{ src: images.roomDoble, alt: "Habitación doble", caption: "Habitación doble" }];
+  }
+  return [
+    { src: images.roomMatrimonial, alt: "Habitación matrimonial", caption: "Habitación matrimonial" },
+  ];
 }
 
 function App() {
@@ -372,32 +411,103 @@ function Header({ Link, activePath, menuOpen, setMenuOpen }) {
   );
 }
 
-function HeroVideoBackground({ videoId, variant = "hero" }) {
+// Muted looping YouTube background. With `segments` ([[start, end], ...] in
+// seconds) it plays only those fragments in order, fading out briefly on
+// each cut, instead of the whole video.
+const CUT_FADE_MS = 350;
+const SEEK_TOLERANCE = 2;
+
+function HeroVideoBackground({ videoId, variant = "hero", segments, portrait = false }) {
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isCutting, setIsCutting] = useState(false);
   const frameRef = useRef(null);
+  const segmentsRef = useRef(segments);
+  const segmentIndexRef = useRef(0);
+  const seekingRef = useRef(false);
   const baseClass =
     variant === "card"
       ? "card-video-frame"
       : variant === "fill"
-        ? "fill-video-frame"
+        ? portrait
+          ? "fill-video-frame fill-video-frame--portrait"
+          : "fill-video-frame"
         : "hero-video-frame";
 
   useEffect(() => {
+    let cutTimer;
+    let safetyTimer;
+
+    const send = (func, args = []) => {
+      frameRef.current?.contentWindow?.postMessage(
+        JSON.stringify({ event: "command", func, args }),
+        "https://www.youtube-nocookie.com",
+      );
+    };
+
+    const cutTo = (index) => {
+      seekingRef.current = true;
+      segmentIndexRef.current = index;
+      setIsCutting(true);
+      window.clearTimeout(cutTimer);
+      window.clearTimeout(safetyTimer);
+      cutTimer = window.setTimeout(() => {
+        send("seekTo", [segmentsRef.current[index][0], true]);
+        send("playVideo");
+      }, CUT_FADE_MS);
+      // Never leave the video hidden if the player doesn't report back.
+      safetyTimer = window.setTimeout(() => {
+        seekingRef.current = false;
+        setIsCutting(false);
+      }, 3000);
+    };
+
     const handleMessage = (event) => {
-      if (!/^https:\/\/www\.youtube(-nocookie)?\.com$/.test(event.origin)) return;
+      // Several players can share a page: only listen to this one.
+      if (event.source !== frameRef.current?.contentWindow) return;
       let data;
       try {
         data = JSON.parse(event.data);
       } catch {
         return;
       }
-      if (data.event === "infoDelivery" && data.info?.playerState === 1) {
-        setIsPlaying(true);
+      if (data.event !== "infoDelivery" || !data.info) return;
+      if (data.info.playerState === 1) setIsPlaying(true);
+
+      const clips = segmentsRef.current;
+      if (!clips?.length) return;
+
+      if (data.info.playerState === 0 && !seekingRef.current) {
+        cutTo(0);
+        return;
+      }
+
+      const time = data.info.currentTime;
+      if (typeof time !== "number") return;
+      const [start, end] = clips[segmentIndexRef.current];
+
+      // YouTube seeks to the nearest keyframe, which can land a little
+      // before the requested second, hence the tolerance.
+      if (seekingRef.current) {
+        if (time >= start - SEEK_TOLERANCE && time < end) {
+          seekingRef.current = false;
+          setIsCutting(false);
+        }
+        return;
+      }
+
+      if (time < start - SEEK_TOLERANCE) {
+        cutTo(segmentIndexRef.current);
+      } else if (time >= end - CUT_FADE_MS / 1000) {
+        cutTo((segmentIndexRef.current + 1) % clips.length);
       }
     };
 
     window.addEventListener("message", handleMessage);
-    return () => window.removeEventListener("message", handleMessage);
+    return () => {
+      window.clearTimeout(cutTimer);
+      window.clearTimeout(safetyTimer);
+      window.removeEventListener("message", handleMessage);
+    };
   }, []);
 
   const handleLoad = () => {
@@ -407,15 +517,95 @@ function HeroVideoBackground({ videoId, variant = "hero" }) {
     );
   };
 
+  const playback = segments?.length
+    ? `start=${segments[0][0]}`
+    : `loop=1&playlist=${videoId}`;
+  const className = [baseClass, isPlaying && !isCutting ? "is-visible" : ""]
+    .filter(Boolean)
+    .join(" ");
+
   return (
     <iframe
       ref={frameRef}
-      className={isPlaying ? `${baseClass} is-visible` : baseClass}
-      src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&iv_load_policy=3&disablekb=1&enablejsapi=1`}
+      className={className}
+      src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&${playback}&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&iv_load_policy=3&disablekb=1&enablejsapi=1`}
       title=""
+      tabIndex={-1}
       allow="autoplay; encrypted-media"
       onLoad={handleLoad}
     />
+  );
+}
+
+// A short looping video fragment with a caption. The player is only
+// created once the card nears the viewport, so pages with many fragments
+// don't load every video up front.
+function VideoMoment({ videoId, moment, poster, portrait = false, compact = false }) {
+  const ref = useRef(null);
+  const [inView, setInView] = useState(false);
+
+  useEffect(() => {
+    const element = ref.current;
+    if (!element) return undefined;
+    if (!("IntersectionObserver" in window)) {
+      setInView(true);
+      return undefined;
+    }
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setInView(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "240px" },
+    );
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
+
+  const className = [
+    "video-moment",
+    portrait ? "video-moment--portrait" : "",
+    compact ? "video-moment--compact" : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
+
+  return (
+    <article className={className} ref={ref}>
+      <div className="video-moment__media hero-media--video" aria-hidden="true">
+        {poster && <img src={poster} alt="" loading="lazy" decoding="async" />}
+        {inView && (
+          <HeroVideoBackground
+            videoId={videoId}
+            variant="fill"
+            portrait={portrait}
+            segments={[[moment.start, moment.end]]}
+          />
+        )}
+      </div>
+      <div className="video-moment__caption">
+        <h3>{moment.label}</h3>
+        {!compact && moment.text && <p>{moment.text}</p>}
+      </div>
+    </article>
+  );
+}
+
+function VideoMomentGrid({ videoId, moments, poster, portrait = false }) {
+  return (
+    <div className={portrait ? "video-moment-grid video-moment-grid--portrait" : "video-moment-grid"}>
+      {moments.map((moment) => (
+        <VideoMoment
+          key={moment.label}
+          videoId={videoId}
+          moment={moment}
+          poster={typeof poster === "function" ? poster(moment) : poster}
+          portrait={portrait}
+        />
+      ))}
+    </div>
   );
 }
 
@@ -521,19 +711,7 @@ function HomePage({ Link }) {
 
       <SuiteFeature Link={Link} />
 
-      <ImageFeature
-        image={images.spa}
-        index="04"
-        eyebrow="Spa & bienestar"
-        title="El arte de descansar."
-        copy="Un espacio para desconectar con hidromasaje, piscinas, saunas, vestuarios y servicio de masajes con reserva previa."
-        reverse
-        dark
-        Link={Link}
-        cta={{ label: "Ver spa", to: "/servicios/spa" }}
-      >
-        <PillList items={hotel.spa.slice(0, 5)} />
-      </ImageFeature>
+      <SpaFeature Link={Link} />
 
       <BreakfastFeature Link={Link} />
 
@@ -678,6 +856,7 @@ function RoomPage({ Link, room }) {
         Link={Link}
         image={roomImage(room)}
         videoId={room.youtubeId}
+        videoSegments={room.videoReel}
         eyebrow={room.count}
         title={room.name}
         copy={room.meta}
@@ -723,7 +902,60 @@ function RoomPage({ Link, room }) {
           <DetailList items={room.details} />
         </aside>
       </section>
+      {room.videoMoments && (
+        <section className="section video-moments-section">
+          <SectionHeading
+            eyebrow="Recorrido en video"
+            title={`Cada rincón de la ${room.slug === "presidencial" ? "suite" : "habitación"}.`}
+            copy="Fragmentos del recorrido filmado en el hotel."
+          />
+          <VideoMomentGrid
+            videoId={room.youtubeId}
+            moments={room.videoMoments}
+            poster={roomImage(room)}
+          />
+        </section>
+      )}
+      <PhotoGallery title="Fotos" photos={roomPhotos(room)} />
+      <OtherRooms Link={Link} current={room} />
     </>
+  );
+}
+
+function PhotoGallery({ title, photos }) {
+  if (!photos.length) return null;
+
+  return (
+    <section className="section photo-gallery-section">
+      <p className="overline">{title}</p>
+      <div className={`photo-gallery photo-gallery--${Math.min(photos.length, 3)}`}>
+        {photos.map((photo) => (
+          <figure key={photo.src} data-reveal>
+            <img src={photo.src} alt={photo.alt} loading="lazy" decoding="async" />
+            {photo.caption && <figcaption>{photo.caption}</figcaption>}
+          </figure>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+// Tabs to jump between the three room types without going back.
+function OtherRooms({ Link, current }) {
+  return (
+    <nav className="section room-tabs" aria-label="Otras habitaciones">
+      {hotel.rooms.map((room) => (
+        <Link
+          key={room.slug}
+          to={room.path}
+          className={room.slug === current.slug ? "is-active" : undefined}
+          aria-current={room.slug === current.slug ? "page" : undefined}
+        >
+          <span>{room.count}</span>
+          <strong>{room.name}</strong>
+        </Link>
+      ))}
+    </nav>
   );
 }
 
@@ -734,6 +966,7 @@ function SpaPage({ Link }) {
         Link={Link}
         image={images.heroPoolGlass}
         videoId={hotel.spaYoutubeId}
+        videoSegments={hotel.spaVideoReel}
         eyebrow="Spa & bienestar"
         title="Tu momento de desconexión."
         copy="Hidromasaje, piscinas, saunas y masajes con reserva previa en una sección pensada para relajarse."
@@ -761,6 +994,20 @@ function SpaPage({ Link }) {
           </div>
         </div>
       </section>
+      <section className="section video-moments-section">
+        <SectionHeading
+          eyebrow="El circuito en movimiento"
+          title="Recorré el spa antes de llegar."
+          copy="Fragmentos filmados en el circuito del hotel."
+        />
+        <VideoMomentGrid
+          videoId={hotel.spaCircuitYoutubeId}
+          moments={hotel.spaMoments}
+          poster={spaMomentPoster}
+          portrait
+        />
+      </section>
+      <PhotoGallery title="Fotos del spa" photos={spaPhotos} />
       <section className="section amenity-section">
         <SectionHeading
           eyebrow="Ritual guiado"
@@ -1009,7 +1256,7 @@ function NotFoundPage({ Link }) {
   );
 }
 
-function PageHero({ Link, image, videoId, eyebrow, title, copy, crumbs }) {
+function PageHero({ Link, image, videoId, videoSegments, eyebrow, title, copy, crumbs }) {
   return (
     <section className="page-hero">
       <div
@@ -1017,7 +1264,7 @@ function PageHero({ Link, image, videoId, eyebrow, title, copy, crumbs }) {
         aria-hidden="true"
       >
         <img src={image} alt="" fetchPriority="high" decoding="async" />
-        {videoId && <HeroVideoBackground videoId={videoId} />}
+        {videoId && <HeroVideoBackground videoId={videoId} segments={videoSegments} />}
       </div>
       <div className="page-hero__shade" aria-hidden="true" />
       <div className="page-hero__inner">
@@ -1122,7 +1369,7 @@ function SuiteFeature({ Link }) {
     <section className="suite-feature">
       <div className="suite-feature__media hero-media--video" data-reveal>
         <img src={images.suite} alt="" loading="lazy" decoding="async" />
-        <HeroVideoBackground videoId={suite.youtubeId} variant="fill" />
+        <HeroVideoBackground videoId={suite.youtubeId} variant="fill" segments={suite.videoReel} />
       </div>
       <div className="suite-feature__content" data-reveal>
         <p className="overline">La pieza estrella</p>
@@ -1141,6 +1388,55 @@ function SuiteFeature({ Link }) {
             Consultar por WhatsApp
           </a>
         </div>
+      </div>
+    </section>
+  );
+}
+
+// Home spa block: three looping fragments of the real spa circuit next to
+// the list of spa options.
+function SpaFeature({ Link }) {
+  const featured = ["Piscina de hidromasaje", "Sauna seco", "Cascada"];
+  const moments = featured
+    .map((label) => hotel.spaMoments.find((moment) => moment.label === label))
+    .filter(Boolean);
+
+  return (
+    <section className="spa-feature">
+      <div className="spa-feature__content" data-reveal>
+        <p className="overline">
+          <span aria-hidden="true">04</span>
+          Spa & bienestar
+        </p>
+        <h2>
+          El arte de descansar.
+          <span>Hidromasaje · Saunas · Piscina · Masajes</span>
+        </h2>
+        <p>
+          Un espacio para desconectar con hidromasaje, piscinas, saunas,
+          vestuarios y servicio de masajes con reserva previa.
+        </p>
+        <PillList items={hotel.spa.slice(0, 5)} />
+        <div className="action-row">
+          <Link className="button button-primary" to="/servicios/spa">
+            Ver spa
+          </Link>
+          <Link className="button button-ghost" to="/servicios/piscina">
+            Ver piscinas
+          </Link>
+        </div>
+      </div>
+      <div className="spa-feature__reel">
+        {moments.map((moment) => (
+          <VideoMoment
+            key={moment.label}
+            videoId={hotel.spaCircuitYoutubeId}
+            moment={moment}
+            poster={spaMomentPoster(moment)}
+            portrait
+            compact
+          />
+        ))}
       </div>
     </section>
   );
