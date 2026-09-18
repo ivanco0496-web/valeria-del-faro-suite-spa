@@ -269,6 +269,20 @@ function App() {
       </main>
       <Footer Link={SiteLink} />
       <WhatsAppButton />
+      <MobileBookingBar Link={SiteLink} />
+    </div>
+  );
+}
+
+// Fixed bottom bar on phones only (hidden by CSS on wider screens); it
+// replaces the floating WhatsApp button on mobile.
+function MobileBookingBar({ Link }) {
+  return (
+    <div className="mobile-booking-bar">
+      <a href={hotel.whatsappHref} target="_blank" rel="noreferrer">
+        WhatsApp
+      </a>
+      <Link to="/contacto">Reservar</Link>
     </div>
   );
 }
@@ -361,7 +375,12 @@ function Header({ Link, activePath, menuOpen, setMenuOpen }) {
 function HeroVideoBackground({ videoId, variant = "hero" }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const frameRef = useRef(null);
-  const baseClass = variant === "card" ? "card-video-frame" : "hero-video-frame";
+  const baseClass =
+    variant === "card"
+      ? "card-video-frame"
+      : variant === "fill"
+        ? "fill-video-frame"
+        : "hero-video-frame";
 
   useEffect(() => {
     const handleMessage = (event) => {
@@ -500,6 +519,8 @@ function HomePage({ Link }) {
         <RoomGrid Link={Link} />
       </section>
 
+      <SuiteFeature Link={Link} />
+
       <ImageFeature
         image={images.spa}
         index="04"
@@ -542,6 +563,7 @@ function HomePage({ Link }) {
       <TestimonialsSection />
 
       <PromotionBand />
+      <BookingInfo Link={Link} />
       <FinalCta Link={Link} />
     </>
   );
@@ -1093,6 +1115,37 @@ function ImageFeature({
   );
 }
 
+function SuiteFeature({ Link }) {
+  const suite = hotel.rooms.find((room) => room.slug === "presidencial");
+
+  return (
+    <section className="suite-feature">
+      <div className="suite-feature__media hero-media--video" data-reveal>
+        <img src={images.suite} alt="" loading="lazy" decoding="async" />
+        <HeroVideoBackground videoId={suite.youtubeId} variant="fill" />
+      </div>
+      <div className="suite-feature__content" data-reveal>
+        <p className="overline">La pieza estrella</p>
+        <h2>
+          Suite Presidencial
+          <span>Vista directa al mar.</span>
+        </h2>
+        <p className="suite-feature__meta">{suite.meta}</p>
+        <p>{suite.description}</p>
+        <PillList items={[suite.count, "Vestidor", "Ducha escocesa"]} />
+        <div className="action-row">
+          <Link className="button button-primary" to={suite.path}>
+            Ver la suite
+          </Link>
+          <a className="button button-ghost" href={hotel.whatsappHref} target="_blank" rel="noreferrer">
+            Consultar por WhatsApp
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function BreakfastFeature({ Link }) {
   return (
     <section className="section breakfast-section">
@@ -1335,13 +1388,38 @@ function PromotionBand() {
 
   return (
     <section className="section promotion-band" data-reveal>
-      <p className="overline">{hotel.promotion.title}</p>
       <div>
+        <p className="overline">{hotel.promotion.title}</p>
         {hotel.promotion.lines.map((line) => (
           <strong key={line}>{line}</strong>
         ))}
+        <p>{hotel.promotion.note}</p>
       </div>
-      <p>{hotel.promotion.note}</p>
+      <a className="button button-light" href={hotel.whatsappHref} target="_blank" rel="noreferrer">
+        Consultar promoción
+      </a>
+    </section>
+  );
+}
+
+function BookingInfo({ Link }) {
+  return (
+    <section className="section booking-info" data-reveal>
+      <div className="booking-info__heading">
+        <p className="overline">Antes de reservar</p>
+        <h2>Información útil para tu estadía.</h2>
+        <Link className="text-link" to="/contacto">
+          Ver contacto
+        </Link>
+      </div>
+      <dl className="booking-info__list">
+        {hotel.policies.map((policy) => (
+          <div key={policy.title}>
+            <dt>{policy.title}</dt>
+            <dd>{policy.text}</dd>
+          </div>
+        ))}
+      </dl>
     </section>
   );
 }

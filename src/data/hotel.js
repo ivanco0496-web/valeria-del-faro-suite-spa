@@ -284,13 +284,10 @@ export const hotel = {
     "Cine, teatro y actividades culturales",
   ],
   promotion: {
-    enabled: false,
+    // Para apagarla, poner enabled en false. Textos editables acá.
+    enabled: true,
     title: "Promoción especial",
-    lines: [
-      "Al reservar un mínimo de 3 noches, pagás 2 y la tercera es un regalo.",
-      "Si te quedás 5 noches, pagás 4.",
-    ],
-    note:
-      "Esta promoción figuraba como vigente hasta noviembre en el sitio original. Confirmar vigencia antes de activarla.",
+    lines: ["Reservá 3 noches y pagás 2.", "Quedate 5 noches y pagás 4."],
+    note: "Consultá vigencia y disponibilidad por WhatsApp.",
   },
 };
