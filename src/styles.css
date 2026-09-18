@@ -2443,3 +2443,77 @@ button:focus-visible {
 .fill-video-frame--portrait {
   transform: translate(-50%, -50%) scale(1.5);
 }
+
+/* Home "Servicios": compact amenities with line icons. */
+.comfort-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.comfort-grid a,
+.comfort-grid div {
+  height: 100%;
+  display: grid;
+  align-content: start;
+  gap: 6px;
+  padding: 20px 18px;
+  background: rgba(255, 253, 248, 0.82);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  transition:
+    border-color 180ms ease,
+    transform 180ms ease;
+}
+
+.comfort-grid a:hover {
+  border-color: var(--sea);
+  transform: translateY(-2px);
+}
+
+.comfort-grid svg {
+  width: 28px;
+  height: 28px;
+  margin-bottom: 8px;
+  fill: none;
+  stroke: var(--sea);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.comfort-grid strong {
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 1.35rem;
+  font-weight: 500;
+  line-height: 1.1;
+}
+
+.comfort-grid span {
+  color: var(--muted);
+  font-size: 0.86rem;
+  line-height: 1.5;
+}
+
+.comfort-grid a strong::after {
+  content: " →";
+  color: var(--sea);
+  font-family: var(--sans);
+  font-size: 0.9rem;
+}
+
+@media (min-width: 900px) {
+  .comfort-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .comfort-grid a,
+  .comfort-grid div {
+    padding: 26px 24px;
+  }
+}

@@ -716,7 +716,7 @@ function HomePage({ Link }) {
           Link={Link}
           cta={{ label: "Explorar servicios", to: "/servicios" }}
         />
-        <ServiceRouteGrid Link={Link} limit={5} />
+        <ComfortGrid Link={Link} />
       </section>
 
       <section className="section location-ribbon" data-reveal>
@@ -1495,6 +1495,100 @@ function RoomCard({ room, Link }) {
         </Link>
       </div>
     </article>
+  );
+}
+
+// Compact amenities strip for the home page. Rooms, spa and breakfast
+// already have their own blocks above, so this only lists the practical
+// comforts, linking to a page where one exists.
+const comfortIcons = {
+  wifi: (
+    <>
+      <path d="M2 8.5a15 15 0 0 1 20 0" />
+      <path d="M5.5 12a10 10 0 0 1 13 0" />
+      <path d="M9 15.5a5 5 0 0 1 6 0" />
+      <circle cx="12" cy="19" r="1" />
+    </>
+  ),
+  parking: (
+    <>
+      <rect x="3" y="3" width="18" height="18" rx="3" />
+      <path d="M9 17V7h4a3 3 0 0 1 0 6H9" />
+    </>
+  ),
+  beach: (
+    <>
+      <path d="M2 17c2 0 2-1.5 4-1.5S8 17 10 17s2-1.5 4-1.5 2 1.5 4 1.5 2-1.5 4-1.5" />
+      <path d="M2 21c2 0 2-1.5 4-1.5S8 21 10 21s2-1.5 4-1.5 2 1.5 4 1.5 2-1.5 4-1.5" />
+      <circle cx="17" cy="7" r="3" />
+    </>
+  ),
+  breakfast: (
+    <>
+      <path d="M4 9h13v5a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5V9Z" />
+      <path d="M17 11h1.5a2.5 2.5 0 0 1 0 5H16" />
+      <path d="M8 3v3M12 3v3" />
+    </>
+  ),
+  spa: (
+    <>
+      <path d="M12 21c-4.5 0-8-3-8-7 3 0 6 1.5 8 4 2-2.5 5-4 8-4 0 4-3.5 7-8 7Z" />
+      <path d="M12 18c-2-2.5-2-7 0-10 2 3 2 7.5 0 10Z" />
+    </>
+  ),
+  pool: (
+    <>
+      <path d="M8 16V5a2 2 0 0 1 4 0M16 16V5a2 2 0 0 0-4 0" />
+      <path d="M8 9h8M8 13h8" />
+      <path d="M2 20c2 0 2-1.5 4-1.5S8 20 10 20s2-1.5 4-1.5 2 1.5 4 1.5 2-1.5 4-1.5" />
+    </>
+  ),
+  safe: (
+    <>
+      <rect x="3" y="4" width="18" height="15" rx="2" />
+      <circle cx="12" cy="11.5" r="3" />
+      <path d="M12 8.5v1M12 13.5v1M6 19v2M18 19v2" />
+    </>
+  ),
+  tv: (
+    <>
+      <rect x="2" y="4" width="20" height="13" rx="2" />
+      <path d="M8 21h8M12 17v4" />
+    </>
+  ),
+};
+
+const comforts = [
+  { icon: "wifi", title: "Wi‑Fi", detail: "En cada habitación y en áreas comunes" },
+  { icon: "parking", title: "Estacionamiento", detail: "Propio, cubierto y descubierto" },
+  { icon: "beach", title: "Playa", detail: "A 30 pasos, con acceso por rampa", to: "/ubicacion" },
+  { icon: "breakfast", title: "Desayuno", detail: hotel.breakfast.time, to: "/servicios/desayuno" },
+  { icon: "spa", title: "Spa", detail: "Hidromasaje, saunas y masajes", to: "/servicios/spa" },
+  { icon: "pool", title: "Piscinas", detail: "Cubiertas y exterior en temporada", to: "/servicios/piscina" },
+  { icon: "safe", title: "Caja de seguridad", detail: "Codificada, con frigobar y pava eléctrica" },
+  { icon: "tv", title: "Smart TV", detail: "Android de 50 pulgadas en habitaciones" },
+];
+
+function ComfortGrid({ Link }) {
+  return (
+    <ul className="comfort-grid">
+      {comforts.map((amenity) => {
+        const content = (
+          <>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              {comfortIcons[amenity.icon]}
+            </svg>
+            <strong>{amenity.title}</strong>
+            <span>{amenity.detail}</span>
+          </>
+        );
+        return (
+          <li key={amenity.title} data-reveal>
+            {amenity.to ? <Link to={amenity.to}>{content}</Link> : <div>{content}</div>}
+          </li>
+        );
+      })}
+    </ul>
   );
 }
 
