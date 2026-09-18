@@ -14,7 +14,6 @@ import poolExterior from "./assets/hotel/spa-detail.avif";
 import breakfast from "./assets/hotel/breakfast.avif";
 import breakfastDetail from "./assets/hotel/breakfast-detail.avif";
 import activitiesBeach from "./assets/hotel/activities-beach.avif";
-import poolCovered from "./assets/hotel/pool-covered-wide.avif";
 import poolHydromassage from "./assets/hotel/pool-hydromassage.avif";
 import poolCold from "./assets/hotel/pool-cold.avif";
 import hotelEntryWide from "./assets/hotel/hotel-entry-wide.avif";
@@ -55,7 +54,7 @@ const images = {
   heroPoolGlass,
   coast: oceanView,
   strip: activitiesBeach,
-  spa: poolHydromassage,
+  spa: spaHydromassage,
   spaSauna,
   suite: suitePresidencial,
   suiteDetail,
@@ -64,7 +63,7 @@ const images = {
   breakfast,
   breakfastDetail,
   activitiesBeach,
-  pool: poolCovered,
+  pool: poolHydromassage,
   poolExterior,
   poolHydromassage,
   poolCold,
@@ -77,6 +76,8 @@ const images = {
 const poolImages = [poolHydromassage, poolCold, poolExterior];
 
 // Still photo shown behind each spa fragment until (or if) the video plays.
+// These are the Spa page photos; the pool photos each get one card on the
+// Piscina page, so no photo repeats within a page.
 // Note: despite the file names, spa-hydromassage.avif shows the dry sauna
 // and spa-sauna.avif the steam room.
 const spaMomentPosters = {
@@ -90,15 +91,6 @@ const spaMomentPosters = {
 function spaMomentPoster(moment) {
   return spaMomentPosters[moment.label] ?? poolHydromassage;
 }
-
-const spaPhotos = [
-  { src: poolHydromassage, alt: "Piscina de hidromasaje bajo galería de vidrio", caption: "Piscina de hidromasaje" },
-  { src: heroPoolGlass, alt: "Galería de vidrio sobre la piscina", caption: "Galería de vidrio" },
-  { src: poolCold, alt: "Piscina de agua fría", caption: "Piscina de agua fría" },
-  { src: spaHydromassage, alt: "Sauna seco revestido en madera", caption: "Sauna seco" },
-  { src: spaSauna, alt: "Sauna húmedo", caption: "Sauna húmedo" },
-  { src: poolExterior, alt: "Piscina exterior", caption: "Piscina exterior" },
-];
 
 const navItems = [
   { label: "Hotel", to: "/hotel" },
@@ -964,7 +956,7 @@ function SpaPage({ Link }) {
     <>
       <PageHero
         Link={Link}
-        image={images.heroPoolGlass}
+        image={images.poolExterior}
         videoId={hotel.spaYoutubeId}
         videoSegments={hotel.spaVideoReel}
         eyebrow="Spa & bienestar"
@@ -1007,7 +999,6 @@ function SpaPage({ Link }) {
           portrait
         />
       </section>
-      <PhotoGallery title="Fotos del spa" photos={spaPhotos} />
       <section className="section amenity-section">
         <SectionHeading
           eyebrow="Ritual guiado"
@@ -1067,7 +1058,7 @@ function PoolPage({ Link }) {
     <>
       <PageHero
         Link={Link}
-        image={images.pool}
+        image={images.heroPoolGlass}
         eyebrow="Piscina"
         title="Tres piletas, tres momentos distintos."
         copy="Piscina de hidromasaje climatizada, agua fría para el contraste y una pileta exterior templada en temporada de verano."
