@@ -2627,3 +2627,137 @@ button:focus-visible {
     display: none;
   }
 }
+
+/* Reglas de la casa: las tres condiciones firmes del hotel. */
+.section.house-rules {
+  display: grid;
+  gap: 26px;
+  padding: 40px 26px 44px;
+  color: var(--paper-soft);
+  background: var(--sea-dark);
+  border-radius: 8px;
+  box-shadow: var(--shadow-soft);
+}
+
+.house-rules .overline,
+.house-rules .overline span {
+  color: var(--sand);
+}
+
+.house-rules h2 {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 2.1rem;
+  font-weight: 400;
+  line-height: 1.05;
+}
+
+.house-rules__capacity {
+  display: grid;
+  gap: 4px;
+  margin: 22px 0 0;
+  padding: 14px 16px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 8px;
+}
+
+.house-rules__capacity span {
+  color: var(--sand);
+  font-size: 0.7rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.house-rules__capacity strong {
+  font-family: var(--serif);
+  font-size: 1.45rem;
+  font-weight: 500;
+}
+
+.house-rules__list {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.house-rules__list li {
+  display: grid;
+  gap: 6px;
+  padding: 18px 20px;
+  background: rgba(255, 255, 255, 0.06);
+  border-left: 3px solid var(--sea);
+  border-radius: 0 8px 8px 0;
+}
+
+.house-rules__list strong {
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  font-weight: 500;
+  line-height: 1.1;
+}
+
+.house-rules__list span {
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+/* Capacidad máxima, en la ficha y en la tarjeta de cada habitación. */
+.detail-panel__capacity {
+  display: grid;
+  gap: 4px;
+  margin: 0 0 18px;
+  padding: 14px 16px;
+  background: rgba(168, 35, 58, 0.07);
+  border: 1px solid rgba(168, 35, 58, 0.22);
+  border-radius: 8px;
+}
+
+.detail-panel__capacity span {
+  color: var(--clay);
+  font-size: 0.7rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.detail-panel__capacity strong {
+  color: var(--sea-dark);
+  font-family: var(--serif);
+  font-size: 1.35rem;
+  font-weight: 500;
+}
+
+.room-card__capacity {
+  margin: 0 0 6px;
+  color: var(--sea-dark) !important;
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+/* Las reglas firmes se distinguen de la información general. */
+.booking-info__list div.is-firm,
+.policy-grid article.is-firm {
+  background: rgba(168, 35, 58, 0.06);
+  border-color: rgba(168, 35, 58, 0.3);
+}
+
+.booking-info__list div.is-firm dt,
+.policy-grid article.is-firm h3 {
+  color: var(--sea-dark);
+}
+
+@media (min-width: 720px) {
+  .section.house-rules {
+    grid-template-columns: minmax(260px, 0.8fr) minmax(0, 1.2fr);
+    gap: 44px;
+    align-items: start;
+    padding: 56px 48px 60px;
+  }
+
+  .house-rules h2 {
+    font-size: 2.6rem;
+  }
+}

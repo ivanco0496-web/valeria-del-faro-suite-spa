@@ -40,6 +40,7 @@ export const hotel = {
       name: "Matrimonial",
       meta: "36 m² · Queen · Vista al frente",
       orientation: "Al frente",
+      capacity: "2 huéspedes · las cuádruples, hasta 4",
       tally: { value: "10", label: "matrimoniales", detail: "Cama Queen · al frente" },
       count: "10 habitaciones matrimoniales",
       youtubeId: "822ehOE3uj4",
@@ -80,6 +81,7 @@ export const hotel = {
       name: "Doble",
       meta: "36 m² · Dos sommieres · Convertible a Queen",
       orientation: "Contrafrente",
+      capacity: "2 huéspedes",
       tally: { value: "6", label: "dobles", detail: "Dos camas · contrafrente" },
       count: "6 habitaciones de dos camas individuales",
       youtubeId: "ye1ZfmH5NIY",
@@ -121,6 +123,7 @@ export const hotel = {
       name: "Suite Presidencial",
       meta: "Vista directa al mar · 4.º piso · Hasta 4 huéspedes",
       orientation: "Vista directa al mar",
+      capacity: "Hasta 4 huéspedes",
       scarce: true,
       tally: { value: "1", label: "suite", detail: "Única con vista directa al mar" },
       count: "Acceso privado mediante ascensor",
@@ -227,14 +230,23 @@ export const hotel = {
     "Gimnasio",
     "Bar junto a la piscina",
   ],
+  // Reglas de la casa. Las tres primeras son condiciones firmes y se
+  // repiten en el inicio, en habitaciones y en contacto.
   policies: [
     {
-      title: "Mayores de 12 años",
-      text: "Para una experiencia tranquila, el establecimiento hospeda únicamente a huéspedes mayores de 12 años. La reserva debe realizarla un huésped mayor de 18.",
+      title: "Solo mayores de 12 años",
+      text: "El hotel hospeda únicamente a huéspedes mayores de 12 años. No es una preferencia: no se alojan menores de esa edad. La reserva debe hacerla un huésped mayor de 18.",
+      firm: true,
     },
     {
-      title: "Sin mascotas",
-      text: "El hotel informa expresamente que no acepta mascotas.",
+      title: "No se aceptan mascotas",
+      text: "El hotel no recibe mascotas de ningún tipo ni tamaño, en ninguna habitación ni en áreas comunes.",
+      firm: true,
+    },
+    {
+      title: "Capacidad máxima por habitación",
+      text: "La cantidad de personas por habitación no se negocia: se reserva por la capacidad máxima de cada habitación y no se admiten huéspedes adicionales.",
+      firm: true,
     },
     {
       title: "Check‑in / Check‑out",

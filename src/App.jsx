@@ -926,6 +926,7 @@ function RoomsPage({ Link }) {
         <RoomTally Link={Link} />
         <RoomGrid Link={Link} />
       </section>
+      <HouseRules />
       <ImageFeature
         image={images.suiteDetail}
         eyebrow="Suite Presidencial"
@@ -987,6 +988,10 @@ function RoomPage({ Link, room }) {
         </div>
         <aside className="detail-panel" data-reveal>
           <h3>Características</h3>
+          <p className="detail-panel__capacity">
+            <span>Capacidad máxima</span>
+            <strong>{room.capacity}</strong>
+          </p>
           <DetailList items={room.details} />
         </aside>
       </section>
@@ -1001,8 +1006,38 @@ function RoomPage({ Link, room }) {
         </section>
       )}
       <PhotoGallery title="Fotos" photos={roomPhotos(room)} />
+      <HouseRules room={room} />
       <OtherRooms Link={Link} current={room} />
     </>
+  );
+}
+
+// Las tres condiciones firmes del hotel, repetidas donde se decide la
+// reserva: inicio, habitaciones y contacto.
+function HouseRules({ room }) {
+  const firm = hotel.policies.filter((policy) => policy.firm);
+
+  return (
+    <section className="section house-rules" data-reveal>
+      <div className="house-rules__intro">
+        <p className="overline">Reglas de la casa</p>
+        <h2>Tres condiciones que no se negocian.</h2>
+        {room && (
+          <p className="house-rules__capacity">
+            <span>Capacidad de esta habitación</span>
+            <strong>{room.capacity}</strong>
+          </p>
+        )}
+      </div>
+      <ul className="house-rules__list">
+        {firm.map((policy) => (
+          <li key={policy.title}>
+            <strong>{policy.title}</strong>
+            <span>{policy.text}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
   );
 }
 
@@ -1588,7 +1623,8 @@ function RoomTally({ Link }) {
       <p className="room-tally__note">
         17 habitaciones en total. 16 para dos personas, y ocho de las
         matrimoniales son cuádruples. Vista directa al mar, solo en la Suite
-        Presidencial.
+        Presidencial. Cada habitación se reserva por su capacidad máxima, que
+        no se negocia.
       </p>
     </div>
   );
@@ -1610,6 +1646,7 @@ function RoomCard({ room, Link }) {
         <span>{room.count}</span>
         <h3>{room.name}</h3>
         <p className="room-meta">{room.meta}</p>
+        <p className="room-card__capacity">{room.capacity}</p>
         <p>{room.description}</p>
         <Link className="text-link" to={room.path}>
           Ver detalle
@@ -1807,7 +1844,7 @@ function PolicyGrid() {
   return (
     <div className="policy-grid">
       {hotel.policies.map((policy) => (
-        <article key={policy.title} data-reveal>
+        <article key={policy.title} className={policy.firm ? "is-firm" : undefined} data-reveal>
           <h3>{policy.title}</h3>
           <p>{policy.text}</p>
         </article>
@@ -1908,15 +1945,15 @@ function BookingInfo({ Link }) {
   return (
     <section className="section booking-info" data-reveal>
       <div className="booking-info__heading">
-        <p className="overline">Antes de reservar</p>
-        <h2>Información útil para tu estadía.</h2>
+        <p className="overline">Reglas de la casa</p>
+        <h2>Antes de reservar, tres cosas que no se negocian.</h2>
         <Link className="text-link" to="/contacto">
           Ver contacto
         </Link>
       </div>
       <dl className="booking-info__list">
         {hotel.policies.map((policy) => (
-          <div key={policy.title}>
+          <div key={policy.title} className={policy.firm ? "is-firm" : undefined}>
             <dt>{policy.title}</dt>
             <dd>{policy.text}</dd>
           </div>
