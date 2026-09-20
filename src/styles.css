@@ -3032,3 +3032,33 @@ button:focus-visible {
   background: rgba(255, 255, 255, 0.08);
   border-color: rgba(255, 255, 255, 0.2);
 }
+
+/* La foto o el video acompañan el movimiento del mouse. */
+.is-parallax img,
+.is-parallax video {
+  transform: translate3d(var(--parallax-x, 0), var(--parallax-y, 0), 0) scale(1.07);
+  transition: transform 260ms ease;
+  will-change: transform;
+}
+
+.image-feature:hover .image-feature__media.is-parallax img {
+  transform: translate3d(var(--parallax-x, 0), var(--parallax-y, 0), 0) scale(1.07);
+}
+
+.photo-gallery__item.is-parallax:hover img {
+  transform: translate3d(var(--parallax-x, 0), var(--parallax-y, 0), 0) scale(1.09);
+}
+
+@media (hover: none) {
+  .is-parallax img,
+  .is-parallax video {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .is-parallax img,
+  .is-parallax video {
+    transform: none !important;
+  }
+}

@@ -908,7 +908,8 @@ function HomePage({ Link }) {
       </section>
 
       <ImageFeature
-        image={images.coast}
+        image={photoSrc("costa-hero") ?? images.coast}
+        video="costa-hero"
         index="02"
         eyebrow="La propuesta central"
         title="Del hotel al mar. Solo 30 pasos."
@@ -1186,6 +1187,26 @@ function HouseRules({ room }) {
   );
 }
 
+function PhotoGalleryItem({ photo, onOpen }) {
+  const parallax = useParallax(12);
+
+  return (
+    <button
+      className="photo-gallery__item is-parallax"
+      type="button"
+      onClick={onOpen}
+      aria-label={`Ver ${photo.caption ?? "la foto"} en grande`}
+      data-reveal
+      ref={parallax.ref}
+      onMouseMove={parallax.onMouseMove}
+      onMouseLeave={parallax.onMouseLeave}
+    >
+      <img src={photo.src} alt={photo.alt} loading="lazy" decoding="async" />
+      {photo.caption && <span>{photo.caption}</span>}
+    </button>
+  );
+}
+
 function PhotoGallery({ title, photos }) {
   const gallery = useGallery(photos);
 
@@ -1196,17 +1217,11 @@ function PhotoGallery({ title, photos }) {
       <p className="overline">{title}</p>
       <div className={`photo-gallery photo-gallery--${Math.min(photos.length, 4)}`}>
         {photos.map((photo, position) => (
-          <button
+          <PhotoGalleryItem
             key={photo.src}
-            className="photo-gallery__item"
-            type="button"
-            onClick={() => gallery.open(position)}
-            aria-label={`Ver ${photo.caption ?? "la foto"} en grande`}
-            data-reveal
-          >
-            <img src={photo.src} alt={photo.alt} loading="lazy" decoding="async" />
-            {photo.caption && <span>{photo.caption}</span>}
-          </button>
+            photo={photo}
+            onOpen={() => gallery.open(position)}
+          />
         ))}
       </div>
       {gallery.index !== null && (
@@ -1598,8 +1613,35 @@ function SectionHeading({ index, eyebrow, title, copy, Link, cta }) {
   );
 }
 
+// La foto o el video acompañan el movimiento del mouse, apenas, para que
+// la sección se sienta viva sin marear.
+function useParallax(strength = 16) {
+  const ref = useRef(null);
+
+  const set = (x, y) => {
+    const node = ref.current;
+    if (!node) return;
+    node.style.setProperty("--parallax-x", `${x}px`);
+    node.style.setProperty("--parallax-y", `${y}px`);
+  };
+
+  return {
+    ref,
+    onMouseMove: (event) => {
+      const node = ref.current;
+      if (!node) return;
+      const box = node.getBoundingClientRect();
+      const x = (event.clientX - box.left) / box.width - 0.5;
+      const y = (event.clientY - box.top) / box.height - 0.5;
+      set((-x * strength).toFixed(1), (-y * strength).toFixed(1));
+    },
+    onMouseLeave: () => set(0, 0),
+  };
+}
+
 function ImageFeature({
   image,
+  video,
   index,
   eyebrow,
   title,
@@ -1618,10 +1660,19 @@ function ImageFeature({
     .filter(Boolean)
     .join(" ");
 
+  const parallax = useParallax();
+
   return (
     <section className={className}>
-      <div className="image-feature__media" data-reveal>
+      <div
+        className="image-feature__media is-parallax hero-media--video"
+        data-reveal
+        ref={parallax.ref}
+        onMouseMove={parallax.onMouseMove}
+        onMouseLeave={parallax.onMouseLeave}
+      >
         <img src={image} alt="" loading="lazy" decoding="async" />
+        {video && <LocalVideo name={video} poster={video} />}
       </div>
       <div className="image-feature__content" data-reveal>
         <p className="overline">
