@@ -24,6 +24,19 @@ import activityBicicletas from "./assets/activities/bicicletas.webp";
 import activityTirolesa from "./assets/activities/tirolesa.webp";
 import activityCineTeatro from "./assets/activities/cine-teatro.webp";
 
+// Videos y fotos propios del hotel, cortados de las filmaciones originales.
+// Cada video tiene además una versión "-movil" vertical para celulares.
+const videoUrls = import.meta.glob("./assets/video/*.mp4", { eager: true, query: "?url", import: "default" });
+const photoUrls = import.meta.glob("./assets/photos/*.webp", { eager: true, query: "?url", import: "default" });
+
+function videoSrc(name) {
+  return name ? videoUrls[`./assets/video/${name}.mp4`] : undefined;
+}
+
+function photoSrc(name) {
+  return name ? photoUrls[`./assets/photos/${name}.webp`] : undefined;
+}
+
 // Illustrative photos for the generic-area activities listed by the hotel
 // (not hotel-owned experiences), sourced from Wikimedia Commons (Faro
 // Querandí, CC BY-SA 4.0) and Pexels (free license), matched 1:1 to
@@ -51,6 +64,12 @@ const activityVideoIds = {
 
 const images = {
   hero: poolExterior,
+  // Reemplazos con fotos propias sacadas de las filmaciones del hotel.
+  get fachada() { return photoSrc("hotel-fachada") ?? poolExterior; },
+  get lobby() { return photoSrc("hotel-lobby") ?? hotelEntryWide; },
+  get desayunoReal() { return photoSrc("hotel-desayuno") ?? breakfast; },
+  get piscinaReal() { return photoSrc("hotel-piscina") ?? poolHydromassage; },
+  get habitacion() { return photoSrc("matrimonial-ambiente") ?? roomMatrimonial; },
   heroPoolGlass,
   coast: oceanView,
   strip: activitiesBeach,
@@ -107,7 +126,7 @@ const serviceRoutes = [
     title: "Habitaciones",
     meta: "17 habitaciones",
     to: "/servicios/habitaciones",
-    image: images.roomMatrimonial,
+    image: images.habitacion,
     description:
       "Matrimoniales, dobles y Suite Presidencial con equipamiento pensado para descansar.",
   },
@@ -123,7 +142,7 @@ const serviceRoutes = [
     title: "Desayuno",
     meta: "08:30 a 10:30 hs",
     to: "/servicios/desayuno",
-    image: images.breakfast,
+    image: images.desayunoReal,
     description:
       "Desayuno servido en Planta Baja con productos clásicos para empezar el día sin apuro.",
   },
@@ -131,7 +150,7 @@ const serviceRoutes = [
     title: "Piscina",
     meta: "Hidromasaje · agua fría · temporada",
     to: "/servicios/piscina",
-    image: images.pool,
+    image: images.piscinaReal,
     description:
       "Piscina de hidromasajes, piscina de agua fría y piscina exterior templada en temporada alta.",
   },
@@ -165,12 +184,25 @@ function isExternalPath(to) {
 }
 
 function roomImage(room) {
+  const own = photoSrc(room.photos?.[0]?.name);
+  if (own) return own;
   if (room.slug === "presidencial") return images.suite;
   if (room.slug === "doble") return images.roomDoble;
   return images.roomMatrimonial;
 }
 
+// Fotos sacadas de las mismas filmaciones del hotel, una por ambiente.
 function roomPhotos(room) {
+  const own = (room.photos ?? [])
+    .map((photo) => ({
+      src: photoSrc(photo.name),
+      alt: `${room.name}: ${photo.caption}`,
+      caption: photo.caption,
+    }))
+    .filter((photo) => photo.src);
+
+  if (own.length) return own;
+
   if (room.slug === "presidencial") {
     return [
       { src: images.suite, alt: "Suite Presidencial", caption: "Suite Presidencial" },
@@ -380,7 +412,7 @@ function Header({ Link, activePath, menuOpen, setMenuOpen }) {
       </nav>
 
       <div className="header-actions">
-        <a className="header-phone" href={hotel.whatsappHref} target="_blank" rel="noreferrer">
+        <a className="header-phone" href={hotel.phoneHref}>
           Llamar
         </a>
         <Link className="header-cta" to="/contacto">
@@ -400,6 +432,54 @@ function Header({ Link, activePath, menuOpen, setMenuOpen }) {
         </button>
       </div>
     </header>
+  );
+}
+
+// Los celulares reciben la versión vertical del video, filmada o recortada
+// en 9:16, para que no se vea un recorte del centro de una toma horizontal.
+function useIsPhone() {
+  const query = "(max-width: 719px)";
+  const [isPhone, setIsPhone] = useState(
+    () => typeof window !== "undefined" && window.matchMedia(query).matches,
+  );
+
+  useEffect(() => {
+    const media = window.matchMedia(query);
+    const update = (event) => setIsPhone(event.matches);
+    media.addEventListener("change", update);
+    setIsPhone(media.matches);
+    return () => media.removeEventListener("change", update);
+  }, []);
+
+  return isPhone;
+}
+
+// Video propio del hotel, servido desde la misma web: sin YouTube, sin
+// logos encima y sin pedirle nada a otro sitio.
+function LocalVideo({ name, poster, fit = "cover" }) {
+  const isPhone = useIsPhone();
+  const [isPlaying, setIsPlaying] = useState(false);
+  const mobile = videoSrc(`${name}-movil`);
+  const src = isPhone && mobile ? mobile : videoSrc(name);
+
+  if (!src) return null;
+
+  return (
+    <video
+      key={src}
+      className={isPlaying ? "local-video is-visible" : "local-video"}
+      style={{ objectFit: fit }}
+      src={src}
+      poster={photoSrc(poster)}
+      autoPlay
+      muted
+      loop
+      playsInline
+      preload="metadata"
+      tabIndex={-1}
+      aria-hidden="true"
+      onPlaying={() => setIsPlaying(true)}
+    />
   );
 }
 
@@ -533,6 +613,7 @@ function HeroVideoBackground({ videoId, variant = "hero", segments, portrait = f
 // created once the card nears the viewport, so pages with many fragments
 // don't load every video up front.
 function VideoMoment({ videoId, moment, poster, portrait = false, compact = false }) {
+  const isLocal = Boolean(moment.video);
   const ref = useRef(null);
   const [inView, setInView] = useState(false);
 
@@ -553,12 +634,26 @@ function VideoMoment({ videoId, moment, poster, portrait = false, compact = fals
       { rootMargin: "240px" },
     );
     observer.observe(element);
-    return () => observer.disconnect();
+
+    // En una pestaña en segundo plano el navegador no informa visibilidad,
+    // así que a los 2,5 s se carga igual lo que ya esté cerca de pantalla.
+    const safety = window.setTimeout(() => {
+      const box = element.getBoundingClientRect();
+      if (box.top < window.innerHeight + 600 && box.bottom > -600) {
+        setInView(true);
+        observer.disconnect();
+      }
+    }, 2500);
+
+    return () => {
+      window.clearTimeout(safety);
+      observer.disconnect();
+    };
   }, []);
 
   const className = [
     "video-moment",
-    portrait ? "video-moment--portrait" : "",
+    portrait || moment.portrait ? "video-moment--portrait" : "",
     compact ? "video-moment--compact" : "",
   ]
     .filter(Boolean)
@@ -567,15 +662,21 @@ function VideoMoment({ videoId, moment, poster, portrait = false, compact = fals
   return (
     <article className={className} ref={ref}>
       <div className="video-moment__media hero-media--video" aria-hidden="true">
-        {poster && <img src={poster} alt="" loading="lazy" decoding="async" />}
-        {inView && (
-          <HeroVideoBackground
-            videoId={videoId}
-            variant="fill"
-            portrait={portrait}
-            segments={[[moment.start, moment.end]]}
-          />
-        )}
+        {isLocal
+          ? inView && <LocalVideo name={moment.video} poster={moment.photo} />
+          : (
+            <>
+              {poster && <img src={poster} alt="" loading="lazy" decoding="async" />}
+              {inView && (
+                <HeroVideoBackground
+                  videoId={videoId}
+                  variant="fill"
+                  portrait={portrait}
+                  segments={[[moment.start, moment.end]]}
+                />
+              )}
+            </>
+          )}
       </div>
       <div className="video-moment__caption">
         <h3>{moment.label}</h3>
@@ -615,8 +716,8 @@ function HomePage({ Link }) {
     <>
       <section className="home-hero">
         <div className="hero-media hero-media--video" aria-hidden="true">
-          <img src={images.hero} alt="" fetchPriority="high" decoding="async" />
-          <HeroVideoBackground videoId={hotel.spaYoutubeId} />
+          <img src={images.fachada} alt="" fetchPriority="high" decoding="async" />
+          <LocalVideo name="hotel-hero" />
         </div>
         <div className="hero-shade" aria-hidden="true" />
         <div className="home-hero__inner">
@@ -634,10 +735,7 @@ function HomePage({ Link }) {
             <a className="button button-primary" href={hotel.whatsappHref} target="_blank" rel="noreferrer">
               Consultar disponibilidad
             </a>
-            <a className="button button-ghost" href={hotel.whatsappHref} target="_blank" rel="noreferrer">
-              Llamar ahora
-            </a>
-            <Link className="button button-quiet" to="/servicios/habitaciones">
+            <Link className="button button-ghost" to="/servicios/habitaciones">
               Ver habitaciones
             </Link>
           </div>
@@ -655,9 +753,6 @@ function HomePage({ Link }) {
             <span>Bienestar</span>
             <strong>Spa & piscina</strong>
           </article>
-          <Link className="button button-primary" to="/contacto">
-            Reservar
-          </Link>
         </div>
       </section>
 
@@ -698,6 +793,7 @@ function HomePage({ Link }) {
           Link={Link}
           cta={{ label: "Ver todas", to: "/servicios/habitaciones" }}
         />
+        <RoomTally Link={Link} />
         <RoomGrid Link={Link} />
       </section>
 
@@ -827,6 +923,7 @@ function RoomsPage({ Link }) {
         ]}
       />
       <section className="section rooms-section">
+        <RoomTally Link={Link} />
         <RoomGrid Link={Link} />
       </section>
       <ImageFeature
@@ -847,8 +944,7 @@ function RoomPage({ Link, room }) {
       <PageHero
         Link={Link}
         image={roomImage(room)}
-        videoId={room.youtubeId}
-        videoSegments={room.videoReel}
+        video={room.heroVideo}
         eyebrow={room.count}
         title={room.name}
         copy={room.meta}
@@ -894,18 +990,14 @@ function RoomPage({ Link, room }) {
           <DetailList items={room.details} />
         </aside>
       </section>
-      {room.videoMoments && (
+      {room.clips && (
         <section className="section video-moments-section">
           <SectionHeading
             eyebrow="Recorrido en video"
             title={`Cada rincón de la ${room.slug === "presidencial" ? "suite" : "habitación"}.`}
-            copy="Fragmentos del recorrido filmado en el hotel."
+            copy="Fragmentos filmados en el hotel, sin cortes ni música."
           />
-          <VideoMomentGrid
-            videoId={room.youtubeId}
-            moments={room.videoMoments}
-            poster={roomImage(room)}
-          />
+          <VideoMomentGrid moments={room.clips} />
         </section>
       )}
       <PhotoGallery title="Fotos" photos={roomPhotos(room)} />
@@ -1247,15 +1339,19 @@ function NotFoundPage({ Link }) {
   );
 }
 
-function PageHero({ Link, image, videoId, videoSegments, eyebrow, title, copy, crumbs }) {
+function PageHero({ Link, image, video, videoId, videoSegments, eyebrow, title, copy, crumbs }) {
   return (
     <section className="page-hero">
       <div
-        className={videoId ? "page-hero__media hero-media--video" : "page-hero__media"}
+        className={video || videoId ? "page-hero__media hero-media--video" : "page-hero__media"}
         aria-hidden="true"
       >
         <img src={image} alt="" fetchPriority="high" decoding="async" />
-        {videoId && <HeroVideoBackground videoId={videoId} segments={videoSegments} />}
+        {video ? (
+          <LocalVideo name={video} />
+        ) : (
+          videoId && <HeroVideoBackground videoId={videoId} segments={videoSegments} />
+        )}
       </div>
       <div className="page-hero__shade" aria-hidden="true" />
       <div className="page-hero__inner">
@@ -1360,7 +1456,7 @@ function SuiteFeature({ Link }) {
     <section className="suite-feature">
       <div className="suite-feature__media hero-media--video" data-reveal>
         <img src={images.suite} alt="" loading="lazy" decoding="async" />
-        <HeroVideoBackground videoId={suite.youtubeId} variant="fill" segments={suite.videoReel} />
+        <LocalVideo name={suite.heroVideo} poster="suite-panoramica" />
       </div>
       <div className="suite-feature__content" data-reveal>
         <p className="overline">La pieza estrella</p>
@@ -1375,9 +1471,6 @@ function SuiteFeature({ Link }) {
           <Link className="button button-primary" to={suite.path}>
             Ver la suite
           </Link>
-          <a className="button button-ghost" href={hotel.whatsappHref} target="_blank" rel="noreferrer">
-            Consultar por WhatsApp
-          </a>
         </div>
       </div>
     </section>
@@ -1476,6 +1569,31 @@ function RoomGrid({ Link }) {
   );
 }
 
+// How the 17 rooms break down, so the number of doubles and the single
+// room with a direct sea view are visible at a glance.
+function RoomTally({ Link }) {
+  return (
+    <div className="room-tally" data-reveal>
+      {hotel.rooms.map((room) => (
+        <Link
+          key={room.slug}
+          to={room.path}
+          className={room.scarce ? "room-tally__item is-scarce" : "room-tally__item"}
+        >
+          <strong>{room.tally.value}</strong>
+          <b>{room.tally.label}</b>
+          <span>{room.tally.detail}</span>
+        </Link>
+      ))}
+      <p className="room-tally__note">
+        17 habitaciones en total. 16 para dos personas, y ocho de las
+        matrimoniales son cuádruples. Vista directa al mar, solo en la Suite
+        Presidencial.
+      </p>
+    </div>
+  );
+}
+
 function RoomCard({ room, Link }) {
   return (
     <article
@@ -1486,6 +1604,9 @@ function RoomCard({ room, Link }) {
         <img src={roomImage(room)} alt="" loading="lazy" decoding="async" />
       </Link>
       <div className="room-card__body">
+        <span className={room.scarce ? "room-card__view is-scarce" : "room-card__view"}>
+          {room.orientation}
+        </span>
         <span>{room.count}</span>
         <h3>{room.name}</h3>
         <p className="room-meta">{room.meta}</p>
@@ -1819,15 +1940,15 @@ function FinalCta({ Link, compact = false }) {
           Valeria del Faro Suite & Spa.
         </p>
         <div className="action-row">
-          <Link className="button button-primary" to="/contacto">
-            Consultar disponibilidad
+          <a className="button button-primary" href={hotel.whatsappHref} target="_blank" rel="noreferrer">
+            Consultar por WhatsApp
+          </a>
+          <a className="button button-ghost" href={hotel.phoneHref}>
+            {hotel.phone}
+          </a>
+          <Link className="button button-quiet" to="/contacto">
+            Ver contacto y mapa
           </Link>
-          <a className="button button-ghost" href={hotel.whatsappHref} target="_blank" rel="noreferrer">
-            WhatsApp
-          </a>
-          <a className="button button-quiet" href={hotel.emailHref}>
-            Enviar email
-          </a>
         </div>
       </div>
     </section>

@@ -15,3 +15,6 @@ dist/
 .claude/
 _backup-before-redesign/
 .vercel
+
+# Material original de Drive (pesado, no se publica)
+videos-originales/
