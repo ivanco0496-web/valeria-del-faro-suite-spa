@@ -620,7 +620,109 @@ function HeroVideoBackground({ videoId, variant = "hero", segments, portrait = f
 // A short looping video fragment with a caption. The player is only
 // created once the card nears the viewport, so pages with many fragments
 // don't load every video up front.
-function VideoMoment({ videoId, moment, poster, portrait = false, compact = false }) {
+// Abre cualquier foto o video en grande, con flechas y tecla Escape.
+function useGallery(items) {
+  const [index, setIndex] = useState(null);
+
+  return {
+    index,
+    open: (position) => setIndex(position),
+    close: () => setIndex(null),
+    go: (step) =>
+      setIndex((current) =>
+        current === null ? current : (current + step + items.length) % items.length,
+      ),
+  };
+}
+
+function Lightbox({ items, index, onClose, onGo }) {
+  const item = items[index];
+
+  useEffect(() => {
+    const onKey = (event) => {
+      if (event.key === "Escape") onClose();
+      if (event.key === "ArrowRight") onGo(1);
+      if (event.key === "ArrowLeft") onGo(-1);
+    };
+
+    document.addEventListener("keydown", onKey);
+    document.body.classList.add("has-open-menu");
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.classList.remove("has-open-menu");
+    };
+  }, [onClose, onGo]);
+
+  if (!item) return null;
+
+  const many = items.length > 1;
+
+  return (
+    <div
+      className="lightbox"
+      role="dialog"
+      aria-modal="true"
+      aria-label={item.caption ?? "Galería"}
+      onClick={onClose}
+    >
+      <button className="lightbox__close" type="button" onClick={onClose} aria-label="Cerrar">
+        <span aria-hidden="true">×</span>
+      </button>
+      {many && (
+        <button
+          className="lightbox__nav lightbox__nav--prev"
+          type="button"
+          aria-label="Anterior"
+          onClick={(event) => {
+            event.stopPropagation();
+            onGo(-1);
+          }}
+        >
+          <span aria-hidden="true">‹</span>
+        </button>
+      )}
+      <figure className="lightbox__figure" onClick={(event) => event.stopPropagation()}>
+        {item.video ? (
+          <video
+            key={item.video}
+            src={videoSrc(item.video)}
+            poster={photoSrc(item.photo)}
+            controls
+            autoPlay
+            loop
+            playsInline
+          />
+        ) : (
+          <img src={item.src} alt={item.alt ?? item.caption ?? ""} />
+        )}
+        <figcaption>
+          <strong>{item.caption}</strong>
+          {item.text && <span>{item.text}</span>}
+          {many && (
+            <small>
+              {index + 1} de {items.length}
+            </small>
+          )}
+        </figcaption>
+      </figure>
+      {many && (
+        <button
+          className="lightbox__nav lightbox__nav--next"
+          type="button"
+          aria-label="Siguiente"
+          onClick={(event) => {
+            event.stopPropagation();
+            onGo(1);
+          }}
+        >
+          <span aria-hidden="true">›</span>
+        </button>
+      )}
+    </div>
+  );
+}
+
+function VideoMoment({ videoId, moment, poster, portrait = false, compact = false, onOpen }) {
   const isLocal = Boolean(moment.video);
   const ref = useRef(null);
   const [inView, setInView] = useState(false);
@@ -669,6 +771,16 @@ function VideoMoment({ videoId, moment, poster, portrait = false, compact = fals
 
   return (
     <article className={className} ref={ref}>
+      {onOpen && (
+        <button
+          className="video-moment__open"
+          type="button"
+          onClick={onOpen}
+          aria-label={`Ver ${moment.label} en grande`}
+        >
+          <span aria-hidden="true">⤢</span>
+        </button>
+      )}
       <div className="video-moment__media hero-media--video" aria-hidden="true">
         {isLocal
           ? inView && <LocalVideo name={moment.video} poster={moment.photo} />
@@ -695,18 +807,33 @@ function VideoMoment({ videoId, moment, poster, portrait = false, compact = fals
 }
 
 function VideoMomentGrid({ videoId, moments, poster, portrait = false }) {
+  const gallery = useGallery(moments);
+  const openable = moments.every((moment) => moment.video);
+  const items = moments.map((moment) => ({
+    video: moment.video,
+    photo: moment.photo,
+    caption: moment.label,
+    text: moment.text,
+  }));
+
   return (
-    <div className={portrait ? "video-moment-grid video-moment-grid--portrait" : "video-moment-grid"}>
-      {moments.map((moment) => (
-        <VideoMoment
-          key={moment.label}
-          videoId={videoId}
-          moment={moment}
-          poster={typeof poster === "function" ? poster(moment) : poster}
-          portrait={portrait}
-        />
-      ))}
-    </div>
+    <>
+      <div className={portrait ? "video-moment-grid video-moment-grid--portrait" : "video-moment-grid"}>
+        {moments.map((moment, position) => (
+          <VideoMoment
+            key={moment.label}
+            videoId={videoId}
+            moment={moment}
+            poster={typeof poster === "function" ? poster(moment) : poster}
+            portrait={portrait}
+            onOpen={openable ? () => gallery.open(position) : undefined}
+          />
+        ))}
+      </div>
+      {gallery.index !== null && (
+        <Lightbox items={items} index={gallery.index} onClose={gallery.close} onGo={gallery.go} />
+      )}
+    </>
   );
 }
 
@@ -1059,19 +1186,31 @@ function HouseRules({ room }) {
 }
 
 function PhotoGallery({ title, photos }) {
+  const gallery = useGallery(photos);
+
   if (!photos.length) return null;
 
   return (
     <section className="section photo-gallery-section">
       <p className="overline">{title}</p>
-      <div className={`photo-gallery photo-gallery--${Math.min(photos.length, 3)}`}>
-        {photos.map((photo) => (
-          <figure key={photo.src} data-reveal>
+      <div className={`photo-gallery photo-gallery--${Math.min(photos.length, 4)}`}>
+        {photos.map((photo, position) => (
+          <button
+            key={photo.src}
+            className="photo-gallery__item"
+            type="button"
+            onClick={() => gallery.open(position)}
+            aria-label={`Ver ${photo.caption ?? "la foto"} en grande`}
+            data-reveal
+          >
             <img src={photo.src} alt={photo.alt} loading="lazy" decoding="async" />
-            {photo.caption && <figcaption>{photo.caption}</figcaption>}
-          </figure>
+            {photo.caption && <span>{photo.caption}</span>}
+          </button>
         ))}
       </div>
+      {gallery.index !== null && (
+        <Lightbox items={photos} index={gallery.index} onClose={gallery.close} onGo={gallery.go} />
+      )}
     </section>
   );
 }
