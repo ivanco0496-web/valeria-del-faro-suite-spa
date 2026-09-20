@@ -908,8 +908,8 @@ function HomePage({ Link }) {
       </section>
 
       <ImageFeature
-        image={photoSrc("costa-hero") ?? images.coast}
-        video="costa-hero"
+        image={photoSrc("hotel-entrada") ?? images.coast}
+        video="hotel-entrada"
         index="02"
         eyebrow="La propuesta central"
         title="Del hotel al mar. Solo 30 pasos."
