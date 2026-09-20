@@ -1136,6 +1136,7 @@ function RoomPage({ Link, room }) {
             <span>Capacidad máxima</span>
             <strong>{room.capacity}</strong>
           </p>
+          <SeaViewBadge note={room.seaView} />
           <DetailList items={room.details} />
         </aside>
       </section>
@@ -1781,10 +1782,31 @@ function RoomTally({ Link }) {
       <p className="room-tally__note">
         17 habitaciones en total. 16 para dos personas, y ocho de las
         matrimoniales son cuádruples. Vista directa al mar, solo en la Suite
-        Presidencial. Cada habitación se reserva por su capacidad máxima, que
+        Presidencial. Algunas dobles también miran al mar, según
+        disponibilidad. Cada habitación se reserva por su capacidad máxima, que
         no se negocia.
       </p>
     </div>
+  );
+}
+
+// Distintivo para las habitaciones donde la vista al mar depende de la
+// disponibilidad: un sol sobre dos olas, dibujado para este sitio.
+function SeaViewBadge({ note, compact = false }) {
+  if (!note) return null;
+
+  return (
+    <p className={compact ? "sea-view-badge is-compact" : "sea-view-badge"}>
+      <svg viewBox="0 0 32 32" aria-hidden="true">
+        <circle cx="16" cy="11" r="5.4" />
+        <path d="M3 20.5c2.2 0 2.2-1.8 4.3-1.8s2.2 1.8 4.3 1.8 2.2-1.8 4.4-1.8 2.2 1.8 4.3 1.8 2.2-1.8 4.4-1.8 2.2 1.8 4.3 1.8" />
+        <path d="M3 25.5c2.2 0 2.2-1.8 4.3-1.8s2.2 1.8 4.3 1.8 2.2-1.8 4.4-1.8 2.2 1.8 4.3 1.8 2.2-1.8 4.4-1.8 2.2 1.8 4.3 1.8" />
+      </svg>
+      <span>
+        <strong>{note.label}</strong>
+        {!compact && <span>{note.text}</span>}
+      </span>
+    </p>
   );
 }
 
@@ -1805,6 +1827,7 @@ function RoomCard({ room, Link }) {
         <h3>{room.name}</h3>
         <p className="room-meta">{room.meta}</p>
         <p className="room-card__capacity">{room.capacity}</p>
+        <SeaViewBadge note={room.seaView} compact />
         <p>{room.description}</p>
         <Link className="text-link" to={room.path}>
           Ver detalle
