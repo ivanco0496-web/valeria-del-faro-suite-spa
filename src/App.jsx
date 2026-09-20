@@ -111,6 +111,14 @@ function spaMomentPoster(moment) {
   return spaMomentPosters[moment.label] ?? poolHydromassage;
 }
 
+// Recorrido del hotel filmado en el lugar, para la página del hotel.
+const hotelClips = [
+  { label: "La fachada", text: "El edificio sobre la calle Corbeta Cefiro.", video: "hotel-fachada", photo: "hotel-cartel" },
+  { label: "Lobby", text: "Recepción atendida por los dueños.", video: "hotel-lobby", photo: "hotel-lobby" },
+  { label: "Salón del desayuno", text: "Planta Baja, de 08:30 a 10:30 hs.", video: "hotel-desayuno", photo: "hotel-desayuno" },
+  { label: "Piscina cubierta", text: "Galería de vidrio sobre la pileta.", video: "hotel-piscina", photo: "hotel-piscina" },
+];
+
 const navItems = [
   { label: "Hotel", to: "/hotel" },
   { label: "Habitaciones", to: "/servicios/habitaciones" },
@@ -840,7 +848,8 @@ function HotelPage({ Link }) {
     <>
       <PageHero
         Link={Link}
-        image={images.hotelExterior}
+        image={images.fachada}
+        video="hotel-hero"
         eyebrow="Hotel"
         title="Hospitalidad familiar con espíritu costero."
         copy={hotel.concept}
@@ -855,6 +864,14 @@ function HotelPage({ Link }) {
           <p>{hotel.history}</p>
           <DetailList items={hotel.valuePoints} />
         </div>
+      </section>
+      <section className="section video-moments-section">
+        <SectionHeading
+          eyebrow="El hotel en video"
+          title="Un paseo por la casa."
+          copy="Tomas propias del edificio, el lobby, el salón del desayuno y la piscina."
+        />
+        <VideoMomentGrid moments={hotelClips} />
       </section>
       <section className="section policy-section">
         <SectionHeading
@@ -1154,7 +1171,8 @@ function BreakfastPage({ Link }) {
     <>
       <PageHero
         Link={Link}
-        image={images.breakfastDetail}
+        image={images.desayunoReal}
+        video="hotel-desayuno"
         eyebrow="Desayuno"
         title="Empezá el día sin apuro."
         copy={`Se sirve en ${hotel.breakfast.place} de ${hotel.breakfast.time}.`}
@@ -1185,7 +1203,8 @@ function PoolPage({ Link }) {
     <>
       <PageHero
         Link={Link}
-        image={images.heroPoolGlass}
+        image={images.piscinaReal}
+        video="hotel-piscina"
         eyebrow="Piscina"
         title="Tres piletas, tres momentos distintos."
         copy="Piscina de hidromasaje climatizada, agua fría para el contraste y una pileta exterior templada en temporada de verano."
@@ -1342,7 +1361,7 @@ function ContactPage({ Link }) {
     <>
       <PageHero
         Link={Link}
-        image={images.contact}
+        image={photoSrc("hotel-cartel") ?? images.contact}
         eyebrow="Reserva y contacto"
         title="¿Nos vemos en la costa?"
         copy="Consultá disponibilidad directamente con Valeria del Faro Suite & Spa."
@@ -1566,7 +1585,7 @@ function BreakfastFeature({ Link }) {
     <section className="section breakfast-section">
       <div className="breakfast-panel" data-reveal>
         <div className="breakfast-panel__media" aria-hidden="true">
-          <img src={images.breakfast} alt="" loading="lazy" decoding="async" />
+          <img src={images.desayunoReal} alt="" loading="lazy" decoding="async" />
         </div>
         <div className="breakfast-panel__content">
           <p className="overline">
