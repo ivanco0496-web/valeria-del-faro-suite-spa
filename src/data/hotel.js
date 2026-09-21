@@ -45,17 +45,17 @@ export const hotel = {
       slug: "matrimonial",
       path: "/servicios/habitaciones/matrimonial",
       name: "Matrimonial",
-      meta: "36 m² · Queen · Vista al frente",
+      meta: "36 m² · King · Vista al frente",
       orientation: "Al frente",
       capacity: "2 huéspedes · las cuádruples, hasta 4",
-      tally: { value: "10", label: "matrimoniales", detail: "Cama Queen · al frente" },
+      tally: { value: "10", label: "matrimoniales", detail: "Cama King · al frente" },
       count: "10 habitaciones matrimoniales",
       youtubeId: "822ehOE3uj4",
       // Videos y fotos propios, cortados de las filmaciones del hotel.
       heroVideo: "matrimonial-hero",
       clips: [
         { label: "Ambiente", text: "Luz natural y ventanal al frente.", video: "matrimonial-ambiente", photo: "matrimonial-ambiente" },
-        { label: "Dormitorio", text: "Cama Queen con blanquería del hotel.", video: "matrimonial-dormitorio", photo: "matrimonial-dormitorio" },
+        { label: "Dormitorio", text: "Cama King con blanquería del hotel.", video: "matrimonial-dormitorio", photo: "matrimonial-dormitorio" },
         { label: "Balcón", text: "Médanos y mar desde el balcón.", video: "matrimonial-balcon", photo: "matrimonial-balcon" },
         { label: "Vista al mar", text: "La costa desde la ventana.", video: "matrimonial-vista", photo: "matrimonial-vista" },
         { label: "Baño", text: "Baño completo con ducha.", video: "matrimonial-bano", photo: "matrimonial-bano" },
@@ -68,10 +68,10 @@ export const hotel = {
         { name: "matrimonial-galeria-3", caption: "Amenities en la ducha" },
       ],
       description:
-        "Habitaciones con cama Queen y vista al frente. Ocho, ubicadas en el primer y segundo piso, son cuádruples e incluyen un sofá cama con carrito.",
+        "Habitaciones con cama King y vista al frente. Ocho, ubicadas en el primer y segundo piso, son cuádruples e incluyen un sofá cama con carrito.",
       details: [
         "36 m²",
-        "Cama Queen",
+        "Cama King de 1,80 × 2,00 m",
         "Dos equipos de aire acondicionado",
         "Smart TV de 50 pulgadas",
         "Wi‑Fi propio: equipo dedicado en la habitación",
@@ -84,7 +84,7 @@ export const hotel = {
       slug: "doble",
       path: "/servicios/habitaciones/doble",
       name: "Doble",
-      meta: "36 m² · Dos sommieres · Convertible a Queen",
+      meta: "36 m² · Dos sommieres · Convertible a King",
       orientation: "Contrafrente",
       capacity: "2 huéspedes",
       seaView: {
@@ -97,7 +97,7 @@ export const hotel = {
       heroVideo: "doble-hero",
       clips: [
         { label: "Dormitorio", text: "Dos camas sommier individuales.", video: "doble-dormitorio", photo: "doble-dormitorio" },
-        { label: "Dos camas", text: "Se pueden unir para formar una Queen, junto a la ventana esquinera.", video: "doble-camas", photo: "doble-camas" },
+        { label: "Dos camas", text: "Se pueden unir para formar una King, junto a la ventana esquinera.", video: "doble-camas", photo: "doble-camas" },
         { label: "Baño", text: "Baño completo con ducha.", video: "doble-bano", photo: "doble-bano" },
         { label: "Detalles", text: "Amenities y toallas del hotel.", video: "doble-detalles", photo: "doble-detalle" },
         { label: "Habitación adaptada", text: "Una del primer piso, con barrales y ducha accesible.", video: "doble-adaptada", photo: "doble-adaptada" },
@@ -109,10 +109,10 @@ export const hotel = {
         { name: "doble-galeria-4", caption: "Baño de la habitación adaptada" },
       ],
       description:
-        "Ubicadas en el contrafrente, con dos camas individuales sommier que pueden unirse para formar una cama matrimonial Queen.",
+        "Ubicadas en el contrafrente, con dos camas individuales sommier que pueden unirse para formar una cama matrimonial King.",
       details: [
         "36 m²",
-        "Dos sommieres individuales convertibles a Queen",
+        "Dos sommieres de 0,90 × 2,00 m, que unidos forman una King de 1,80 × 2,00 m",
         "Aire acondicionado",
         "Smart TV de 50 pulgadas",
         "Wi‑Fi propio: equipo dedicado en la habitación",
@@ -136,7 +136,7 @@ export const hotel = {
       youtubeId: "GkKurmulalE",
       heroVideo: "suite-hero",
       clips: [
-        { label: "Dormitorio", text: "Cama Queen bajo las claraboyas.", video: "suite-dormitorio", photo: "suite-dormitorio" },
+        { label: "Dormitorio", text: "Cama King bajo las claraboyas.", video: "suite-dormitorio", photo: "suite-dormitorio" },
         { label: "Área de estar", text: "Dos sillones y mesa ratona.", video: "suite-estar", photo: "suite-estar" },
         { label: "Claraboyas", text: "Cielo abierto sobre la suite.", video: "suite-claraboyas", photo: "suite-claraboya" },
         { label: "Ducha escocesa", text: "Baño con ducha escocesa.", video: "suite-ducha", photo: "suite-ducha" },
@@ -150,9 +150,9 @@ export const hotel = {
         { name: "suite-galeria-2", caption: "Baño de la suite" },
       ],
       description:
-        "Una suite exclusiva con vista directa al mar, cama Queen, área de estar con dos sillones, mesa ratona y sofá cama con carrito.",
+        "Una suite exclusiva con vista directa al mar, cama King, área de estar con dos sillones, mesa ratona y sofá cama con carrito.",
       details: [
-        "Cama Queen y sofá cama con carrito",
+        "Cama King de 1,80 × 2,00 m y sofá cama con carrito",
         "Área de estar con dos sillones y mesa ratona",
         "Wi‑Fi propio: equipo dedicado en la habitación",
         "Aire acondicionado",

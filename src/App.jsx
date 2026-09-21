@@ -1097,7 +1097,7 @@ function RoomsPage({ Link }) {
         image={images.suiteDetail}
         eyebrow="Suite Presidencial"
         title="Vista directa al mar desde el 4.º piso."
-        copy="Acceso privado mediante ascensor, cama sommier Queen, sofá cama con carrito, área de estar con dos sillones, vestidor y ducha escocesa."
+        copy="Acceso privado mediante ascensor, cama sommier King, sofá cama con carrito, área de estar con dos sillones, vestidor y ducha escocesa."
         Link={Link}
         cta={{ label: "Ver Suite Presidencial", to: "/servicios/habitaciones/presidencial" }}
       />
