@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { hotel } from "./data/hotel.js";
+import { ContactCards, ReservationForm, ReservationSteps } from "./ContactForm.jsx";
 import logo from "./assets/hotel/valeria-del-faro-logo-transparent.webp";
-import icon from "./assets/hotel/valeria-del-faro-icon.png";
 import heroPoolGlass from "./assets/hotel/hero-pool-glass.avif";
 import oceanView from "./assets/hotel/ocean-view.avif";
 import roomMatrimonial from "./assets/hotel/room-matrimonial.avif";
@@ -95,22 +95,6 @@ const images = {
 // Matched 1:1 to hotel.pools by index.
 const poolImages = [poolHydromassage, poolCold, poolExterior];
 
-// Still photo shown behind each spa fragment until (or if) the video plays.
-// These are the Spa page photos; the pool photos each get one card on the
-// Piscina page, so no photo repeats within a page.
-// Note: despite the file names, spa-hydromassage.avif shows the dry sauna
-// and spa-sauna.avif the steam room.
-const spaMomentPosters = {
-  "Piscina de hidromasaje": poolHydromassage,
-  Cascada: heroPoolGlass,
-  "Sauna seco": spaHydromassage,
-  "Sauna húmedo": spaSauna,
-  "Batas y vestuarios": poolCold,
-};
-
-function spaMomentPoster(moment) {
-  return spaMomentPosters[moment.label] ?? poolHydromassage;
-}
 
 // Piletas con agua y saunas, tomadas del sitio del hotel
 // (valeriadelfarosuiteyspa.com), donde las publica la dueña. Las filmamos en
@@ -481,7 +465,7 @@ function useIsPhone() {
 
 // Video propio del hotel, servido desde la misma web: sin YouTube, sin
 // logos encima y sin pedirle nada a otro sitio.
-function LocalVideo({ name, poster, fit = "cover" }) {
+function LocalVideo({ name, poster, fit = "cover", onStart }) {
   const isPhone = useIsPhone();
   const [isPlaying, setIsPlaying] = useState(false);
   const mobile = videoSrc(`${name}-movil`);
@@ -503,7 +487,10 @@ function LocalVideo({ name, poster, fit = "cover" }) {
       preload="metadata"
       tabIndex={-1}
       aria-hidden="true"
-      onPlaying={() => setIsPlaying(true)}
+      onPlaying={() => {
+        setIsPlaying(true);
+        onStart?.();
+      }}
     />
   );
 }
@@ -514,11 +501,13 @@ function LocalVideo({ name, poster, fit = "cover" }) {
 const CUT_FADE_MS = 350;
 const SEEK_TOLERANCE = 2;
 
-function HeroVideoBackground({ videoId, variant = "hero", segments, portrait = false }) {
+function HeroVideoBackground({ videoId, variant = "hero", segments, portrait = false, onStart }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isCutting, setIsCutting] = useState(false);
   const frameRef = useRef(null);
   const segmentsRef = useRef(segments);
+  const onStartRef = useRef(onStart);
+  onStartRef.current = onStart;
   const segmentIndexRef = useRef(0);
   const seekingRef = useRef(false);
   const baseClass =
@@ -568,7 +557,10 @@ function HeroVideoBackground({ videoId, variant = "hero", segments, portrait = f
         return;
       }
       if (data.event !== "infoDelivery" || !data.info) return;
-      if (data.info.playerState === 1) setIsPlaying(true);
+      if (data.info.playerState === 1) {
+        setIsPlaying(true);
+        onStartRef.current?.();
+      }
 
       const clips = segmentsRef.current;
       if (!clips?.length) return;
@@ -631,6 +623,16 @@ function HeroVideoBackground({ videoId, variant = "hero", segments, portrait = f
       allow="autoplay; encrypted-media"
       onLoad={handleLoad}
     />
+  );
+}
+
+// Placa con el logo del hotel que tapa la tarjeta hasta que el video
+// arranca: evita el botón de pausa de YouTube y las miniaturas repetidas.
+function BrandPoster({ hidden = false }) {
+  return (
+    <div className={hidden ? "brand-poster is-hidden" : "brand-poster"} aria-hidden="true">
+      <img src={logo} alt="" loading="lazy" decoding="async" />
+    </div>
   );
 }
 
@@ -739,10 +741,12 @@ function Lightbox({ items, index, onClose, onGo }) {
   );
 }
 
-function VideoMoment({ videoId, moment, poster, portrait = false, compact = false, onOpen }) {
+function VideoMoment({ videoId, moment, portrait = false, compact = false, onOpen }) {
   const isLocal = Boolean(moment.video);
   const ref = useRef(null);
   const [inView, setInView] = useState(false);
+  const [started, setStarted] = useState(false);
+  const markStarted = () => setStarted(true);
 
   useEffect(() => {
     const element = ref.current;
@@ -799,21 +803,18 @@ function VideoMoment({ videoId, moment, poster, portrait = false, compact = fals
         </button>
       )}
       <div className="video-moment__media hero-media--video" aria-hidden="true">
+        <BrandPoster hidden={started} />
         {isLocal
-          ? inView && <LocalVideo name={moment.video} poster={moment.photo} />
-          : (
-            <>
-              {poster && <img src={poster} alt="" loading="lazy" decoding="async" />}
-              {inView && (
-                <HeroVideoBackground
-                  videoId={videoId}
-                  variant="fill"
-                  portrait={portrait}
-                  segments={[[moment.start, moment.end]]}
-                />
-              )}
-            </>
-          )}
+          ? inView && <LocalVideo name={moment.video} onStart={markStarted} />
+          : inView && (
+              <HeroVideoBackground
+                videoId={videoId}
+                variant="fill"
+                portrait={portrait}
+                segments={[[moment.start, moment.end]]}
+                onStart={markStarted}
+              />
+            )}
       </div>
       <div className="video-moment__caption">
         <h3>{moment.label}</h3>
@@ -823,7 +824,7 @@ function VideoMoment({ videoId, moment, poster, portrait = false, compact = fals
   );
 }
 
-function VideoMomentGrid({ videoId, moments, poster, portrait = false }) {
+function VideoMomentGrid({ videoId, moments, portrait = false }) {
   const gallery = useGallery(moments);
   const openable = moments.every((moment) => moment.video);
   const items = moments.map((moment) => ({
@@ -841,7 +842,6 @@ function VideoMomentGrid({ videoId, moments, poster, portrait = false }) {
             key={moment.label}
             videoId={videoId}
             moment={moment}
-            poster={typeof poster === "function" ? poster(moment) : poster}
             portrait={portrait}
             onOpen={openable ? () => gallery.open(position) : undefined}
           />
@@ -964,12 +964,12 @@ function HomePage({ Link }) {
         <SectionHeading
           index="06"
           eyebrow="Servicios"
-          title="Lo esencial, resuelto con calma."
-          copy="Desayuno, playa, piscina, estacionamiento, Wi-Fi y detalles prácticos para una estadía simple."
+          title="Lo práctico, resuelto."
+          copy="Algunas comodidades de todos los días. El detalle completo está en Servicios."
           Link={Link}
-          cta={{ label: "Explorar servicios", to: "/servicios" }}
+          cta={{ label: "Ver todos los servicios", to: "/servicios" }}
         />
-        <ComfortGrid Link={Link} />
+        <ComfortGrid Link={Link} only={["wifi", "parking", "safe", "tv"]} />
       </section>
 
       <section className="section location-ribbon" data-reveal>
@@ -1053,21 +1053,54 @@ function ServicesPage({ Link }) {
     <>
       <PageHero
         Link={Link}
-        image={images.coast}
+        image={images.lobby}
         eyebrow="Servicios"
-        title="Comodidades claras para una estadía simple."
-        copy="Wi-Fi, estacionamiento, spa, desayuno y equipamiento de habitaciones según la información provista por el hotel."
+        title="Todo lo que incluye tu estadía."
+        copy="Ordenado por categorías, para encontrar rápido lo que buscás."
         crumbs={[{ label: "Inicio", to: "/" }, { label: "Servicios" }]}
       />
-      <section className="section service-preview">
-        <ServiceRouteGrid Link={Link} />
+      <section className="section service-highlights-section">
+        <SectionHeading eyebrow="Lo más valorado" title="Cuatro cosas que marcan la diferencia." />
+        <div className="service-highlights">
+          {serviceHighlights.map((item) => (
+            <article key={item.title} data-reveal>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                {comfortIcons[item.icon]}
+              </svg>
+              <strong>{item.title}</strong>
+              <span>{item.text}</span>
+            </article>
+          ))}
+        </div>
       </section>
-      <section className="section amenity-section">
-        <SectionHeading
-          eyebrow="Comodidades"
-          title="Todo lo informado por el hotel, ordenado para consultar rápido."
-        />
-        <AmenityGrid />
+      <section className="section service-guide-section">
+        <SectionHeading eyebrow="Guía de servicios" title="Qué vas a encontrar en el hotel." />
+        <div className="service-guide">
+          {serviceGuide.map((group) => (
+            <article key={group.title} className="service-guide__group" data-reveal>
+              <header>
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  {comfortIcons[group.icon]}
+                </svg>
+                <h3>{group.title}</h3>
+              </header>
+              <ul>
+                {group.items.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+              {group.to && (
+                <Link className="text-link" to={group.to}>
+                  {group.cta}
+                </Link>
+              )}
+            </article>
+          ))}
+        </div>
+      </section>
+      <section className="section service-preview">
+        <SectionHeading eyebrow="En fotos" title="Conocé cada espacio." />
+        <ServiceRouteGrid Link={Link} />
       </section>
     </>
   );
@@ -1319,7 +1352,6 @@ function SpaPage({ Link }) {
         <VideoMomentGrid
           videoId={hotel.spaCircuitYoutubeId}
           moments={hotel.spaMoments}
-          poster={spaMomentPoster}
           portrait
         />
       </section>
@@ -1553,12 +1585,20 @@ function ContactPage({ Link }) {
         copy="Consultá disponibilidad directamente con Valeria del Faro Suite & Spa."
         crumbs={[{ label: "Inicio", to: "/" }, { label: "Contacto" }]}
       />
-      <section className="section contact-page">
-        <ContactGrid />
-        <div className="contact-note" data-reveal>
-          <p className="overline">Información importante</p>
-          <PolicyGrid />
+      <section className="section contact-layout">
+        <div className="contact-layout__form" data-reveal>
+          <p className="overline">Consulta de disponibilidad</p>
+          <h2>Contanos tu estadía y te respondemos.</h2>
+          <ReservationForm />
         </div>
+        <aside className="contact-layout__aside" data-reveal>
+          <ReservationSteps />
+          <ContactCards />
+        </aside>
+      </section>
+      <section className="section contact-rules">
+        <p className="overline">Información importante</p>
+        <PolicyGrid />
       </section>
       <section className="section map-section">
         <MapEmbed />
@@ -1792,7 +1832,6 @@ function SpaFeature({ Link }) {
             key={moment.label}
             videoId={hotel.spaCircuitYoutubeId}
             moment={moment}
-            poster={spaMomentPoster(moment)}
             portrait
             compact
           />
@@ -1991,10 +2030,78 @@ const comforts = [
   { icon: "tv", title: "Smart TV", detail: "Android de 50 pulgadas en habitaciones" },
 ];
 
-function ComfortGrid({ Link }) {
+// Servicios destacados y guía por categorías. Todo sale de la información
+// que dio el hotel (hotel.js); acá solo se ordena para leerlo rápido.
+const serviceHighlights = [
+  { icon: "wifi", title: "Wi‑Fi propio en cada habitación", text: "Cada habitación tiene su propio equipo." },
+  { icon: "parking", title: "Estacionamiento propio", text: "Cubierto y descubierto." },
+  { icon: "beach", title: "A 30 pasos del mar", text: "Con acceso por rampa a la playa." },
+  { icon: "spa", title: "Spa todo el año", text: "Hidromasaje, saunas y agua fría, cubiertos." },
+];
+
+const serviceGuide = [
+  {
+    icon: "tv",
+    title: "En tu habitación",
+    items: [
+      "Wi‑Fi propio, con equipo dedicado",
+      "Smart TV Android de 50 pulgadas",
+      "Aire acondicionado",
+      "Frigobar y pava eléctrica",
+      "Caja de seguridad codificada",
+      "Secador de pelo",
+    ],
+    to: "/servicios/habitaciones",
+    cta: "Ver habitaciones",
+  },
+  {
+    icon: "breakfast",
+    title: "Desayuno y áreas comunes",
+    items: [
+      `Desayuno en Planta Baja, de ${hotel.breakfast.time}`,
+      "Lobby con TV Android de 70 pulgadas",
+      "Wi‑Fi en lobby y áreas comunes",
+      "Gimnasio",
+      "Bar junto a la piscina",
+    ],
+    to: "/servicios/desayuno",
+    cta: "Ver desayuno",
+  },
+  {
+    icon: "spa",
+    title: "Spa y piletas",
+    items: hotel.spa,
+    to: "/servicios/spa",
+    cta: "Ver spa",
+  },
+  {
+    icon: "parking",
+    title: "Llegada y playa",
+    items: [
+      "Estacionamiento propio, cubierto y descubierto",
+      "A 30 pasos de la playa",
+      "Acceso por rampa a la playa",
+    ],
+    to: "/ubicacion",
+    cta: "Ver ubicación",
+  },
+  {
+    icon: "safe",
+    title: "Seguridad y accesibilidad",
+    items: [
+      "Espacio cardioprotegido",
+      "Red de incendio en todo el edificio",
+      ...hotel.accessibility,
+    ],
+  },
+];
+
+function ComfortGrid({ Link, only }) {
+  const list = only ? comforts.filter((item) => only.includes(item.icon)) : comforts;
+
   return (
     <ul className="comfort-grid">
-      {comforts.map((amenity) => {
+      {list.map((amenity) => {
         const content = (
           <>
             <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -2091,19 +2198,6 @@ function PillList({ items }) {
   );
 }
 
-function AmenityGrid() {
-  return (
-    <div className="amenity-grid">
-      {hotel.services.map((service) => (
-        <article className="amenity-item" key={service} data-reveal>
-          <img className="amenity-icon" src={icon} alt="" aria-hidden="true" />
-          <p>{service}</p>
-        </article>
-      ))}
-    </div>
-  );
-}
-
 function PolicyGrid() {
   return (
     <div className="policy-grid">
@@ -2117,36 +2211,6 @@ function PolicyGrid() {
   );
 }
 
-function ContactGrid() {
-  return (
-    <div className="contact-grid" data-reveal>
-      <a className="contact-grid__whatsapp" href={hotel.whatsappHref} target="_blank" rel="noreferrer">
-        <span>WhatsApp</span>
-        <strong>Escribinos directo</strong>
-      </a>
-      <a href={hotel.phoneHref}>
-        <span>Teléfono</span>
-        <strong>{hotel.phone}</strong>
-      </a>
-      <a href={hotel.emailHref}>
-        <span>Email</span>
-        <strong>{hotel.email}</strong>
-      </a>
-      <div>
-        <span>Dirección</span>
-        <strong>{hotel.address}</strong>
-      </div>
-      <div>
-        <span>Ubicación</span>
-        <strong>{hotel.location}</strong>
-      </div>
-      <a href={hotel.mapsHref} target="_blank" rel="noreferrer">
-        <span>Mapa</span>
-        <strong>Abrir ubicación</strong>
-      </a>
-    </div>
-  );
-}
 
 function TestimonialsSection() {
   return (
