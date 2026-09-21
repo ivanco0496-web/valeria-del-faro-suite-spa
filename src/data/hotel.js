@@ -25,6 +25,11 @@ export const hotel = {
   history:
     "Somos una empresa familiar. Empezamos este proyecto en 2013, enamorados de este lugar, y en 2024 pudimos darle forma a este sueño con mucho trabajo y empuje.",
   promise: "A solo 30 pasos de la playa",
+  // Cada habitación tiene su propio equipo de Wi-Fi (el disco del techo).
+  wifi: {
+    title: "Wi‑Fi propio en la habitación",
+    text: "Cada habitación tiene su propio equipo de Wi‑Fi: no compartís la señal con el resto del hotel.",
+  },
   valuePoints: [
     "A solo 30 pasos de la playa",
     "Acceso por rampa a la playa",
@@ -69,7 +74,7 @@ export const hotel = {
         "Cama Queen",
         "Dos equipos de aire acondicionado",
         "Smart TV de 50 pulgadas",
-        "Wi‑Fi independiente",
+        "Wi‑Fi propio: equipo dedicado en la habitación",
         "Frigobar",
         "Caja de seguridad",
         "Secador de pelo",
@@ -110,7 +115,7 @@ export const hotel = {
         "Dos sommieres individuales convertibles a Queen",
         "Aire acondicionado",
         "Smart TV de 50 pulgadas",
-        "Wi‑Fi independiente",
+        "Wi‑Fi propio: equipo dedicado en la habitación",
         "Frigobar",
         "Caja de seguridad",
         "Secador de pelo",
@@ -149,7 +154,7 @@ export const hotel = {
       details: [
         "Cama Queen y sofá cama con carrito",
         "Área de estar con dos sillones y mesa ratona",
-        "Wi‑Fi independiente",
+        "Wi‑Fi propio: equipo dedicado en la habitación",
         "Aire acondicionado",
         "Frigobar",
         "Caja de seguridad",
@@ -217,7 +222,7 @@ export const hotel = {
     ],
   },
   services: [
-    "Wi‑Fi independiente en cada habitación",
+    "Wi‑Fi propio en cada habitación, con su propio equipo",
     "Wi‑Fi en lobby y áreas comunes",
     "Frigobar, pava eléctrica y caja de seguridad codificada",
     "TV Android de 50 pulgadas en habitaciones",

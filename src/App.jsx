@@ -905,6 +905,10 @@ function HomePage({ Link }) {
             <span>Bienestar</span>
             <strong>Spa & piscina</strong>
           </article>
+          <article>
+            <span>Conexión</span>
+            <strong>Wi‑Fi en cada habitación</strong>
+          </article>
         </div>
       </section>
 
@@ -1153,6 +1157,10 @@ function RoomPage({ Link, room }) {
           <p className="detail-panel__capacity">
             <span>Capacidad máxima</span>
             <strong>{room.capacity}</strong>
+          </p>
+          <p className="detail-panel__wifi">
+            <strong>{hotel.wifi.title}</strong>
+            <span>{hotel.wifi.text}</span>
           </p>
           <SeaViewBadge note={room.seaView} />
           <DetailList items={room.details} />
@@ -1901,6 +1909,7 @@ function RoomCard({ room, Link }) {
         <h3>{room.name}</h3>
         <p className="room-meta">{room.meta}</p>
         <p className="room-card__capacity">{room.capacity}</p>
+        <p className="room-card__wifi">{hotel.wifi.title}</p>
         <SeaViewBadge note={room.seaView} compact />
         <p>{room.description}</p>
         <Link className="text-link" to={room.path}>
@@ -1972,7 +1981,7 @@ const comfortIcons = {
 };
 
 const comforts = [
-  { icon: "wifi", title: "Wi‑Fi", detail: "En cada habitación y en áreas comunes" },
+  { icon: "wifi", title: "Wi‑Fi propio", detail: "Un equipo en cada habitación, y señal en áreas comunes" },
   { icon: "parking", title: "Estacionamiento", detail: "Propio, cubierto y descubierto" },
   { icon: "beach", title: "Playa", detail: "A 30 pasos, con acceso por rampa", to: "/ubicacion" },
   { icon: "breakfast", title: "Desayuno", detail: hotel.breakfast.time, to: "/servicios/desayuno" },
