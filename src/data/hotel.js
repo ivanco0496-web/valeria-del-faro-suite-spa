@@ -10,10 +10,12 @@ export const hotel = {
   email: "valeriadelfarohotel@gmail.com",
   emailHref: "mailto:valeriadelfarohotel@gmail.com",
   website: "https://www.valeriadelfarosuiteyspa.com/",
+  // El mapa busca al hotel por su nombre en Google Maps: buscando solo la
+  // dirección, Google marcaba la calle y no mostraba el hotel.
   mapsHref:
-    "https://www.google.com/maps/search/?api=1&query=Corbeta%20Cefiro%2042%2C%20Valeria%20del%20Mar",
+    "https://www.google.com/maps/search/?api=1&query=Hotel%20Valeria%20Del%20Faro%20Suite%20%26%20SPA%20Valeria%20del%20Mar",
   mapsEmbedSrc:
-    "https://www.google.com/maps?q=Corbeta%20Cefiro%2042%2C%20Valeria%20del%20Mar%2C%20Provincia%20de%20Buenos%20Aires&output=embed",
+    "https://www.google.com/maps?q=Hotel%20Valeria%20Del%20Faro%20Suite%20%26%20SPA%20Valeria%20del%20Mar&output=embed",
   whatsappHref:
     "https://api.whatsapp.com/send?phone=5491136422333&text=Hotel%20Valeria%20del%20Faro%3A%20Por%20favor%20ingrese%20Nombre%20y%20apellido%2C%20Email%2C%20cant%20de%20personas%2C%20fecha%20de%20reserva%2C%20y%20mensaje%3A%20Gracias",
   instagram: "https://www.instagram.com/hotelvaleriadelfaro/",
@@ -29,8 +31,8 @@ export const hotel = {
     "Estacionamiento propio, cubierto y descubierto",
   ],
   distances: [
+    { place: "Centro comercial de Valeria", distance: "6 cuadras" },
     { place: "Cariló", distance: "3 km" },
-    { place: "Valeria del Mar", distance: "10 cuadras" },
     { place: "Pinamar", distance: "5 km" },
   ],
   rooms: [
@@ -274,7 +276,7 @@ export const hotel = {
       score: "5,0",
       label: "Excelente",
       count: 132,
-      url: "https://www.google.com/maps/search/?api=1&query=Corbeta%20Cefiro%2042%2C%20Valeria%20del%20Mar",
+      url: "https://www.google.com/maps/search/?api=1&query=Hotel%20Valeria%20Del%20Faro%20Suite%20%26%20SPA%20Valeria%20del%20Mar",
     },
   ],
   testimonials: [

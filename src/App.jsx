@@ -132,7 +132,7 @@ const navItems = [
 const serviceRoutes = [
   {
     title: "Habitaciones",
-    meta: "17 habitaciones",
+    meta: "17 habitaciones, suite incluida",
     to: "/servicios/habitaciones",
     image: images.habitacion,
     description:
@@ -1059,7 +1059,7 @@ function RoomsPage({ Link }) {
         Link={Link}
         image={images.roomMatrimonial}
         eyebrow="Habitaciones"
-        title="17 habitaciones y una suite con vista directa al mar."
+        title="16 habitaciones y la Suite Presidencial: 17 en total."
         copy="Matrimoniales, dobles y Suite Presidencial, con superficies amplias y equipamiento real informado por el hotel."
         crumbs={[
           { label: "Inicio", to: "/" },
@@ -1831,9 +1831,9 @@ function RoomTally({ Link }) {
         </Link>
       ))}
       <p className="room-tally__note">
-        17 habitaciones en total. 16 para dos personas, y ocho de las
-        matrimoniales son cuádruples. Vista directa al mar, solo en la Suite
-        Presidencial. Algunas dobles también miran al mar, según
+        17 habitaciones en total: 16 habitaciones más la Suite Presidencial.
+        Ocho de las matrimoniales son cuádruples. Vista directa al mar, solo en
+        la Suite Presidencial. Algunas dobles también miran al mar, según
         disponibilidad. Cada habitación se reserva por su capacidad máxima, que
         no se negocia.
       </p>
@@ -2008,7 +2008,7 @@ function ServiceRouteGrid({ Link, limit }) {
 
 function FactGrid() {
   const facts = [
-    { value: "17", label: "habitaciones" },
+    { value: "17", label: "habitaciones, suite incluida" },
     { value: "30", label: "pasos de la playa" },
     { value: "2013", label: "inicio del proyecto familiar" },
     { value: "2024", label: "hotel completado" },
