@@ -2316,40 +2316,60 @@ function FinalCta({ Link, compact = false }) {
 function Footer({ Link }) {
   return (
     <footer className="site-footer">
-      <div>
-        <Link className="footer-brand" to="/">
-          {hotel.fullName}
-        </Link>
-        <p>{hotel.concept}</p>
-        <p>{hotel.address}</p>
-        <p>{hotel.phone}</p>
-      </div>
-      <nav aria-label="Navegación secundaria">
-        <Link to="/hotel">Hotel</Link>
-        <Link to="/servicios/habitaciones">Habitaciones</Link>
-        <Link to="/servicios/spa">Spa</Link>
-        <Link to="/servicios">Servicios</Link>
-        <Link to="/actividades">Actividades</Link>
-        <Link to="/contacto">Contacto</Link>
-      </nav>
-      <div className="footer-connect">
-        <Link className="button button-outline" to="/contacto">
-          Reservar
-        </Link>
-        <div className="footer-social" aria-label="Redes sociales">
-          <a href={hotel.whatsappHref} target="_blank" rel="noreferrer" aria-label="WhatsApp">
-            WhatsApp
-          </a>
-          <a href={hotel.instagram} target="_blank" rel="noreferrer" aria-label="Instagram">
-            Instagram
-          </a>
-          <a href={hotel.youtube} target="_blank" rel="noreferrer" aria-label="YouTube">
-            YouTube
-          </a>
+      <div className="site-footer__grid">
+        <div className="site-footer__brand">
+          <Link className="footer-brand" to="/">
+            {hotel.name}
+            <span>{hotel.descriptor}</span>
+          </Link>
+          <p>{hotel.concept}</p>
         </div>
-        <p className="footer-copyright">
+
+        <div className="site-footer__col">
+          <p className="footer-title">Contacto</p>
+          <address>
+            {hotel.addressShort}
+            <br />
+            Provincia de Buenos Aires
+          </address>
+          <a href={hotel.phoneHref}>{hotel.phone}</a>
+          <a href={hotel.emailHref}>{hotel.email}</a>
+        </div>
+
+        <nav className="site-footer__col" aria-label="Navegación secundaria">
+          <p className="footer-title">Explorar</p>
+          <Link to="/hotel">Hotel</Link>
+          <Link to="/servicios/habitaciones">Habitaciones</Link>
+          <Link to="/servicios/spa">Spa</Link>
+          <Link to="/servicios">Servicios</Link>
+          <Link to="/actividades">Actividades</Link>
+          <Link to="/contacto">Contacto</Link>
+        </nav>
+
+        <div className="site-footer__col">
+          <p className="footer-title">Reservas</p>
+          <Link className="button button-outline" to="/contacto">
+            Consultar disponibilidad
+          </Link>
+          <div className="footer-social" aria-label="Redes sociales">
+            <a href={hotel.whatsappHref} target="_blank" rel="noreferrer">
+              WhatsApp
+            </a>
+            <a href={hotel.instagram} target="_blank" rel="noreferrer">
+              Instagram
+            </a>
+            <a href={hotel.youtube} target="_blank" rel="noreferrer">
+              YouTube
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div className="site-footer__bottom">
+        <p>
           © {new Date().getFullYear()} {hotel.fullName}. Todos los derechos reservados.
         </p>
+        <p className="footer-credit">Diseñado por Petala®</p>
       </div>
     </footer>
   );
