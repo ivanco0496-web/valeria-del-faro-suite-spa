@@ -7,8 +7,10 @@ export const hotel = {
   addressShort: "Corbeta Cefiro 42, Valeria del Mar",
   phone: "+54 2254 51 3191",
   phoneHref: "tel:+542254513191",
-  email: "valeriadelfarohotel@gmail.com",
-  emailHref: "mailto:valeriadelfarohotel@gmail.com",
+  // Dirección del dominio del hotel. Cloudflare Email Routing la reenvía al
+  // Gmail del hotel (valeriadelfarohotel@gmail.com), donde se lee y responde.
+  email: "contacto@valeriadelfaro.com.ar",
+  emailHref: "mailto:contacto@valeriadelfaro.com.ar",
   website: "https://www.valeriadelfarosuiteyspa.com/",
   // El mapa busca al hotel por su nombre en Google Maps: buscando solo la
   // dirección, Google marcaba la calle y no mostraba el hotel.
