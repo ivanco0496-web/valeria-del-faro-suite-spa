@@ -857,11 +857,7 @@ function VideoMomentGrid({ videoId, moments, portrait = false }) {
 function HomePage({ Link }) {
   useEffect(() => {
     document.body.classList.add("is-home");
-    document.body.style.setProperty("--home-bg-url", `url(${images.poolExterior})`);
-    return () => {
-      document.body.classList.remove("is-home");
-      document.body.style.removeProperty("--home-bg-url");
-    };
+    return () => document.body.classList.remove("is-home");
   }, []);
 
   return (
@@ -1599,9 +1595,6 @@ function ContactPage({ Link }) {
       <section className="section contact-rules">
         <p className="overline">Información importante</p>
         <PolicyGrid />
-      </section>
-      <section className="section map-section">
-        <MapEmbed />
       </section>
     </>
   );
