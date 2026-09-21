@@ -37,25 +37,25 @@
 
 html {
   scroll-behavior: smooth;
-  background: var(--paper);
+  background:
+    linear-gradient(180deg, rgba(255, 253, 248, 0.92), rgba(243, 238, 229, 0.96)),
+    var(--paper);
 }
 
 body {
   margin: 0;
   min-width: 320px;
   color: var(--ink);
-  background:
-    linear-gradient(180deg, rgba(255, 253, 248, 0.92), rgba(243, 238, 229, 0.96)),
-    var(--paper);
+  background: transparent;
 }
 
 /* On the home page, a very soft, fixed hotel photo sits behind the
    content so it's revealed while scrolling instead of flat cream. */
-/* En el inicio, la cúpula del isotipo queda fija detrás del contenido como
+/* En todas las páginas, la cúpula del isotipo queda fija detrás del contenido como
    marca de agua mientras se baja. Es una imagen con fondo transparente y
    muy tenue, así no compite con el texto. Se usa un elemento fijo en vez de
    background-attachment: fixed, que los celulares no respetan. */
-body.is-home::before {
+body::before {
   content: "";
   position: fixed;
   inset: 0;
@@ -65,7 +65,7 @@ body.is-home::before {
 }
 
 @media (max-width: 719px) {
-  body.is-home::before {
+  body::before {
     background-position: center 58%;
     background-size: 72vw auto;
   }
