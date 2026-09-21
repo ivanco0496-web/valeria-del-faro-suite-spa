@@ -3062,3 +3062,19 @@ button:focus-visible {
     transform: none !important;
   }
 }
+
+/* Aviso de la piscina exterior: una sola, templada, en temporada alta. */
+.pool-notice {
+  margin: 0 0 26px;
+  padding: 18px 22px;
+  color: var(--ink-soft);
+  background: rgba(168, 35, 58, 0.06);
+  border-left: 4px solid var(--sea);
+  border-radius: 0 8px 8px 0;
+  font-size: 0.98rem;
+  line-height: 1.65;
+}
+
+.pool-notice strong {
+  color: var(--sea-dark);
+}

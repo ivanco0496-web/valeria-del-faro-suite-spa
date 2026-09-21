@@ -68,7 +68,8 @@ const images = {
   get fachada() { return photoSrc("hotel-fachada") ?? poolExterior; },
   get lobby() { return photoSrc("hotel-lobby") ?? hotelEntryWide; },
   get desayunoReal() { return photoSrc("hotel-desayuno") ?? breakfast; },
-  get piscinaReal() { return photoSrc("hotel-piscina") ?? poolHydromassage; },
+  // Pileta exterior con agua: la toma filmada de la cubierta está vacía.
+  get piscinaReal() { return poolExterior; },
   get habitacion() { return photoSrc("matrimonial-ambiente") ?? roomMatrimonial; },
   heroPoolGlass,
   coast: oceanView,
@@ -111,12 +112,28 @@ function spaMomentPoster(moment) {
   return spaMomentPosters[moment.label] ?? poolHydromassage;
 }
 
+// Piletas con agua y saunas, tomadas del sitio del hotel
+// (valeriadelfarosuiteyspa.com), donde las publica la dueña. Las filmamos en
+// mayo con la pileta cubierta vacía, por eso no usamos esas tomas.
+function spaPhotos() {
+  return [
+    { name: "spa-galeria-vidrio", caption: "Piscina climatizada y jacuzzi, bajo la galería de vidrio" },
+    { name: "spa-piscina-exterior", caption: "La piscina exterior templada, abierta en temporada alta" },
+    { name: "spa-saunas", caption: "Sauna seco y sauna húmedo" },
+  ]
+    .map((photo) => ({
+      src: photoSrc(photo.name),
+      alt: `Spa de Valeria del Faro: ${photo.caption}`,
+      caption: photo.caption,
+    }))
+    .filter((photo) => photo.src);
+}
+
 // Recorrido del hotel filmado en el lugar, para la página del hotel.
 const hotelClips = [
   { label: "La fachada", text: "El edificio sobre la calle Corbeta Cefiro.", video: "hotel-fachada", photo: "hotel-cartel" },
   { label: "Lobby", text: "Recepción atendida por los dueños.", video: "hotel-lobby", photo: "hotel-lobby" },
   { label: "Salón del desayuno", text: "Planta Baja, de 08:30 a 10:30 hs.", video: "hotel-desayuno", photo: "hotel-desayuno" },
-  { label: "Piscina cubierta", text: "Galería de vidrio sobre la pileta.", video: "hotel-piscina", photo: "hotel-piscina" },
 ];
 
 const navItems = [
@@ -160,7 +177,7 @@ const serviceRoutes = [
     to: "/servicios/piscina",
     image: images.piscinaReal,
     description:
-      "Piscina de hidromasajes, piscina de agua fría y piscina exterior templada en temporada alta.",
+      "Una sola piscina exterior templada, abierta en temporada alta. Todo el año: hidromasaje y agua fría cubiertas.",
   },
 ];
 
@@ -1298,6 +1315,7 @@ function SpaPage({ Link }) {
           portrait
         />
       </section>
+      <PhotoGallery title="Las piletas y el spa" photos={spaPhotos()} />
       <section className="section amenity-section">
         <SectionHeading
           eyebrow="Ritual guiado"
@@ -1358,11 +1376,10 @@ function PoolPage({ Link }) {
     <>
       <PageHero
         Link={Link}
-        image={images.piscinaReal}
-        video="hotel-piscina"
+        image={images.heroPoolGlass}
         eyebrow="Piscina"
         title="Tres piletas, tres momentos distintos."
-        copy="Piscina de hidromasaje climatizada, agua fría para el contraste y una pileta exterior templada en temporada de verano."
+        copy="Hidromasaje climatizado y agua fría, cubiertas y todo el año. Y una sola piscina exterior templada, que abre en temporada alta."
         crumbs={[
           { label: "Inicio", to: "/" },
           { label: "Servicios", to: "/servicios" },
@@ -1374,6 +1391,12 @@ function PoolPage({ Link }) {
           eyebrow="Piscinas"
           title="Cada pileta, con su propio lugar en el circuito."
         />
+        <p className="pool-notice" data-reveal>
+          <strong>Piscina exterior: hay una sola.</strong> Es de agua templada y
+          abre únicamente en temporada alta de verano. El resto del año podés
+          disfrutar del hidromasaje climatizado y la piscina de agua fría,
+          ambas cubiertas.
+        </p>
         <div className="room-grid">
           {hotel.pools.map((pool, index) => (
             <article className="room-card" key={pool.name} data-reveal>

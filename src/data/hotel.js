@@ -168,7 +168,7 @@ export const hotel = {
   spaMoments: [
     { label: "Piscina de hidromasaje", text: "Climatizada y cubierta, bajo galería de vidrio.", start: 30, end: 36 },
     { label: "Cascada", text: "Hidromasajes en las paredes de la piscina.", start: 39, end: 45 },
-    { label: "Sauna seco", text: "Dos saunas secos revestidos en madera.", start: 12, end: 18 },
+    { label: "Sauna seco", text: "Sauna seco revestido en madera.", start: 12, end: 18 },
     { label: "Sauna húmedo", text: "Vapor para completar el circuito.", start: 21, end: 27 },
     { label: "Batas y vestuarios", text: "Vestuarios con duchas, batas y toallones.", start: 6, end: 10 },
   ],
@@ -187,20 +187,20 @@ export const hotel = {
     },
     {
       name: "Piscina exterior",
-      meta: "Temporada de verano",
+      meta: "Una sola · templada · temporada alta",
       description:
-        "Pileta al aire libre de agua templada, abierta durante la temporada alta de verano.",
+        "Es la única piscina exterior del hotel: de agua templada y abierta solo durante la temporada alta de verano.",
     },
   ],
   accessibleRoomYoutubeId: "ajfkw0uQh3s",
   spa: [
     "Piscina de hidromasaje climatizada y cubierta",
     "Piscina de agua fría cubierta",
-    "Dos saunas secos",
+    "Sauna seco",
     "Sauna húmedo",
     "Vestuarios con duchas, batas y toallones",
     "Masajes con reserva previa",
-    "Piscina exterior templada en temporada de verano",
+    "Una piscina exterior templada, solo en temporada alta",
   ],
   breakfast: {
     time: "08:30 a 10:30 hs",
