@@ -20,6 +20,9 @@ export const hotel = {
     "https://www.google.com/maps?q=Hotel%20Valeria%20Del%20Faro%20Suite%20%26%20SPA%20Valeria%20del%20Mar&output=embed",
   whatsappHref:
     "https://api.whatsapp.com/send?phone=5491136422333&text=Hotel%20Valeria%20del%20Faro%3A%20Por%20favor%20ingrese%20Nombre%20y%20apellido%2C%20Email%2C%20cant%20de%20personas%2C%20fecha%20de%20reserva%2C%20y%20mensaje%3A%20Gracias",
+  // Motor de reservas online del hotel (Venice): disponibilidad y precios en
+  // tiempo real, conectado al sistema de gestión del hotel.
+  bookingHref: "https://booking.venicepms.com/vdf109/resonline/",
   instagram: "https://www.instagram.com/hotelvaleriadelfaro/",
   youtube: "https://www.youtube.com/@ValeriaDelFaroSuiteSpa",
   concept:

@@ -341,20 +341,22 @@ function App() {
       </main>
       <Footer Link={SiteLink} />
       <WhatsAppButton />
-      <MobileBookingBar Link={SiteLink} />
+      <MobileBookingBar />
     </div>
   );
 }
 
 // Fixed bottom bar on phones only (hidden by CSS on wider screens); it
 // replaces the floating WhatsApp button on mobile.
-function MobileBookingBar({ Link }) {
+function MobileBookingBar() {
   return (
     <div className="mobile-booking-bar">
       <a href={hotel.whatsappHref} target="_blank" rel="noreferrer">
         WhatsApp
       </a>
-      <Link to="/contacto">Reservar</Link>
+      <a href={hotel.bookingHref} target="_blank" rel="noreferrer">
+        Reservar
+      </a>
     </div>
   );
 }
@@ -424,9 +426,9 @@ function Header({ Link, activePath, menuOpen, setMenuOpen }) {
         <a className="header-phone" href={hotel.phoneHref}>
           Llamar
         </a>
-        <Link className="header-cta" to="/contacto">
+        <a className="header-cta" href={hotel.bookingHref} target="_blank" rel="noreferrer">
           Reservar
-        </Link>
+        </a>
         <button
           className="menu-toggle"
           type="button"
