@@ -8,7 +8,8 @@
     { "source": "/desayuno", "has": [{ "type": "host", "value": "(www\\.)?valeriadelfarosuiteyspa\\.com" }], "destination": "https://www.valeriadelfaro.com.ar/servicios/desayuno", "permanent": true },
     { "source": "/actividades", "has": [{ "type": "host", "value": "(www\\.)?valeriadelfarosuiteyspa\\.com" }], "destination": "https://www.valeriadelfaro.com.ar/actividades", "permanent": true },
     { "source": "/contacto", "has": [{ "type": "host", "value": "(www\\.)?valeriadelfarosuiteyspa\\.com" }], "destination": "https://www.valeriadelfaro.com.ar/contacto", "permanent": true },
-    { "source": "/:path*", "has": [{ "type": "host", "value": "(www\\.)?valeriadelfarosuiteyspa\\.com" }], "destination": "https://www.valeriadelfaro.com.ar/", "permanent": true }
+    { "source": "/", "has": [{ "type": "host", "value": "(www\\.)?valeriadelfarosuiteyspa\\.com" }], "destination": "https://www.valeriadelfaro.com.ar/", "permanent": true },
+    { "source": "/(.*)", "has": [{ "type": "host", "value": "(www\\.)?valeriadelfarosuiteyspa\\.com" }], "destination": "https://www.valeriadelfaro.com.ar/", "permanent": true }
   ],
   "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
 }
