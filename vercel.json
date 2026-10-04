@@ -1,3 +1,14 @@
 {
+  "redirects": [
+    { "source": "/nosotros", "has": [{ "type": "host", "value": "(www\\.)?valeriadelfarosuiteyspa\\.com" }], "destination": "https://www.valeriadelfaro.com.ar/hotel", "permanent": true },
+    { "source": "/hotel-en-valeria-del-mar-cama-matrimonial", "has": [{ "type": "host", "value": "(www\\.)?valeriadelfarosuiteyspa\\.com" }], "destination": "https://www.valeriadelfaro.com.ar/servicios/habitaciones/matrimonial", "permanent": true },
+    { "source": "/hotel-en-valeria-del-mar-cama-doble", "has": [{ "type": "host", "value": "(www\\.)?valeriadelfarosuiteyspa\\.com" }], "destination": "https://www.valeriadelfaro.com.ar/servicios/habitaciones/doble", "permanent": true },
+    { "source": "/suite-presidencial", "has": [{ "type": "host", "value": "(www\\.)?valeriadelfarosuiteyspa\\.com" }], "destination": "https://www.valeriadelfaro.com.ar/servicios/habitaciones/presidencial", "permanent": true },
+    { "source": "/circuitodespavaleriadelmar", "has": [{ "type": "host", "value": "(www\\.)?valeriadelfarosuiteyspa\\.com" }], "destination": "https://www.valeriadelfaro.com.ar/servicios/spa", "permanent": true },
+    { "source": "/desayuno", "has": [{ "type": "host", "value": "(www\\.)?valeriadelfarosuiteyspa\\.com" }], "destination": "https://www.valeriadelfaro.com.ar/servicios/desayuno", "permanent": true },
+    { "source": "/actividades", "has": [{ "type": "host", "value": "(www\\.)?valeriadelfarosuiteyspa\\.com" }], "destination": "https://www.valeriadelfaro.com.ar/actividades", "permanent": true },
+    { "source": "/contacto", "has": [{ "type": "host", "value": "(www\\.)?valeriadelfarosuiteyspa\\.com" }], "destination": "https://www.valeriadelfaro.com.ar/contacto", "permanent": true },
+    { "source": "/:path*", "has": [{ "type": "host", "value": "(www\\.)?valeriadelfarosuiteyspa\\.com" }], "destination": "https://www.valeriadelfaro.com.ar/", "permanent": true }
+  ],
   "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
 }
