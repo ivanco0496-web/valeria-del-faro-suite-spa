@@ -29,6 +29,20 @@ document.addEventListener(
   true,
 );
 
+// Conversión de Google Ads: clic en "Reservar" (abre el motor de reservas).
+document.addEventListener(
+  "click",
+  (event) => {
+    const link = event.target.closest('a[href*="venicepms.com"]');
+    if (link && typeof window.gtag === "function") {
+      window.gtag("event", "conversion", {
+        send_to: "AW-16818265351/whs2CLza3pwdEIe6ydM-",
+      });
+    }
+  },
+  true,
+);
+
 const carga = document.getElementById("carga");
 
 if (carga) {
