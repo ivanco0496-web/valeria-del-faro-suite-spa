@@ -153,7 +153,7 @@ const serviceRoutes = [
     to: "/servicios/desayuno",
     image: images.desayunoReal,
     description:
-      "Desayuno servido en Planta Baja con productos clásicos para empezar el día sin apuro.",
+      "Desayuno incluido en todas las tarifas, servido en Planta Baja con productos clásicos para empezar el día sin apuro.",
   },
   {
     title: "Piscina",
@@ -1386,7 +1386,7 @@ function BreakfastPage({ Link }) {
         video="hotel-desayuno"
         eyebrow="Desayuno"
         title="Empezá el día sin apuro."
-        copy={`Se sirve en ${hotel.breakfast.place} de ${hotel.breakfast.time}.`}
+        copy={`Incluido en todas las tarifas. Se sirve en ${hotel.breakfast.place} de ${hotel.breakfast.time}.`}
         crumbs={[
           { label: "Inicio", to: "/" },
           { label: "Servicios", to: "/servicios" },
@@ -1397,7 +1397,10 @@ function BreakfastPage({ Link }) {
         <div className="detail-copy" data-reveal>
           <p className="overline">Horario</p>
           <h2>{hotel.breakfast.time}</h2>
-          <p>El desayuno se sirve en {hotel.breakfast.place}.</p>
+          <p>
+            El desayuno está incluido en todas las tarifas y se sirve en{" "}
+            {hotel.breakfast.place}.
+          </p>
         </div>
         <aside className="detail-panel" data-reveal>
           <h3>Incluye</h3>
@@ -1850,8 +1853,9 @@ function BreakfastFeature({ Link }) {
           </p>
           <h2>Empezá el día sin apuro.</h2>
           <p>
-            Se sirve en {hotel.breakfast.place} de {hotel.breakfast.time}, con
-            clásicos de desayuno informados por el hotel.
+            Incluido en todas las tarifas. Se sirve en {hotel.breakfast.place}{" "}
+            de {hotel.breakfast.time}, con clásicos de desayuno informados por
+            el hotel.
           </p>
           <div className="breakfast-time">
             <strong>{hotel.breakfast.time}</strong>
@@ -2018,7 +2022,7 @@ const comforts = [
   { icon: "wifi", title: "Wi‑Fi propio", detail: "Un equipo en cada habitación, y señal en áreas comunes" },
   { icon: "parking", title: "Estacionamiento", detail: "Propio, cubierto y descubierto" },
   { icon: "beach", title: "Playa", detail: "A 30 pasos, con acceso por rampa", to: "/ubicacion" },
-  { icon: "breakfast", title: "Desayuno", detail: hotel.breakfast.time, to: "/servicios/desayuno" },
+  { icon: "breakfast", title: "Desayuno incluido", detail: hotel.breakfast.time, to: "/servicios/desayuno" },
   { icon: "spa", title: "Spa", detail: "Hidromasaje, saunas y masajes", to: "/servicios/spa" },
   { icon: "pool", title: "Piscinas", detail: "Cubiertas y exterior en temporada", to: "/servicios/piscina" },
   { icon: "safe", title: "Caja de seguridad", detail: "Codificada, con frigobar y pava eléctrica" },
@@ -2053,7 +2057,7 @@ const serviceGuide = [
     icon: "breakfast",
     title: "Desayuno y áreas comunes",
     items: [
-      `Desayuno en Planta Baja, de ${hotel.breakfast.time}`,
+      `Desayuno incluido en Planta Baja, de ${hotel.breakfast.time}`,
       "Lobby con TV Android de 70 pulgadas",
       "Wi‑Fi en lobby y áreas comunes",
       "Gimnasio",
