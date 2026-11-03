@@ -2294,7 +2294,7 @@ function FinalCta({ Link, compact = false }) {
       </div>
       <div className="final-cta__content" data-reveal>
         <p className="overline">Reserva y contacto</p>
-        <h2>Consultá disponibilidad frente al mar.</h2>
+        <h2>Consultá disponibilidad a 30 pasos de la playa.</h2>
         <p>
           Atención directa por teléfono o email para coordinar tu estadía en
           Valeria del Faro Suite & Spa.
