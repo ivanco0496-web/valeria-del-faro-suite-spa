@@ -1330,8 +1330,14 @@ function SpaPage({ Link }) {
         </div>
         <div className="flow-copy" data-reveal>
           <p>
-            El circuito de spa incluye hidromasaje, piscina de agua fría,
-            saunas, vestuarios y masajes con reserva previa.
+            <strong>
+              El circuito de spa está incluido en la tarifa y es para
+              huéspedes mayores de 18 años.
+            </strong>
+          </p>
+          <p>
+            Incluye hidromasaje, piscina de agua fría, saunas y vestuarios. Los
+            masajes se reservan con anticipación.
           </p>
           <PillList items={hotel.spa} />
           <div className="action-row">
