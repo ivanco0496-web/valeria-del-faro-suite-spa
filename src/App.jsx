@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { hotel } from "./data/hotel.js";
 import { ContactCards, ReservationForm, ReservationSteps } from "./ContactForm.jsx";
 import logo from "./assets/hotel/valeria-del-faro-logo-transparent.webp";
+import brandIcon from "./assets/hotel/valeria-del-faro-icon.png";
 import heroPoolGlass from "./assets/hotel/hero-pool-glass.avif";
 import oceanView from "./assets/hotel/ocean-view.avif";
 import roomMatrimonial from "./assets/hotel/room-matrimonial.avif";
@@ -73,7 +74,9 @@ const images = {
   get habitacion() { return photoSrc("matrimonial-ambiente") ?? roomMatrimonial; },
   heroPoolGlass,
   coast: oceanView,
-  strip: activitiesBeach,
+  // Cierre de cada pagina: la fachada, no la foto de los pies en la espuma,
+  // que bajo el overlay bordo parecia manchada.
+  get strip() { return photoSrc("hotel-fachada") ?? oceanView; },
   spa: spaHydromassage,
   spaSauna,
   suite: suitePresidencial,
@@ -402,8 +405,17 @@ function Header({ Link, activePath, menuOpen, setMenuOpen }) {
 
   return (
     <header className="site-header" aria-label="Navegación principal">
-      <Link className="brand-mark" to="/" onClick={() => setMenuOpen(false)}>
-        <img className="brand-logo" src={logo} alt={hotel.fullName} />
+      <Link
+        className="brand-mark"
+        to="/"
+        aria-label={`${hotel.fullName}, ir al inicio`}
+        onClick={() => setMenuOpen(false)}
+      >
+        <img className="brand-icon" src={brandIcon} alt="" width="55" height="50" />
+        <span className="brand-copy">
+          <strong>{hotel.name}</strong>
+          <small>{hotel.descriptor}</small>
+        </span>
       </Link>
 
       <nav
@@ -512,6 +524,7 @@ function HeroVideoBackground({ videoId, variant = "hero", segments, portrait = f
   onStartRef.current = onStart;
   const segmentIndexRef = useRef(0);
   const seekingRef = useRef(false);
+  const playerStateRef = useRef(-1);
   const baseClass =
     variant === "card"
       ? "card-video-frame"
@@ -540,7 +553,11 @@ function HeroVideoBackground({ videoId, variant = "hero", segments, portrait = f
       window.clearTimeout(safetyTimer);
       cutTimer = window.setTimeout(() => {
         send("seekTo", [segmentsRef.current[index][0], true]);
-        send("playVideo");
+        // Con el video ya reproduciendo alcanza con saltar: mandar también
+        // playVideo hace que YouTube muestre su botón de pausa encima.
+        if (playerStateRef.current !== 1 && playerStateRef.current !== 3) {
+          send("playVideo");
+        }
       }, CUT_FADE_MS);
       // Never leave the video hidden if the player doesn't report back.
       safetyTimer = window.setTimeout(() => {
@@ -559,6 +576,9 @@ function HeroVideoBackground({ videoId, variant = "hero", segments, portrait = f
         return;
       }
       if (data.event !== "infoDelivery" || !data.info) return;
+      if (typeof data.info.playerState === "number") {
+        playerStateRef.current = data.info.playerState;
+      }
       if (data.info.playerState === 1) {
         setIsPlaying(true);
         onStartRef.current?.();
@@ -915,12 +935,10 @@ function HomePage({ Link }) {
           index="01"
           eyebrow="Experiencia"
           title="Un lugar para bajar el ritmo."
-          copy={hotel.concept}
         />
         <div className="split-layout split-layout--center">
           <div className="editorial-copy" data-reveal>
             <p>{hotel.history}</p>
-            <DetailList items={hotel.valuePoints} />
           </div>
           <FactGrid />
         </div>
@@ -1830,7 +1848,7 @@ function SpaFeature({ Link }) {
           </Link>
         </div>
       </div>
-      <div className="spa-feature__reel">
+      <div className="spa-feature__reel" role="group" aria-label="Momentos del spa" tabIndex={0}>
         {moments.map((moment) => (
           <VideoMoment
             key={moment.label}
@@ -2152,8 +2170,6 @@ function ServiceRouteGrid({ Link, limit }) {
 
 function FactGrid() {
   const facts = [
-    { value: "17", label: "habitaciones, suite incluida" },
-    { value: "30", label: "pasos de la playa" },
     { value: "2013", label: "inicio del proyecto familiar" },
     { value: "2024", label: "hotel completado" },
   ];

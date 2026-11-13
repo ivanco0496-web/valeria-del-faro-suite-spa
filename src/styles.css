@@ -5,11 +5,11 @@
   --foam: #faf5ee;
   --ink: #2a1712;
   --ink-soft: #4d2e26;
-  --muted: #7a685f;
+  --muted: #6d5b52;
   --sea: #a8233a;
   --sea-dark: #5c1220;
   --cypress: #a15a3f;
-  --clay: #94614f;
+  --clay: #85563f;
   --sand: #d8c39c;
   --champagne: #c5a266;
   --line: rgba(42, 23, 18, 0.13);
@@ -17,13 +17,16 @@
   --white: #ffffff;
   --shadow: 0 26px 82px rgba(58, 20, 16, 0.16);
   --shadow-soft: 0 14px 44px rgba(58, 20, 16, 0.1);
-  --serif: "Cormorant Garamond", "Iowan Old Style", Georgia,
-    "Times New Roman", serif;
-  --sans: Inter, Avenir, "Segoe UI", system-ui, -apple-system,
+  --serif: "Fraunces", "Iowan Old Style", Georgia, "Times New Roman", serif;
+  --sans: "DM Sans", Avenir, "Segoe UI", system-ui, -apple-system,
     BlinkMacSystemFont, sans-serif;
+  --script: "Allura", "Snell Roundhand", "Segoe Script", cursive;
+  --w-display: 340;
+  --track-caps: 0.08em;
   color: var(--ink);
   background: var(--paper);
   font-family: var(--sans);
+  font-variant-numeric: lining-nums;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -133,13 +136,36 @@ button {
   margin-left: clamp(4px, 2vw, 22px);
   display: inline-flex;
   align-items: center;
+  gap: 12px;
 }
 
-.brand-logo {
-  height: 58px;
+.brand-icon {
+  height: 50px;
   width: auto;
   flex: 0 0 auto;
   display: block;
+}
+
+.brand-copy {
+  min-width: 0;
+  display: grid;
+  gap: 1px;
+  line-height: 1;
+}
+
+.brand-copy strong {
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 1.55rem;
+  font-weight: var(--w-display);
+  white-space: nowrap;
+}
+
+.brand-copy small {
+  color: var(--clay);
+  font-family: var(--script);
+  font-size: 1.4rem;
+  line-height: 1;
 }
 
 .site-nav {
@@ -366,10 +392,11 @@ button {
 .eyebrow,
 .overline {
   margin: 0 0 16px;
-  font-size: 0.74rem;
+  font-size: 0.75rem;
   font-weight: 850;
   line-height: 1.45;
   text-transform: uppercase;
+  letter-spacing: var(--track-caps);
 }
 
 .eyebrow {
@@ -398,15 +425,18 @@ button {
   margin: 0;
   font-family: var(--serif);
   font-size: 4.05rem;
-  font-weight: 400;
+  font-weight: var(--w-display);
   line-height: 0.9;
 }
 
 .home-hero h1 span {
   display: block;
   margin-top: 0.14em;
-  font-size: 2.02rem;
-  font-style: italic;
+  font-size: 2.75rem;
+  font-family: var(--script);
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.15;
 }
 
 .hero-promise {
@@ -414,6 +444,7 @@ button {
   margin: 24px 0 0;
   font-family: var(--serif);
   font-size: 2.25rem;
+  font-weight: var(--w-display);
   line-height: 1;
 }
 
@@ -520,9 +551,10 @@ button {
 
 .hero-reserve-panel span {
   color: var(--muted);
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   font-weight: 850;
   text-transform: uppercase;
+  letter-spacing: var(--track-caps);
 }
 
 .hero-reserve-panel strong {
@@ -568,7 +600,7 @@ button {
   margin: 0;
   font-family: var(--serif);
   font-size: 2.2rem;
-  font-weight: 400;
+  font-weight: var(--w-display);
   line-height: 1.05;
 }
 
@@ -643,10 +675,11 @@ button {
 }
 
 .fact-grid div {
-  min-height: 122px;
-  padding: 20px;
+  min-height: 150px;
+  padding: 22px 20px;
   display: grid;
-  align-content: end;
+  align-content: space-between;
+  gap: 12px;
   box-shadow: var(--shadow-soft);
 }
 
@@ -660,15 +693,21 @@ button {
   line-height: 1;
 }
 
+.fact-grid strong {
+  font-size: clamp(2.9rem, 9vw, 3.8rem);
+  font-weight: var(--w-display);
+}
+
 .fact-grid span,
 .distance-item span,
 .room-card__body span,
 .service-card__body span,
 .contact-grid span {
   color: var(--muted);
-  font-size: 0.74rem;
+  font-size: 0.75rem;
   font-weight: 850;
   text-transform: uppercase;
+  letter-spacing: var(--track-caps);
 }
 
 .image-feature {
@@ -853,6 +892,16 @@ button {
   color: var(--paper-soft);
 }
 
+/* Las lineas de capacidad y Wi‑Fi llevan !important mas abajo: en la tarjeta
+   oscura hay que repetirlo para que no queden bordo sobre bordo. */
+.room-card--featured .room-card__capacity {
+  color: var(--paper-soft) !important;
+}
+
+.room-card--featured .room-card__wifi {
+  color: var(--sand) !important;
+}
+
 .room-meta {
   margin: 0 0 14px;
   color: var(--sea);
@@ -918,6 +967,7 @@ button {
   font-size: 0.76rem;
   font-weight: 850;
   text-transform: uppercase;
+  letter-spacing: var(--track-caps);
 }
 
 .location-ribbon {
@@ -929,6 +979,11 @@ button {
 
 .location-ribbon h2 {
   max-width: 650px;
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 2.2rem;
+  font-weight: var(--w-display);
+  line-height: 1.05;
 }
 
 .distance-grid {
@@ -1234,7 +1289,7 @@ button {
   display: block;
   font-family: var(--serif);
   font-size: 2.2rem;
-  font-weight: 400;
+  font-weight: var(--w-display);
   line-height: 1.1;
 }
 
@@ -1311,7 +1366,7 @@ button {
   margin: 0;
   font-family: var(--serif);
   font-size: 2.6rem;
-  font-weight: 400;
+  font-weight: var(--w-display);
   line-height: 1;
 }
 
@@ -1319,8 +1374,11 @@ button {
   display: block;
   margin-top: 8px;
   color: var(--sand);
-  font-size: 0.62em;
-  font-style: italic;
+  font-family: var(--script);
+  font-size: 0.95em;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.15;
 }
 
 .suite-feature__content p {
@@ -1333,7 +1391,7 @@ button {
   color: var(--champagne);
   font-size: 0.78rem;
   font-weight: 850;
-  letter-spacing: 0.04em;
+  letter-spacing: var(--track-caps);
   text-transform: uppercase;
 }
 
@@ -1358,7 +1416,7 @@ button {
   margin: 0 0 14px;
   font-family: var(--serif);
   font-size: 2.2rem;
-  font-weight: 400;
+  font-weight: var(--w-display);
   line-height: 1.05;
 }
 
@@ -1512,8 +1570,8 @@ button {
 
 .rating-badge {
   display: grid;
-  gap: 4px;
-  padding: 16px 20px;
+  gap: 9px;
+  padding: 18px 20px;
   background: rgba(255, 253, 248, 0.78);
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -1537,9 +1595,10 @@ button {
 
 .rating-badge span {
   color: var(--muted);
-  font-size: 0.74rem;
+  font-size: 0.75rem;
   font-weight: 800;
   text-transform: uppercase;
+  letter-spacing: var(--track-caps);
 }
 
 .testimonial-grid {
@@ -1571,6 +1630,7 @@ button {
   font-size: 0.78rem;
   font-weight: 800;
   text-transform: uppercase;
+  letter-spacing: var(--track-caps);
 }
 
 .ritual-grid {
@@ -1643,8 +1703,8 @@ button {
   inset: 0;
   z-index: -1;
   background:
-    linear-gradient(90deg, rgba(35, 14, 12, 0.93), rgba(35, 14, 12, 0.58)),
-    linear-gradient(180deg, rgba(35, 14, 12, 0.14), rgba(35, 14, 12, 0.86));
+    linear-gradient(90deg, rgba(28, 12, 10, 0.9), rgba(28, 12, 10, 0.5) 62%, rgba(28, 12, 10, 0.28)),
+    linear-gradient(180deg, rgba(28, 12, 10, 0.1), rgba(28, 12, 10, 0.62));
 }
 
 .final-cta__content {
@@ -1699,7 +1759,7 @@ button {
 .footer-title {
   margin: 0 0 6px;
   color: var(--clay);
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   font-weight: 800;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -1841,7 +1901,7 @@ button:focus-visible {
   }
 
   .home-hero h1 span {
-    font-size: 2.5rem;
+    font-size: 3.4rem;
   }
 
   .hero-promise {
@@ -1859,7 +1919,7 @@ button:focus-visible {
   }
 
   .home-hero h1 span {
-    font-size: 3rem;
+    font-size: 4rem;
   }
 
   .page-hero h1 {
@@ -1872,7 +1932,8 @@ button:focus-visible {
   .detail-copy h2,
   .location-card h2,
   .breakfast-panel h2,
-  .final-cta h2 {
+  .final-cta h2,
+  .location-ribbon h2 {
     font-size: 3rem;
   }
 
@@ -1938,7 +1999,7 @@ button:focus-visible {
   }
 
   .home-hero h1 span {
-    font-size: 3.6rem;
+    font-size: 4.8rem;
   }
 
   .hero-promise {
@@ -2070,7 +2131,7 @@ button:focus-visible {
   }
 
   .home-hero h1 span {
-    font-size: 3.9rem;
+    font-size: 5.2rem;
   }
 
   .split-layout h2,
@@ -2079,7 +2140,8 @@ button:focus-visible {
   .detail-copy h2,
   .location-card h2,
   .breakfast-panel h2,
-  .final-cta h2 {
+  .final-cta h2,
+  .location-ribbon h2 {
     font-size: 3.4rem;
   }
 
@@ -2095,7 +2157,7 @@ button:focus-visible {
   }
 
   .brand-copy strong {
-    font-size: 1.08rem;
+    font-size: 1.2rem;
   }
 
   .hero-reserve-panel {
@@ -2117,7 +2179,7 @@ button:focus-visible {
   }
 
   .brand-copy small {
-    font-size: 0.64rem;
+    font-size: 1.1rem;
   }
 
   .action-row {
@@ -2127,18 +2189,15 @@ button:focus-visible {
   .button {
     width: 100%;
   }
-
-  .fact-grid {
-    grid-template-columns: 1fr;
-  }
 }
 
 @media (max-width: 380px) {
-  .brand-logo {
-    height: 44px;
+  .brand-icon {
+    height: 40px;
   }
 
   .brand-mark {
+    gap: 9px;
     margin-left: 2px;
   }
 
@@ -2152,7 +2211,7 @@ button:focus-visible {
   }
 
   .home-hero h1 span {
-    font-size: 1.74rem;
+    font-size: 2.35rem;
   }
 
   .hero-promise {
@@ -2181,10 +2240,13 @@ button:focus-visible {
   }
 }
 
-/* Portrait (9:16) YouTube source covering its box. */
+/* Portrait (9:16) YouTube source covering its box. El reproductor se
+   dibuja 2,5 veces más grande y se reduce con scale (ver más abajo): los
+   botones que YouTube pone encima (pausa, logo, "me gusta") tienen tamaño
+   fijo en píxeles, así que quedan 2,5 veces más chicos y se pueden recortar. */
 .fill-video-frame--portrait {
-  width: max(100cqw, 56.25cqh);
-  height: max(100cqh, 177.78cqw);
+  width: calc(max(100cqw, 56.25cqh) * 2.5);
+  height: calc(max(100cqh, 177.78cqw) * 2.5);
 }
 
 /* Video fragments ("momentos") with caption. */
@@ -2272,7 +2334,7 @@ button:focus-visible {
   margin: 0;
   font-family: var(--serif);
   font-size: 2.6rem;
-  font-weight: 400;
+  font-weight: var(--w-display);
   line-height: 1;
 }
 
@@ -2280,8 +2342,11 @@ button:focus-visible {
   display: block;
   margin-top: 12px;
   color: var(--sand);
-  font-size: 0.5em;
-  font-style: italic;
+  font-family: var(--script);
+  font-size: 0.78em;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.15;
 }
 
 .spa-feature__content > p {
@@ -2307,6 +2372,34 @@ button:focus-visible {
 
 .spa-feature__reel .video-moment:nth-child(2) {
   transform: translateY(18px);
+}
+
+/* En celular tres columnas dejan miniaturas de ~100 px, donde asoman los
+   controles de YouTube: se pasa a un carrusel de tarjetas mas grandes. */
+@media (max-width: 719px) {
+  .spa-feature__reel {
+    display: flex;
+    gap: 12px;
+    margin-inline: -20px;
+    padding: 0 20px 14px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 20px;
+    scrollbar-width: none;
+  }
+
+  .spa-feature__reel::-webkit-scrollbar {
+    display: none;
+  }
+
+  .spa-feature__reel .video-moment {
+    flex: 0 0 min(66%, 260px);
+    scroll-snap-align: start;
+  }
+
+  .spa-feature__reel .video-moment:nth-child(2) {
+    transform: none;
+  }
 }
 
 /* Photo gallery. */
@@ -2388,9 +2481,10 @@ button:focus-visible {
 
 .room-tabs span {
   color: var(--clay);
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   font-weight: 850;
   text-transform: uppercase;
+  letter-spacing: var(--track-caps);
 }
 
 .room-tabs a.is-active span {
@@ -2485,9 +2579,9 @@ button:focus-visible {
 }
 
 /* YouTube Shorts embeds draw their own title/like/logo overlays near the
-   edges; zooming the frame pushes them outside the card. */
+   edges; zooming the frame pushes them outside the card. 2.5 × 0.6 = 1.5. */
 .fill-video-frame--portrait {
-  transform: translate(-50%, -50%) scale(1.5);
+  transform: translate(-50%, -50%) scale(0.6);
 }
 
 /* Home "Servicios": compact amenities with line icons. */
@@ -2531,12 +2625,15 @@ button:focus-visible {
   stroke-linejoin: round;
 }
 
+/* "Estacionamiento" es la palabra más larga: con el tamaño fluido entra en
+   media tarjeta desde 320 px hasta el ancho donde las tarjetas se agrandan. */
 .comfort-grid strong {
   color: var(--ink);
   font-family: var(--serif);
-  font-size: 1.35rem;
+  font-size: clamp(0.9rem, 3.9vw, 1.35rem);
   font-weight: 500;
   line-height: 1.1;
+  overflow-wrap: break-word;
 }
 
 .comfort-grid span {
@@ -2597,15 +2694,16 @@ button:focus-visible {
 .room-tally__item strong {
   font-family: var(--serif);
   font-size: 3.2rem;
-  font-weight: 400;
+  font-weight: var(--w-display);
   line-height: 1;
 }
 
 .room-tally__item b {
   color: var(--clay);
-  font-size: 0.74rem;
+  font-size: 0.75rem;
   font-weight: 850;
   text-transform: uppercase;
+  letter-spacing: var(--track-caps);
 }
 
 .room-tally__item.is-scarce b {
@@ -2694,7 +2792,7 @@ button:focus-visible {
   margin: 0;
   font-family: var(--serif);
   font-size: 2.1rem;
-  font-weight: 400;
+  font-weight: var(--w-display);
   line-height: 1.05;
 }
 
@@ -2710,9 +2808,10 @@ button:focus-visible {
 
 .house-rules__capacity span {
   color: var(--sand);
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   font-weight: 850;
   text-transform: uppercase;
+  letter-spacing: var(--track-caps);
 }
 
 .house-rules__capacity strong {
@@ -2764,9 +2863,10 @@ button:focus-visible {
 
 .detail-panel__capacity span {
   color: var(--clay);
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   font-weight: 850;
   text-transform: uppercase;
+  letter-spacing: var(--track-caps);
 }
 
 .detail-panel__capacity strong {
@@ -3675,9 +3775,10 @@ button:focus-visible {
 
 .contact-card small {
   color: var(--clay);
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   font-weight: 850;
   text-transform: uppercase;
+  letter-spacing: var(--track-caps);
 }
 
 .contact-card strong {
@@ -3736,5 +3837,50 @@ button:focus-visible {
 @media (max-width: 519px) {
   .request-form {
     grid-template-columns: 1fr;
+  }
+}
+
+/* Tablet: la Suite ocupa las dos columnas en vez de quedar sola en una fila. */
+@media (min-width: 720px) and (max-width: 1179px) {
+  .room-grid .room-card--featured {
+    grid-column: 1 / -1;
+    flex-direction: row;
+  }
+
+  .room-grid .room-card--featured .room-card__media {
+    flex: 0 0 48%;
+    aspect-ratio: auto;
+  }
+
+  .room-grid .room-card--featured .room-card__body {
+    min-height: 0;
+  }
+}
+
+/* Celulares angostos: los titulos de tarjeta no se pasan del borde. */
+@media (max-width: 400px) {
+  .comfort-grid a,
+  .comfort-grid div {
+    padding: 18px 14px;
+  }
+}
+
+@media (max-width: 340px) {
+  .comfort-grid a,
+  .comfort-grid div {
+    padding: 16px 10px;
+  }
+}
+
+/* Tablet horizontal: con el logo + nombre el menú completo no entra junto
+   con "Llamar" y "Reservar". Se saca "Llamar" (el teléfono sigue en el
+   hero, el pie y el cierre de cada página) y se achican los márgenes. */
+@media (min-width: 960px) and (max-width: 1099px) {
+  .header-phone {
+    display: none;
+  }
+
+  .site-nav a {
+    padding: 0 6px;
   }
 }
