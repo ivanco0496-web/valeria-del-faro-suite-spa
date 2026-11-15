@@ -68,7 +68,7 @@ export const hotel = {
       ],
       photos: [
         { name: "matrimonial-galeria-1", caption: "Cama y ventanal al frente" },
-        { name: "matrimonial-galeria-2", caption: "Bacha, microondas y frigobar" },
+        { name: "matrimonial-galeria-2", caption: "Bacha, pava eléctrica y frigobar" },
         { name: "matrimonial-galeria-4", caption: "Cortina divisoria y mesa" },
         { name: "matrimonial-galeria-3", caption: "Amenities en la ducha" },
       ],
@@ -209,7 +209,6 @@ export const hotel = {
     "Sauna seco",
     "Sauna húmedo",
     "Vestuarios con duchas, batas y toallones",
-    "Masajes con reserva previa",
     "Una piscina exterior templada, solo en temporada alta",
   ],
   breakfast: {

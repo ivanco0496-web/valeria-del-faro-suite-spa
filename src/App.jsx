@@ -144,11 +144,11 @@ const serviceRoutes = [
   },
   {
     title: "Spa",
-    meta: "Hidromasaje · saunas · masajes",
+    meta: "Hidromasaje · saunas · agua fría",
     to: "/servicios/spa",
     image: images.spa,
     description:
-      "Circuito de bienestar con piscinas, saunas, vestuarios y masajes con reserva previa.",
+      "Circuito de bienestar con hidromasaje, piscina de agua fría, saunas y vestuarios.",
   },
   {
     title: "Desayuno",
@@ -962,7 +962,7 @@ function HomePage({ Link }) {
           index="03"
           eyebrow="Habitaciones"
           title="Descanso amplio, silencioso y pensado para volver."
-          copy="Tres propuestas con 36 m² en habitaciones matrimoniales y dobles, más una Suite Presidencial con vista directa al mar."
+          copy="Matrimoniales y dobles de 36 m², más una Suite Presidencial con vista directa al mar."
           Link={Link}
           cta={{ label: "Ver todas", to: "/servicios/habitaciones" }}
         />
@@ -1334,7 +1334,7 @@ function SpaPage({ Link }) {
         videoSegments={hotel.spaVideoReel}
         eyebrow="Spa & bienestar"
         title="Tu momento de desconexión."
-        copy="Hidromasaje, piscinas, saunas y masajes con reserva previa en una sección pensada para relajarse."
+        copy="Hidromasaje, piscinas y saunas en una sección pensada para relajarse."
         crumbs={[
           { label: "Inicio", to: "/" },
           { label: "Servicios", to: "/servicios" },
@@ -1354,8 +1354,7 @@ function SpaPage({ Link }) {
             </strong>
           </p>
           <p>
-            Incluye hidromasaje, piscina de agua fría, saunas y vestuarios. Los
-            masajes se reservan con anticipación.
+            Incluye hidromasaje, piscina de agua fría, saunas y vestuarios.
           </p>
           <PillList items={hotel.spa} />
           <div className="action-row">
@@ -1677,7 +1676,7 @@ function PageHero({ Link, image, video, videoId, videoSegments, eyebrow, title, 
           <a className="button button-primary" href={hotel.whatsappHref} target="_blank" rel="noreferrer">
             Consultar disponibilidad
           </a>
-          <a className="button button-ghost" href={hotel.whatsappHref} target="_blank" rel="noreferrer">
+          <a className="button button-ghost" href={hotel.phoneHref}>
             Llamar
           </a>
         </div>
@@ -1832,11 +1831,11 @@ function SpaFeature({ Link }) {
         </p>
         <h2>
           El arte de descansar.
-          <span>Hidromasaje · Saunas · Piscina · Masajes</span>
+          <span>Hidromasaje · Saunas · Piscina</span>
         </h2>
         <p>
-          Un espacio para desconectar con hidromasaje, piscinas, saunas,
-          vestuarios y servicio de masajes con reserva previa.
+          Un espacio para desconectar con hidromasaje, piscinas, saunas y
+          vestuarios.
         </p>
         <PillList items={hotel.spa.slice(0, 5)} />
         <div className="action-row">
@@ -2047,7 +2046,7 @@ const comforts = [
   { icon: "parking", title: "Estacionamiento", detail: "Propio, cubierto y descubierto" },
   { icon: "beach", title: "Playa", detail: "A 30 pasos, con acceso por rampa", to: "/ubicacion" },
   { icon: "breakfast", title: "Desayuno incluido", detail: hotel.breakfast.time, to: "/servicios/desayuno" },
-  { icon: "spa", title: "Spa", detail: "Hidromasaje, saunas y masajes", to: "/servicios/spa" },
+  { icon: "spa", title: "Spa", detail: "Hidromasaje, saunas y agua fría", to: "/servicios/spa" },
   { icon: "pool", title: "Piscinas", detail: "Cubiertas y exterior en temporada", to: "/servicios/piscina" },
   { icon: "safe", title: "Caja de seguridad", detail: "Codificada, con frigobar y pava eléctrica" },
   { icon: "tv", title: "Smart TV", detail: "Android de 50 pulgadas en habitaciones" },

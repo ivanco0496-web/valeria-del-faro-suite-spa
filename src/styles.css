@@ -3884,3 +3884,26 @@ button:focus-visible {
     padding: 0 6px;
   }
 }
+
+/* Encuadre en celular. Las fotos son horizontales y en cajas altas y
+   angostas se ve solo una franja del centro; en estas tres la franja
+   central no era lo importante. Funciona por nombre de archivo, que Vite
+   conserva al agregarle el hash. */
+@media (max-width: 719px) {
+  /* Cartel con el logo: centrado se cortaba a mitad de palabra. */
+  img[src*="hotel-cartel"] {
+    object-position: 42% 50%;
+  }
+
+  /* Salón del desayuno: el centro de la toma es un poste negro y plantas;
+     las mesas, sillas y la tele están a la derecha. */
+  img[src*="hotel-desayuno"],
+  video[src*="hotel-desayuno"] {
+    object-position: 90% 50%;
+  }
+
+  /* Saunas: foto vertical, se muestran las cabinas y no el piso. */
+  img[src*="spa-saunas"] {
+    object-position: 50% 22%;
+  }
+}
