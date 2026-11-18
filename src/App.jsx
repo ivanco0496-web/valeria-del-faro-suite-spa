@@ -2241,20 +2241,33 @@ function TestimonialsSection() {
         copy="Reseñas reales, tal como quedaron publicadas en las plataformas de reserva."
       />
       <div className="rating-row" data-reveal>
-        {hotel.ratings.map((rating) => (
-          <a
-            className="rating-badge"
-            key={rating.source}
-            href={rating.url}
-            target="_blank"
-            rel="noreferrer"
-          >
-            <strong>{rating.score}</strong>
-            <span>
-              {rating.label} · {rating.source} · {rating.count} reseñas
-            </span>
-          </a>
-        ))}
+        {hotel.ratings.map((rating) => {
+          const contenido = (
+            <>
+              <strong>{rating.score}</strong>
+              <span>
+                {rating.label} · {rating.source} · {rating.count} reseñas
+              </span>
+            </>
+          );
+          // Booking.com y Hoteles.com van sin link: la visita que trae la web
+          // (y Google Ads) no se manda a reservar por una OTA con comisión.
+          return rating.url ? (
+            <a
+              className="rating-badge"
+              key={rating.source}
+              href={rating.url}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {contenido}
+            </a>
+          ) : (
+            <div className="rating-badge" key={rating.source}>
+              {contenido}
+            </div>
+          );
+        })}
       </div>
       <div className="testimonial-grid">
         {hotel.testimonials.map((testimonial) => (

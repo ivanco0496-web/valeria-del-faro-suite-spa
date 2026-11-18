@@ -271,14 +271,12 @@ export const hotel = {
       score: "9,3",
       label: "Fantástico",
       count: 14,
-      url: "https://www.booking.com/hotel/ar/valeria-del-faro-suite-amp-spa.es.html",
     },
     {
       source: "Hoteles.com",
       score: "9,4",
       label: "Excepcional",
       count: 14,
-      url: "https://ar.hoteles.com/ho3422458848/",
     },
     {
       source: "Google",
@@ -375,7 +373,8 @@ export const hotel = {
   ],
   promotion: {
     // Para apagarla, poner enabled en false. Textos editables acá.
-    enabled: true,
+    // Apagada el 18/11/2026: la promo 3x2 / 5x4 no está vigente.
+    enabled: false,
     title: "Promoción especial",
     lines: ["Reservá 3 noches y pagás 2.", "Quedate 5 noches y pagás 4."],
     note: "Consultá vigencia y disponibilidad por WhatsApp.",
