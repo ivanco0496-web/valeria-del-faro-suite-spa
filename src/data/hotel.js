@@ -1,3 +1,18 @@
+// Mensaje que llega precargado al abrir WhatsApp: un campo por renglón para
+// que el huésped complete sus datos al lado de cada uno.
+const consultaWhatsapp = [
+  "Hola, quiero consultar por una reserva en Valeria del Faro.",
+  "",
+  "Nombre y apellido: ",
+  "Email: ",
+  "Cantidad de personas: ",
+  "Fecha de ingreso: ",
+  "Fecha de salida: ",
+  "Mensaje: ",
+].join("\n");
+
+const consultaWhatsappHref = `https://api.whatsapp.com/send?phone=5491136422333&text=${encodeURIComponent(consultaWhatsapp)}`;
+
 export const hotel = {
   name: "Valeria del Faro",
   descriptor: "Suite & Spa",
@@ -18,13 +33,11 @@ export const hotel = {
     "https://www.google.com/maps/search/?api=1&query=Hotel%20Valeria%20Del%20Faro%20Suite%20%26%20SPA%20Valeria%20del%20Mar",
   mapsEmbedSrc:
     "https://www.google.com/maps?q=Hotel%20Valeria%20Del%20Faro%20Suite%20%26%20SPA%20Valeria%20del%20Mar&output=embed",
-  whatsappHref:
-    "https://api.whatsapp.com/send?phone=5491136422333&text=Hotel%20Valeria%20del%20Faro%3A%20Por%20favor%20ingrese%20Nombre%20y%20apellido%2C%20Email%2C%20cant%20de%20personas%2C%20fecha%20de%20reserva%2C%20y%20mensaje%3A%20Gracias",
+  whatsappHref: consultaWhatsappHref,
   // Botones "Reservar": desde el 20/11/2026 llevan a la consulta por WhatsApp
   // (mismo link que whatsappHref). El motor de reservas online de Venice era
   // https://booking.venicepms.com/vdf109/resonline/ por si hay que volver.
-  bookingHref:
-    "https://api.whatsapp.com/send?phone=5491136422333&text=Hotel%20Valeria%20del%20Faro%3A%20Por%20favor%20ingrese%20Nombre%20y%20apellido%2C%20Email%2C%20cant%20de%20personas%2C%20fecha%20de%20reserva%2C%20y%20mensaje%3A%20Gracias",
+  bookingHref: consultaWhatsappHref,
   instagram: "https://www.instagram.com/hotelvaleriadelfaro/",
   youtube: "https://www.youtube.com/@ValeriaDelFaroSuiteSpa",
   concept:
