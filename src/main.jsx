@@ -18,7 +18,7 @@ document.addEventListener(
   "click",
   (event) => {
     const link = event.target.closest(
-      'a[href*="wa.me"], a[href*="api.whatsapp.com"], a[href^="tel:"]',
+      'a[href*="wa.me"], a[href*="api.whatsapp.com"], a[href*="web.whatsapp.com"], a[href^="tel:"]',
     );
     if (link && typeof window.gtag === "function") {
       window.gtag("event", "conversion", {

@@ -11,7 +11,19 @@ const consultaWhatsapp = [
   "Mensaje: ",
 ].join("\n");
 
-const consultaWhatsappHref = `https://api.whatsapp.com/send?phone=5491136422333&text=${encodeURIComponent(consultaWhatsapp)}`;
+// En la computadora (mouse, sin pantalla táctil) se abre WhatsApp Web directo:
+// la app de escritorio de Windows junta los renglones del mensaje en uno solo.
+// En el celular se usa api.whatsapp.com, que abre la app con los renglones.
+const esComputadora =
+  typeof window !== "undefined" &&
+  typeof window.matchMedia === "function" &&
+  window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+export const whatsappBase = esComputadora
+  ? "https://web.whatsapp.com/send"
+  : "https://api.whatsapp.com/send";
+
+const consultaWhatsappHref = `${whatsappBase}?phone=5491136422333&text=${encodeURIComponent(consultaWhatsapp)}`;
 
 export const hotel = {
   name: "Valeria del Faro",

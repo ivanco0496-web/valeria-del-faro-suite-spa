@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { hotel } from "./data/hotel.js";
+import { hotel, whatsappBase } from "./data/hotel.js";
 
 // Formulario de consulta de la página de Contacto. No hay servidor que lo
 // reciba: arma la consulta completa y la persona la envía por WhatsApp o email
@@ -112,7 +112,7 @@ function RequestReady({ data, onEdit }) {
       <div className="action-row">
         <a
           className="button button-primary"
-          href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`}
+          href={`${whatsappBase}?phone=${whatsappNumber}&text=${encodeURIComponent(text)}`}
           target="_blank"
           rel="noreferrer"
         >
