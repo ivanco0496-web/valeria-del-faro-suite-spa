@@ -99,6 +99,22 @@ export const hotel = {
         { name: "matrimonial-galeria-4", caption: "Cortina divisoria y mesa" },
         { name: "matrimonial-galeria-3", caption: "Amenities en la ducha" },
       ],
+      // Galería de la página: fotos de la habitación que mandó la dueña por
+      // WhatsApp (20/11/2026), en src/assets/gallery. "size" es feature, tall o
+      // wide; "focus" es qué franja vertical de la foto (en %) se ve en el mosaico.
+      gallery: [
+        { id: "estar-comedor", caption: "Estar y comedor frente al ventanal", size: "feature", focus: 52 },
+        { id: "cama-king-roja", caption: "Dormitorio con cama King", focus: 72 },
+        { id: "cocina-equipada", caption: "Cocina con bacha y frigobar", focus: 60 },
+        { id: "cama-king-lila", caption: "Cama King con lámparas de lectura", focus: 70 },
+        { id: "sofa-cama-tv", caption: "Sofá cama y TV", focus: 52 },
+        { id: "cortina-divisoria", caption: "Cortina divisoria entre el dormitorio y el estar", focus: 64 },
+        { id: "comedor-cocina", caption: "Mesa del comedor y cocina", focus: 52 },
+        { id: "cocina-barra", caption: "Cocina, barra y comedor", focus: 48 },
+        { id: "mesa-ventanal", caption: "Mesa junto al ventanal", focus: 55 },
+        { id: "dormitorio-comedor", caption: "Dormitorio, entrada y comedor", focus: 60 },
+        { id: "cama-ventana-roja", caption: "Cama y mesa junto a la ventana", focus: 62 },
+      ],
       description:
         "Habitaciones con cama King y vista al frente. Ocho, ubicadas en el primer y segundo piso, son cuádruples e incluyen un sofá cama con carrito.",
       details: [
@@ -140,6 +156,36 @@ export const hotel = {
         { name: "doble-galeria-3", caption: "Baño completo" },
         { name: "doble-galeria-4", caption: "Baño de la habitación adaptada" },
       ],
+      // Fotos y recorridos en video que mandó la dueña por WhatsApp (20/11/2026).
+      gallery: [
+        { id: "esquina-sillones", caption: "Ventana esquinera con sillones y mesa", size: "feature", focus: 56 },
+        {
+          id: "recorrido-doble-1",
+          video: "recorrido-doble-1",
+          duration: "0:33",
+          caption: "Recorrido en video",
+          text: "La habitación de punta a punta: placard, kitchenette, cama y ventana esquinera.",
+        },
+        {
+          id: "recorrido-doble-2",
+          video: "recorrido-doble-2",
+          duration: "0:47",
+          caption: "Segundo recorrido en video",
+          text: "Otro recorrido por la habitación, hasta el baño.",
+        },
+        { id: "cama-dos-bases", caption: "Dormitorio con los dos sommieres unidos en una King", focus: 70 },
+        { id: "cama-blanqueria", caption: "Blanquería y batas del hotel", focus: 70 },
+        { id: "estar-tv", caption: "Estar con TV y portavalijas", focus: 42 },
+        { id: "kitchenette", caption: "Kitchenette: bacha, frigobar y alacena", focus: 46 },
+        { id: "dos-camas-lila", caption: "Dos camas individuales", focus: 70 },
+        { id: "camas-sillon-mesa", caption: "Camas, sillón y mesa de vidrio", focus: 55 },
+        { id: "esquina-lila", caption: "Ventana esquinera con mesa y sillones", focus: 58 },
+        { id: "estar-tv-lila", caption: "Estar con TV y sillones", focus: 55 },
+        { id: "placard", caption: "Placard con estantes y perchas", focus: 45 },
+        { id: "caja-seguridad", caption: "Caja de seguridad en el placard", focus: 62 },
+        { id: "bano-mesada", caption: "Baño: mesada, inodoro y bidet", focus: 70 },
+        { id: "ducha", caption: "Baño completo con ducha", focus: 40 },
+      ],
       description:
         "Ubicadas en el contrafrente, con dos camas individuales sommier que pueden unirse para formar una cama matrimonial King.",
       details: [
@@ -180,6 +226,16 @@ export const hotel = {
         { name: "suite-galeria-1", caption: "Estar y comedor" },
         { name: "suite-galeria-4", caption: "Office bajo la claraboya" },
         { name: "suite-galeria-2", caption: "Baño de la suite" },
+      ],
+      // La suite todavía no tiene fotos nuevas: se arma con las que ya había.
+      gallery: [
+        { name: "suite-panoramica", caption: "La suite completa", size: "feature", focus: 50 },
+        { name: "suite-claraboya", caption: "Cielo abierto sobre la suite", focus: 50 },
+        { name: "suite-bano", caption: "Doble bacha bajo la claraboya", focus: 50 },
+        { name: "suite-galeria-1", caption: "Estar y comedor", size: "wide", focus: 50 },
+        { name: "suite-galeria-4", caption: "Office bajo la claraboya", size: "wide", focus: 50 },
+        { name: "suite-dormitorio", caption: "Cama King bajo las claraboyas", size: "wide", focus: 55 },
+        { name: "suite-ducha", caption: "Baño con ducha escocesa", size: "wide", focus: 50 },
       ],
       description:
         "Una suite exclusiva con vista directa al mar, cama King, área de estar con dos sillones, mesa ratona y sofá cama con carrito.",

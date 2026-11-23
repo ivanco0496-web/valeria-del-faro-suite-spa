@@ -2964,19 +2964,19 @@ button:focus-visible {
   opacity: 1;
 }
 
-/* Galería a pantalla completa. */
+/* Galería a pantalla completa: barra con el contador, la foto grande con sus
+   flechas, el epígrafe y una tira con todas las miniaturas. */
 .lightbox {
   position: fixed;
   inset: 0;
   z-index: 200;
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 8px;
-  padding: 16px;
-  background: rgba(20, 8, 7, 0.94);
-  backdrop-filter: blur(6px);
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  color: var(--paper-soft);
+  background: rgba(20, 8, 7, 0.95);
+  backdrop-filter: blur(10px);
   animation: lightboxIn 220ms ease both;
+  outline: none;
 }
 
 @keyframes lightboxIn {
@@ -2988,19 +2988,52 @@ button:focus-visible {
   }
 }
 
-.lightbox__figure {
-  grid-column: 2;
-  max-width: min(1200px, 100%);
-  margin: 0 auto;
-  display: grid;
-  gap: 14px;
-  justify-items: center;
+.lightbox__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 62px;
+  padding: 10px 16px 0 22px;
 }
 
-.lightbox__figure img,
-.lightbox__figure video {
+.lightbox__count {
+  color: var(--sand);
+  font-size: 0.8rem;
+  font-weight: 850;
+  letter-spacing: 0.1em;
+  font-variant-numeric: tabular-nums;
+}
+
+.lightbox__stage {
+  position: relative;
+  min-height: 0;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.lightbox__figure {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: 12px;
+  padding: 4px 84px 0;
+}
+
+.lightbox__media {
+  position: relative;
+  min-height: 0;
+}
+
+.lightbox__media img,
+.lightbox__media video {
+  position: absolute;
+  inset: 0;
+  margin: auto;
   max-width: 100%;
-  max-height: 76vh;
+  max-height: 100%;
   width: auto;
   height: auto;
   border-radius: 8px;
@@ -3012,26 +3045,23 @@ button:focus-visible {
   display: grid;
   gap: 4px;
   justify-items: center;
+  min-height: 56px;
+  padding: 0 4px 10px;
   text-align: center;
-  color: var(--paper-soft);
 }
 
 .lightbox__figure strong {
   font-family: var(--serif);
-  font-size: 1.7rem;
-  font-weight: 500;
+  font-size: 1.5rem;
+  font-weight: 400;
+  line-height: 1.15;
 }
 
 .lightbox__figure figcaption span {
+  max-width: 60ch;
   color: rgba(255, 255, 255, 0.76);
   font-size: 0.92rem;
-}
-
-.lightbox__figure small {
-  color: var(--sand);
-  font-size: 0.74rem;
-  font-weight: 850;
-  letter-spacing: 0.06em;
+  line-height: 1.5;
 }
 
 .lightbox__close,
@@ -3059,46 +3089,179 @@ button:focus-visible {
 }
 
 .lightbox__close {
-  position: absolute;
-  top: 16px;
-  right: 16px;
+  position: relative;
   z-index: 2;
 }
 
+.lightbox__nav {
+  position: absolute;
+  top: calc(50% - 40px);
+  z-index: 2;
+  margin-top: -23px;
+}
+
 .lightbox__nav--prev {
-  grid-column: 1;
+  left: 18px;
 }
 
 .lightbox__nav--next {
-  grid-column: 3;
+  right: 18px;
+}
+
+/* Al pasar de una foto a la otra, la nueva entra desde el lado hacia donde se va. */
+.lightbox__figure.is-next .lightbox__media {
+  animation: lightboxNext 380ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.lightbox__figure.is-prev .lightbox__media {
+  animation: lightboxPrev 380ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+@keyframes lightboxNext {
+  from {
+    opacity: 0;
+    transform: translateX(36px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes lightboxPrev {
+  from {
+    opacity: 0;
+    transform: translateX(-36px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.lightbox__rail,
+.lightbox__rail-spacer {
+  min-height: 12px;
+}
+
+.lightbox__rail {
+  display: flex;
+  gap: 8px;
+  padding: 8px 18px 16px;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.28) transparent;
+}
+
+.lightbox__rail::before,
+.lightbox__rail::after {
+  content: "";
+  flex: 1 0 0;
+}
+
+.lightbox__rail button {
+  position: relative;
+  flex: 0 0 auto;
+  width: 46px;
+  height: 66px;
+  padding: 0;
+  overflow: hidden;
+  border: 2px solid transparent;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  opacity: 0.5;
+  cursor: pointer;
+  transition:
+    opacity 200ms ease,
+    border-color 200ms ease,
+    transform 200ms ease;
+}
+
+.lightbox__rail button:hover {
+  opacity: 0.85;
+}
+
+.lightbox__rail button.is-active {
+  border-color: var(--sand);
+  opacity: 1;
+  transform: translateY(-2px);
+}
+
+.lightbox__rail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.lightbox__rail-play {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(20, 8, 7, 0.34);
+}
+
+.lightbox__rail-play svg {
+  width: 20px;
+  height: 20px;
+  fill: var(--paper-soft);
 }
 
 @media (max-width: 719px) {
-  .lightbox {
-    grid-template-columns: 1fr;
-    align-content: center;
+  .lightbox__bar {
+    min-height: 56px;
+    padding: 8px 12px 0 18px;
   }
 
   .lightbox__figure {
-    grid-column: 1;
+    padding: 0 10px;
+  }
+
+  .lightbox__figure strong {
+    font-size: 1.2rem;
+  }
+
+  .lightbox__figure figcaption span {
+    font-size: 0.84rem;
   }
 
   .lightbox__nav {
-    position: absolute;
-    bottom: 22px;
+    width: 40px;
+    height: 40px;
+    margin-top: -20px;
+    font-size: 1.4rem;
+    background: rgba(20, 8, 7, 0.55);
   }
 
   .lightbox__nav--prev {
-    left: 22px;
+    left: 8px;
   }
 
   .lightbox__nav--next {
-    right: 22px;
+    right: 8px;
   }
 
-  .lightbox__figure img,
-  .lightbox__figure video {
-    max-height: 62vh;
+  .lightbox__rail {
+    padding: 6px 12px 12px;
+  }
+
+  .lightbox__rail button {
+    width: 40px;
+    height: 58px;
+  }
+}
+
+@media (max-height: 520px) {
+  .lightbox__rail {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lightbox,
+  .lightbox__figure.is-next .lightbox__media,
+  .lightbox__figure.is-prev .lightbox__media {
+    animation: none;
   }
 }
 
@@ -3906,4 +4069,378 @@ button:focus-visible {
   img[src*="spa-saunas"] {
     object-position: 50% 22%;
   }
+}
+
+/* Galería de fotos de cada habitación. Las filas del mosaico miden todas lo
+   mismo; cada foto ocupa 1 o 2 columnas y 1 o 2 filas según su "size". Las
+   fotos son verticales y muy altas, así que se muestra la franja del medio
+   (con "focus" se elige cuál) y el visor las muestra enteras. */
+.room-gallery {
+  padding-top: 20px;
+}
+
+.rg-grid {
+  --gap: 12px;
+  --cols: 2;
+  /* Mismo ancho que .section, para que la altura de cada fila siga al ancho. */
+  --room: min(100vw - 40px, 1180px);
+  --row: calc((var(--room) - (var(--cols) - 1) * var(--gap)) / var(--cols) * 0.8);
+  display: grid;
+  grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+  grid-auto-rows: var(--row);
+  grid-auto-flow: dense;
+  gap: var(--gap);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 560px) {
+  .rg-grid {
+    --cols: 3;
+  }
+}
+
+@media (min-width: 700px) {
+  .rg-grid {
+    --cols: 4;
+  }
+}
+
+.rg-item {
+  min-width: 0;
+  min-height: 0;
+  grid-row: span 2;
+}
+
+.rg-item.is-feature {
+  grid-column: span 2;
+}
+
+.rg-item.is-wide {
+  grid-column: span 2;
+  grid-row: span 1;
+}
+
+/* Las fotos aparecen una tras otra, no todas de golpe. */
+.rg-grid > .rg-item[data-reveal] {
+  transition-delay: calc(min(var(--i, 0), 8) * 50ms);
+}
+
+.rg-tile {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  border-radius: 8px;
+  background-color: var(--mist);
+  background-position: center;
+  background-size: cover;
+  box-shadow: 0 12px 30px rgba(58, 20, 16, 0.12);
+  cursor: pointer;
+  isolation: isolate;
+}
+
+.rg-tile img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% var(--focus, 55%);
+  opacity: 0;
+  transform: translate3d(var(--parallax-x, 0), var(--parallax-y, 0), 0) scale(1.06);
+  transition:
+    opacity 700ms ease,
+    transform 420ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.rg-tile.is-loaded img {
+  opacity: 1;
+}
+
+.rg-tile:hover img,
+.rg-tile:focus-visible img {
+  transform: translate3d(var(--parallax-x, 0), var(--parallax-y, 0), 0) scale(1.1);
+}
+
+.rg-tile__caption,
+.rg-tile__tag {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  z-index: 1;
+  max-width: calc(100% - 20px);
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-weight: 760;
+  line-height: 1.3;
+  text-align: left;
+}
+
+.rg-tile__caption {
+  color: var(--sea-dark);
+  background: rgba(255, 253, 248, 0.94);
+  opacity: 0;
+  transform: translateY(6px);
+  transition:
+    opacity 220ms ease,
+    transform 220ms ease;
+}
+
+.rg-tile:hover .rg-tile__caption,
+.rg-tile:focus-visible .rg-tile__caption,
+.rg-item.is-feature .rg-tile__caption,
+.rg-item.is-wide .rg-tile__caption {
+  opacity: 1;
+  transform: none;
+}
+
+.rg-tile__zoom {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  color: var(--paper-soft);
+  background: rgba(35, 14, 12, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 8px;
+  opacity: 0;
+  transition: opacity 180ms ease;
+}
+
+.rg-tile:hover .rg-tile__zoom,
+.rg-tile:focus-visible .rg-tile__zoom {
+  opacity: 1;
+}
+
+.rg-tile__play {
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  z-index: 1;
+  width: 62px;
+  height: 62px;
+  margin: -31px 0 0 -31px;
+  display: grid;
+  place-items: center;
+  background: rgba(168, 35, 58, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  border-radius: 50%;
+  box-shadow: 0 12px 32px rgba(20, 8, 7, 0.4);
+  transition:
+    transform 260ms ease,
+    background 260ms ease;
+}
+
+.rg-tile__play svg {
+  width: 28px;
+  height: 28px;
+  margin-left: 3px;
+  fill: var(--paper-soft);
+}
+
+.rg-tile:hover .rg-tile__play,
+.rg-tile:focus-visible .rg-tile__play {
+  background: var(--sea);
+  transform: scale(1.1);
+}
+
+.rg-tile__tag {
+  right: 10px;
+  color: var(--paper-soft);
+  background: rgba(20, 8, 7, 0.64);
+  backdrop-filter: blur(6px);
+}
+
+.rg-tile__tag b {
+  color: var(--sand);
+  font-weight: 850;
+}
+
+@media (hover: none) {
+  .rg-tile img {
+    transform: scale(1.04);
+  }
+
+  .rg-item:not(.is-feature):not(.is-wide) .rg-tile__caption,
+  .rg-tile__zoom {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rg-tile img {
+    transform: none !important;
+    transition: opacity 200ms ease;
+  }
+
+  .rg-grid > .rg-item[data-reveal] {
+    transition-delay: 0ms;
+  }
+}
+
+/* Pausa de la portada: la piscina exterior al atardecer. */
+.sunset-band {
+  position: relative;
+  min-height: clamp(500px, 78vh, 720px);
+  display: grid;
+  align-items: end;
+  margin-top: 22px;
+  overflow: hidden;
+  isolation: isolate;
+  color: var(--paper-soft);
+}
+
+.sunset-band__media {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+}
+
+.sunset-band__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 52%;
+  transform: scale(1.06);
+  animation: sunsetDrift 28s ease-in-out infinite alternate;
+}
+
+/* El degradado oscuro queda abajo y a la izquierda, donde va el texto: el resto
+   de la foto conserva la luz dorada del atardecer. */
+.sunset-band::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(0deg, rgba(36, 10, 18, 0.86) 0%, rgba(36, 10, 18, 0.44) 30%, rgba(36, 10, 18, 0) 62%),
+    linear-gradient(90deg, rgba(36, 10, 18, 0.4), rgba(36, 10, 18, 0) 52%);
+}
+
+.sunset-band__content {
+  width: min(calc(100% - 40px), 1180px);
+  margin: 0 auto;
+  padding: 120px 0 60px;
+  display: grid;
+  gap: 14px;
+  justify-items: start;
+}
+
+.sunset-band__script {
+  margin: 0;
+  color: var(--sand);
+  font-family: var(--script);
+  font-size: clamp(2rem, 4.6vw, 3.1rem);
+  line-height: 1;
+}
+
+.sunset-band h2 {
+  margin: 0;
+  max-width: 15ch;
+  font-family: var(--serif);
+  font-size: clamp(2.2rem, 5.4vw, 4.2rem);
+  font-weight: var(--w-display);
+  line-height: 1.04;
+}
+
+.sunset-band__content p:not(.sunset-band__script) {
+  max-width: 46ch;
+  margin: 0;
+  color: rgba(255, 253, 248, 0.86);
+  font-size: 1.02rem;
+  line-height: 1.7;
+}
+
+.sunset-band .action-row {
+  margin-top: 8px;
+}
+
+@keyframes sunsetDrift {
+  to {
+    transform: scale(1.14) translate3d(-1.2%, -1%, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sunset-band__media img {
+    animation: none;
+    transform: none;
+  }
+}
+
+/* Ubicación: los alrededores sobre la foto de Tamarisco, el vecino de la esquina. */
+.nearby-scene {
+  position: relative;
+  display: grid;
+  align-items: center;
+  min-height: 460px;
+  margin: 22px 0;
+  overflow: hidden;
+  isolation: isolate;
+  color: var(--paper-soft);
+}
+
+.nearby-scene__media {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+}
+
+.nearby-scene__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 52%;
+}
+
+/* Más oscuro donde hay texto; el sol y el cielo de la derecha se ven. */
+.nearby-scene::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(90deg, rgba(34, 10, 18, 0.8), rgba(34, 10, 18, 0.5) 55%, rgba(34, 10, 18, 0.32)),
+    linear-gradient(180deg, rgba(34, 10, 18, 0), rgba(34, 10, 18, 0.42));
+}
+
+.nearby-scene .split-layout {
+  padding: 96px 0 112px;
+}
+
+.nearby-scene h2,
+.nearby-scene h3 {
+  color: var(--paper-soft);
+}
+
+.nearby-scene .overline {
+  color: var(--sand);
+}
+
+.nearby-scene .detail-list li {
+  color: rgba(255, 253, 248, 0.9);
+}
+
+.nearby-scene .nearby-distance {
+  color: var(--sand);
+}
+
+.nearby-scene__credit {
+  position: absolute;
+  right: 20px;
+  bottom: 14px;
+  margin: 0;
+  color: rgba(255, 253, 248, 0.74);
+  font-size: 0.76rem;
+  letter-spacing: 0.04em;
 }

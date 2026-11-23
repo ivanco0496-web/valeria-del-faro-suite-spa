@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { hotel } from "./data/hotel.js";
 import { ContactCards, ReservationForm, ReservationSteps } from "./ContactForm.jsx";
+import { Lightbox, RoomGallery, useGallery, useParallax } from "./Gallery.jsx";
+import { photoSrc, videoSrc } from "./media.js";
 import logo from "./assets/hotel/valeria-del-faro-logo-transparent.webp";
 import brandIcon from "./assets/hotel/valeria-del-faro-icon.png";
 import heroPoolGlass from "./assets/hotel/hero-pool-glass.avif";
@@ -11,7 +13,8 @@ import suitePresidencial from "./assets/hotel/suite-presidencial.avif";
 import suiteDetail from "./assets/hotel/suite-detail.avif";
 import spaHydromassage from "./assets/hotel/spa-hydromassage.avif";
 import spaSauna from "./assets/hotel/spa-sauna.avif";
-import poolExterior from "./assets/hotel/spa-detail.avif";
+import poolExterior from "./assets/hotel/pool-sunset.avif";
+import tamariscoSunset from "./assets/hotel/tamarisco-atardecer.avif";
 import breakfast from "./assets/hotel/breakfast.avif";
 import breakfastDetail from "./assets/hotel/breakfast-detail.avif";
 import activitiesBeach from "./assets/hotel/activities-beach.avif";
@@ -24,19 +27,6 @@ import activityCuatriciclos from "./assets/activities/cuatriciclos.webp";
 import activityBicicletas from "./assets/activities/bicicletas.webp";
 import activityTirolesa from "./assets/activities/tirolesa.webp";
 import activityCineTeatro from "./assets/activities/cine-teatro.webp";
-
-// Videos y fotos propios del hotel, cortados de las filmaciones originales.
-// Cada video tiene además una versión "-movil" vertical para celulares.
-const videoUrls = import.meta.glob("./assets/video/*.mp4", { eager: true, query: "?url", import: "default" });
-const photoUrls = import.meta.glob("./assets/photos/*.webp", { eager: true, query: "?url", import: "default" });
-
-function videoSrc(name) {
-  return name ? videoUrls[`./assets/video/${name}.mp4`] : undefined;
-}
-
-function photoSrc(name) {
-  return name ? photoUrls[`./assets/photos/${name}.webp`] : undefined;
-}
 
 // Illustrative photos for the generic-area activities listed by the hotel
 // (not hotel-owned experiences), sourced from Wikimedia Commons (Faro
@@ -201,32 +191,6 @@ function roomImage(room) {
   if (room.slug === "presidencial") return images.suite;
   if (room.slug === "doble") return images.roomDoble;
   return images.roomMatrimonial;
-}
-
-// Fotos sacadas de las mismas filmaciones del hotel, una por ambiente.
-function roomPhotos(room) {
-  const own = (room.photos ?? [])
-    .map((photo) => ({
-      src: photoSrc(photo.name),
-      alt: `${room.name}: ${photo.caption}`,
-      caption: photo.caption,
-    }))
-    .filter((photo) => photo.src);
-
-  if (own.length) return own;
-
-  if (room.slug === "presidencial") {
-    return [
-      { src: images.suite, alt: "Suite Presidencial", caption: "Suite Presidencial" },
-      { src: images.suiteDetail, alt: "Detalle de la Suite Presidencial", caption: "Detalle" },
-    ];
-  }
-  if (room.slug === "doble") {
-    return [{ src: images.roomDoble, alt: "Habitación doble", caption: "Habitación doble" }];
-  }
-  return [
-    { src: images.roomMatrimonial, alt: "Habitación matrimonial", caption: "Habitación matrimonial" },
-  ];
 }
 
 function App() {
@@ -661,108 +625,6 @@ function BrandPoster({ hidden = false }) {
 // A short looping video fragment with a caption. The player is only
 // created once the card nears the viewport, so pages with many fragments
 // don't load every video up front.
-// Abre cualquier foto o video en grande, con flechas y tecla Escape.
-function useGallery(items) {
-  const [index, setIndex] = useState(null);
-
-  return {
-    index,
-    open: (position) => setIndex(position),
-    close: () => setIndex(null),
-    go: (step) =>
-      setIndex((current) =>
-        current === null ? current : (current + step + items.length) % items.length,
-      ),
-  };
-}
-
-function Lightbox({ items, index, onClose, onGo }) {
-  const item = items[index];
-
-  useEffect(() => {
-    const onKey = (event) => {
-      if (event.key === "Escape") onClose();
-      if (event.key === "ArrowRight") onGo(1);
-      if (event.key === "ArrowLeft") onGo(-1);
-    };
-
-    document.addEventListener("keydown", onKey);
-    document.body.classList.add("has-open-menu");
-    return () => {
-      document.removeEventListener("keydown", onKey);
-      document.body.classList.remove("has-open-menu");
-    };
-  }, [onClose, onGo]);
-
-  if (!item) return null;
-
-  const many = items.length > 1;
-
-  return (
-    <div
-      className="lightbox"
-      role="dialog"
-      aria-modal="true"
-      aria-label={item.caption ?? "Galería"}
-      onClick={onClose}
-    >
-      <button className="lightbox__close" type="button" onClick={onClose} aria-label="Cerrar">
-        <span aria-hidden="true">×</span>
-      </button>
-      {many && (
-        <button
-          className="lightbox__nav lightbox__nav--prev"
-          type="button"
-          aria-label="Anterior"
-          onClick={(event) => {
-            event.stopPropagation();
-            onGo(-1);
-          }}
-        >
-          <span aria-hidden="true">‹</span>
-        </button>
-      )}
-      <figure className="lightbox__figure" onClick={(event) => event.stopPropagation()}>
-        {item.video ? (
-          <video
-            key={item.video}
-            src={videoSrc(item.video)}
-            poster={photoSrc(item.photo)}
-            controls
-            autoPlay
-            loop
-            playsInline
-          />
-        ) : (
-          <img src={item.src} alt={item.alt ?? item.caption ?? ""} />
-        )}
-        <figcaption>
-          <strong>{item.caption}</strong>
-          {item.text && <span>{item.text}</span>}
-          {many && (
-            <small>
-              {index + 1} de {items.length}
-            </small>
-          )}
-        </figcaption>
-      </figure>
-      {many && (
-        <button
-          className="lightbox__nav lightbox__nav--next"
-          type="button"
-          aria-label="Siguiente"
-          onClick={(event) => {
-            event.stopPropagation();
-            onGo(1);
-          }}
-        >
-          <span aria-hidden="true">›</span>
-        </button>
-      )}
-    </div>
-  );
-}
-
 function VideoMoment({ videoId, moment, portrait = false, compact = false, onOpen }) {
   const isLocal = Boolean(moment.video);
   const ref = useRef(null);
@@ -870,7 +732,13 @@ function VideoMomentGrid({ videoId, moments, portrait = false }) {
         ))}
       </div>
       {gallery.index !== null && (
-        <Lightbox items={items} index={gallery.index} onClose={gallery.close} onGo={gallery.go} />
+        <Lightbox
+          items={items}
+          index={gallery.index}
+          onClose={gallery.close}
+          onGo={gallery.go}
+          onSelect={gallery.select}
+        />
       )}
     </>
   );
@@ -973,6 +841,8 @@ function HomePage({ Link }) {
       <SuiteFeature Link={Link} />
 
       <SpaFeature Link={Link} />
+
+      <SunsetBand Link={Link} />
 
       <BreakfastFeature Link={Link} />
 
@@ -1225,7 +1095,7 @@ function RoomPage({ Link, room }) {
           <VideoMomentGrid moments={room.clips} />
         </section>
       )}
-      <PhotoGallery title="Fotos" photos={roomPhotos(room)} />
+      <RoomGallery room={room} />
       <HouseRules room={room} />
       <OtherRooms Link={Link} current={room} />
     </>
@@ -1299,7 +1169,13 @@ function PhotoGallery({ title, photos }) {
         ))}
       </div>
       {gallery.index !== null && (
-        <Lightbox items={photos} index={gallery.index} onClose={gallery.close} onGo={gallery.go} />
+        <Lightbox
+          items={photos}
+          index={gallery.index}
+          onClose={gallery.close}
+          onGo={gallery.go}
+          onSelect={gallery.select}
+        />
       )}
     </section>
   );
@@ -1508,34 +1384,40 @@ function LocationPage({ Link }) {
         </div>
         <DistanceGrid />
       </section>
-      <section className="section split-layout">
-        <div data-reveal>
-          <p className="overline">Alrededores</p>
-          <h2>Para comer y para ir a la playa, todo cerca.</h2>
+      <div className="nearby-scene">
+        <div className="nearby-scene__media" aria-hidden="true">
+          <img src={tamariscoSunset} alt="" loading="lazy" decoding="async" />
         </div>
-        <div className="nearby-columns" data-reveal>
-          <div>
-            <h3>Restaurantes</h3>
-            <ul className="detail-list">
-              {hotel.nearby.restaurants.map((place) => (
-                <li key={place.name}>
-                  {place.name} <span className="nearby-distance">· {place.distance}</span>
-                </li>
-              ))}
-            </ul>
+        <section className="section split-layout">
+          <div data-reveal>
+            <p className="overline">Alrededores</p>
+            <h2>Para comer y para ir a la playa, todo cerca.</h2>
           </div>
-          <div>
-            <h3>Playas</h3>
-            <ul className="detail-list">
-              {hotel.nearby.beaches.map((place) => (
-                <li key={place.name}>
-                  {place.name} <span className="nearby-distance">· {place.distance}</span>
-                </li>
-              ))}
-            </ul>
+          <div className="nearby-columns" data-reveal>
+            <div>
+              <h3>Restaurantes</h3>
+              <ul className="detail-list">
+                {hotel.nearby.restaurants.map((place) => (
+                  <li key={place.name}>
+                    {place.name} <span className="nearby-distance">· {place.distance}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h3>Playas</h3>
+              <ul className="detail-list">
+                {hotel.nearby.beaches.map((place) => (
+                  <li key={place.name}>
+                    {place.name} <span className="nearby-distance">· {place.distance}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+        <p className="nearby-scene__credit">Tamarisco al atardecer, a 20 m del hotel</p>
+      </div>
       <section className="section map-section">
         <MapEmbed />
       </section>
@@ -1705,32 +1587,6 @@ function SectionHeading({ index, eyebrow, title, copy, Link, cta }) {
   );
 }
 
-// La foto o el video acompañan el movimiento del mouse, apenas, para que
-// la sección se sienta viva sin marear.
-function useParallax(strength = 16) {
-  const ref = useRef(null);
-
-  const set = (x, y) => {
-    const node = ref.current;
-    if (!node) return;
-    node.style.setProperty("--parallax-x", `${x}px`);
-    node.style.setProperty("--parallax-y", `${y}px`);
-  };
-
-  return {
-    ref,
-    onMouseMove: (event) => {
-      const node = ref.current;
-      if (!node) return;
-      const box = node.getBoundingClientRect();
-      const x = (event.clientX - box.left) / box.width - 0.5;
-      const y = (event.clientY - box.top) / box.height - 0.5;
-      set((-x * strength).toFixed(1), (-y * strength).toFixed(1));
-    },
-    onMouseLeave: () => set(0, 0),
-  };
-}
-
 function ImageFeature({
   image,
   video,
@@ -1781,6 +1637,31 @@ function ImageFeature({
             </Link>
           </div>
         )}
+      </div>
+    </section>
+  );
+}
+
+// Pausa de la portada: la piscina exterior al atardecer, a pantalla completa.
+function SunsetBand({ Link }) {
+  return (
+    <section className="sunset-band">
+      <div className="sunset-band__media" aria-hidden="true">
+        <img src={images.poolExterior} alt="" loading="lazy" decoding="async" />
+      </div>
+      <div className="sunset-band__content" data-reveal>
+        <p className="sunset-band__script">al caer la tarde</p>
+        <h2>El día termina junto a la piscina.</h2>
+        <p>
+          La piscina exterior es de agua templada y abre en temporada alta de
+          verano. El resto del año, el hidromasaje climatizado y la piscina de
+          agua fría, ambas cubiertas.
+        </p>
+        <div className="action-row">
+          <Link className="button button-ghost" to="/servicios/piscina">
+            Conocer las piscinas
+          </Link>
+        </div>
       </div>
     </section>
   );
