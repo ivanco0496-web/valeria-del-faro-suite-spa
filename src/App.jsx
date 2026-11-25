@@ -813,6 +813,8 @@ function HomePage({ Link }) {
         </div>
       </section>
 
+      <TestimonialsSection />
+
       <ImageFeature
         image={photoSrc("hotel-entrada") ?? images.coast}
         video="hotel-entrada"
@@ -869,8 +871,6 @@ function HomePage({ Link }) {
         </div>
         <DistanceGrid />
       </section>
-
-      <TestimonialsSection />
 
       <PromotionBand />
       <BookingInfo Link={Link} />
@@ -2124,11 +2124,13 @@ const reelClosing = {
   scene: "entrada",
 };
 
+// Va segunda en la portada, justo después de la presentación del hotel, para que
+// las experiencias de los huéspedes se vean sin tener que bajar toda la página.
 function TestimonialsSection() {
   return (
     <section className="section testimonials-section">
       <SectionHeading
-        eyebrow="Huéspedes"
+        eyebrow="Experiencias de huéspedes"
         title="Lo que dicen quienes ya se hospedaron."
         copy="Fragmentos de reseñas reales de Google y Tripadvisor, con las palabras de cada huésped."
       />
