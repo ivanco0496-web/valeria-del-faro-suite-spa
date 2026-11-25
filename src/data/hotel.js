@@ -103,16 +103,16 @@ export const hotel = {
       // WhatsApp (20/11/2026), en src/assets/gallery. "size" es feature, tall o
       // wide; "focus" es qué franja vertical de la foto (en %) se ve en el mosaico.
       gallery: [
-        { id: "estar-comedor", caption: "Estar y comedor frente al ventanal", size: "feature", focus: 52 },
+        { id: "estar-mesa", caption: "Estar y mesa con sillas frente al ventanal", size: "feature", focus: 52 },
         { id: "cama-king-roja", caption: "Dormitorio con cama King", focus: 72 },
-        { id: "cocina-equipada", caption: "Cocina con bacha y frigobar", focus: 60 },
+        { id: "mesada-bacha", caption: "Mesada con bacha, pava eléctrica y frigobar", focus: 60 },
         { id: "cama-king-lila", caption: "Cama King con lámparas de lectura", focus: 70 },
-        { id: "sofa-cama-tv", caption: "Sofá cama y TV", focus: 52 },
+        { id: "sofa-cama-tv", caption: "Sofá cama y TV, en las cuádruples", focus: 52 },
         { id: "cortina-divisoria", caption: "Cortina divisoria entre el dormitorio y el estar", focus: 64 },
-        { id: "comedor-cocina", caption: "Mesa del comedor y cocina", focus: 52 },
-        { id: "cocina-barra", caption: "Cocina, barra y comedor", focus: 48 },
+        { id: "mesa-mesada", caption: "Mesa con sillas, mesada y TV", focus: 52 },
+        { id: "mesada-barra", caption: "Mesada y mesa con sillas junto al ventanal", focus: 48 },
         { id: "mesa-ventanal", caption: "Mesa junto al ventanal", focus: 55 },
-        { id: "dormitorio-comedor", caption: "Dormitorio, entrada y comedor", focus: 60 },
+        { id: "dormitorio-mesa", caption: "Dormitorio, entrada y mesa con sillas", focus: 60 },
         { id: "cama-ventana-roja", caption: "Cama y mesa junto a la ventana", focus: 62 },
       ],
       description:
@@ -164,7 +164,7 @@ export const hotel = {
           video: "recorrido-doble-1",
           duration: "0:33",
           caption: "Recorrido en video",
-          text: "La habitación de punta a punta: placard, kitchenette, cama y ventana esquinera.",
+          text: "La habitación de punta a punta: placard, mesada con bacha, cama y ventana esquinera.",
         },
         {
           id: "recorrido-doble-2",
@@ -174,9 +174,9 @@ export const hotel = {
           text: "Otro recorrido por la habitación, hasta el baño.",
         },
         { id: "cama-dos-bases", caption: "Dormitorio con los dos sommieres unidos en una King", focus: 70 },
-        { id: "cama-blanqueria", caption: "Blanquería y batas del hotel", focus: 70 },
+        { id: "cama-blanqueria", caption: "Detalle de la cama", focus: 70 },
         { id: "estar-tv", caption: "Estar con TV y portavalijas", focus: 42 },
-        { id: "kitchenette", caption: "Kitchenette: bacha, frigobar y alacena", focus: 46 },
+        { id: "mesada-doble", caption: "Mesada con bacha, pava eléctrica y frigobar", focus: 46 },
         { id: "dos-camas-lila", caption: "Dos camas individuales", focus: 70 },
         { id: "camas-sillon-mesa", caption: "Camas, sillón y mesa de vidrio", focus: 55 },
         { id: "esquina-lila", caption: "Ventana esquinera con mesa y sillones", focus: 58 },
