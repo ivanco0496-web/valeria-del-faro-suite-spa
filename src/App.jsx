@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { hotel } from "./data/hotel.js";
 import { ContactCards, ReservationForm, ReservationSteps } from "./ContactForm.jsx";
 import { Lightbox, RoomGallery, useGallery, useParallax } from "./Gallery.jsx";
+import { GuestReel } from "./GuestReel.jsx";
 import { photoSrc, videoSrc } from "./media.js";
 import logo from "./assets/hotel/valeria-del-faro-logo-transparent.webp";
 import brandIcon from "./assets/hotel/valeria-del-faro-icon.png";
@@ -2113,13 +2114,23 @@ function PolicyGrid() {
 }
 
 
+// Pantalla final del reel de reseñas: el puntaje de Google y la consulta.
+const googleRating = hotel.ratings.find((rating) => rating.source === "Google");
+const reelClosing = {
+  script: "te esperamos",
+  title: "La próxima reseña puede ser tuya.",
+  stat: `${googleRating.score} en Google · ${googleRating.count} reseñas`,
+  cta: { label: "Consultar por WhatsApp", href: hotel.whatsappHref },
+  scene: "entrada",
+};
+
 function TestimonialsSection() {
   return (
     <section className="section testimonials-section">
       <SectionHeading
         eyebrow="Huéspedes"
         title="Lo que dicen quienes ya se hospedaron."
-        copy="Reseñas reales, tal como quedaron publicadas en las plataformas de reserva."
+        copy="Fragmentos de reseñas reales de Google y Tripadvisor, con las palabras de cada huésped."
       />
       <div className="rating-row" data-reveal>
         {hotel.ratings.map((rating) => {
@@ -2150,16 +2161,14 @@ function TestimonialsSection() {
           );
         })}
       </div>
-      <div className="testimonial-grid">
-        {hotel.testimonials.map((testimonial) => (
-          <article className="testimonial-card" key={testimonial.author} data-reveal>
-            <p>“{testimonial.quote}”</p>
-            <span>
-              {testimonial.author} · {testimonial.origin}
-            </span>
-          </article>
-        ))}
-      </div>
+      <GuestReel reviews={hotel.reviews} closing={reelClosing} />
+      {googleRating.url && (
+        <p className="reel-more">
+          <a className="text-link" href={googleRating.url} target="_blank" rel="noreferrer">
+            Ver las {googleRating.count} reseñas en Google
+          </a>
+        </p>
+      )}
     </section>
   );
 }

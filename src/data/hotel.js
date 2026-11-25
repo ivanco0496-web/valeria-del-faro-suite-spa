@@ -348,12 +348,23 @@ export const hotel = {
       text: "El circuito de spa está reservado a huéspedes mayores de 18 años.",
     },
   ],
+  // Puntajes de cada plataforma, con Google primero. Cifras vistas el 2026-11-25.
+  // Booking.com y Hoteles.com van sin link: la visita que trae la web (y Google
+  // Ads) no se manda a reservar por una OTA con comisión.
   ratings: [
     {
-      source: "Booking.com",
-      score: "9,3",
-      label: "Fantástico",
-      count: 14,
+      source: "Google",
+      score: "5,0",
+      label: "Excelente",
+      count: 140,
+      url: "https://www.google.com/maps/search/?api=1&query=Hotel%20Valeria%20Del%20Faro%20Suite%20%26%20SPA%20Valeria%20del%20Mar",
+    },
+    {
+      source: "Tripadvisor",
+      score: "5,0",
+      label: "Excelente",
+      count: 3,
+      url: "https://www.tripadvisor.com.ar/Hotel_Review-g312763-d28031889-Reviews-Hotel_Valeria_Del_Faro_Suite_Spa-Valeria_del_Mar_Province_of_Buenos_Aires_Central_Arg.html",
     },
     {
       source: "Hoteles.com",
@@ -362,37 +373,98 @@ export const hotel = {
       count: 14,
     },
     {
-      source: "Google",
-      score: "5,0",
-      label: "Excelente",
-      count: 132,
-      url: "https://www.google.com/maps/search/?api=1&query=Hotel%20Valeria%20Del%20Faro%20Suite%20%26%20SPA%20Valeria%20del%20Mar",
+      source: "Booking.com",
+      score: "9,3",
+      label: "Fantástico",
+      count: 14,
     },
   ],
-  testimonials: [
+  // Reseñas del "reel" de la portada (GuestReel). Primero las de Google, las
+  // mejor puntuadas, y después las de las otras plataformas. Booking.com queda
+  // afuera a propósito.
+  // Van con las palabras de cada huésped: solo se sacaron emojis, espacios de más
+  // y signos repetidos ("!!!" pasa a "!"). Los fragmentos cortan siempre al final
+  // de una oración y nunca en el medio. Autor: nombre y la inicial del apellido.
+  // `scene` es la foto de fondo (ver SCENES en GuestReel.jsx).
+  reviews: [
     {
+      source: "Google",
+      author: "Silvia V.",
       quote:
-        "En general me gustó todo, comenzando con la atención: los dueños muy agradables, correctos y respetuosos. La habitación muy confortable y la buena atención de las trabajadoras del hotel. En fin, todo muy lindo.",
-      author: "Dahiana",
-      origin: "Paraguay",
+        "Una experiencia excelente de principio a fin. La hospitalidad fue maravillosa y la atención de los dueños realmente personalizada. Cristina y Alberto son dos anfitriones impecables, atentos a cada detalle y con una calidez que te hace sentir como en casa.",
+      scene: "piscina-atardecer",
     },
     {
+      source: "Google",
+      author: "Maria Jose M.",
       quote:
-        "El hotel es nuevo, impecable, excelente ubicación y hermosas instalaciones. Incluida la pileta y el jacuzzi. A media cuadra de la playa. Las habitaciones luminosas y amplias. El cuidado de los dueños por cada detalle y muy atentos.",
-      author: "Graciela",
-      origin: "Argentina",
+        "La habitación que nos tocó, hermosa. La ropa de cama, almohadas y colchón: era dormir en una nube.",
+      scene: "dormitorio",
     },
     {
+      source: "Google",
+      author: "Mirta D.",
       quote:
-        "La ubicación es excelente, a pasos de la playa. Las instalaciones son muy buenas: el spa, la pileta exterior, el mobiliario, la decoración. La atención del personal fue muy amable.",
-      author: "Andrea",
-      origin: "Argentina",
+        "La verdad que es un lugar maravilloso desde que ingresas. Alberto y Cristina te hacen sentir como si fuera tu casa. El equipo que los acompaña impecable. No alcanzan los sinónimos para expresar todo lo lindo de este lugar. Todo es como está publicado, están en todos los detalles. Nuestro agradecimiento.",
+      scene: "recepcion",
     },
     {
+      source: "Google",
+      author: "Silvina O.",
+      quote: "Limpieza de 10! La pileta climatizada hermosa! Absolutamente recomendable! Volveremos!",
+      scene: "piscina-cubierta",
+    },
+    {
+      source: "Google",
+      author: "Pedro T.",
       quote:
-        "Hermosas y muy cuidadas las instalaciones. Está atendida por los dueños y eso marca la diferencia. Excelente trato de ellos y de todo el personal.",
-      author: "Luis",
-      origin: "Argentina",
+        "Excelente estadía en Hotel Valeria del Faro. Nos sentimos muy cómodos desde que llegamos. Las suites son modernas, amplias y muy confortables, ideales para descansar. Se nota el esfuerzo y la dedicación de los dueños. Alberto y Cristina tuvieron una atención excelente con nosotros, siempre predispuestos y muy amables.",
+      scene: "suite",
+    },
+    {
+      source: "Google",
+      author: "Micaela P.",
+      quote:
+        "Todo espectacular! Súper recomendable! La verdad quedamos encantados! Cris y Alberto unos genios, súper atentos a cada detalle! Nos sentimos como en casa!",
+      scene: "suite-dormitorio",
+    },
+    {
+      source: "Google",
+      author: "Mariano P.",
+      quote:
+        "Excelente atención. Muy lindo el hotel. Las instalaciones en excelente estado. Muy amable el trato de los dueños con nosotros y el resto de los pasajeros. Pasamos casi una semana en el hotel y todo perfecto. Realmente está a pasos de la playa.",
+      scene: "balcon",
+    },
+    {
+      source: "Google",
+      author: "Isadora T.",
+      quote: "Hermoso hotel. A pasos de la playa y cerca del centro de Valeria. Muy bueno el desayuno.",
+      scene: "desayuno",
+    },
+    {
+      source: "Tripadvisor",
+      author: "Soledad J.",
+      place: "Buenos Aires, Argentina",
+      quote:
+        "Atendido por sus dueños, calidad humana, serviciales, te hacen sentir familia y están siempre bien predispuestos. Un mil de puntaje.",
+      scene: "vista-mar",
+    },
+    {
+      source: "Tripadvisor",
+      author: "Huésped",
+      place: "Florida, Argentina",
+      quote:
+        "Todo muy limpio y ordenado. La pileta muy buena para relajarse. El desayuno muy rico. Lo más importante es la gente que presta un servicio de gran calidad humana.",
+      scene: "salon-desayuno",
+    },
+    {
+      source: "Tripadvisor",
+      author: "Miguel B.",
+      // Tripadvisor la muestra traducida del inglés; es esa traducción.
+      translated: "inglés",
+      quote:
+        "Tuvimos una estancia muy agradable en el hotel. Los propietarios son muy amables y serviciales, nos sentimos como en casa.",
+      scene: "fachada",
     },
   ],
   accessibility: [
